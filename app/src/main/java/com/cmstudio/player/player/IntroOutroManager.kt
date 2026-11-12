@@ -88,9 +88,12 @@ object IntroOutroManager {
         clean = clean
             .replace(Regex("""\[[^\]]*\]"""), " ")
             .replace(Regex("""\([^\)]*\)"""), " ")
-            .replace(Regex("""(?i)\b(1080p|2160p|720p|4k|x264|x265|hevc|hdr|bluray|web-dl|webrip)\b.*"""), "")
+            .replace(Regex("""(?i)\bTG\s*:\s*"""), " ")
+            .replace(Regex("""@[A-Za-z0-9_.-]+"""), " ")
+            .replace(Regex("""(?i)\b(1080p|2160p|720p|480p|4k|8k|10bit|8bit|x264|x265|h264|h265|hevc|avc|av1|hdr|hdr10|dv|dolby|bluray|bdrip|brrip|web-dl|webdl|webrip|hdrip|dvdrip|camrip|aac|ac3|eac3|ddp?5\.?1|dts|atmos)\b.*"""), "")
+            .replace(yearRegex, " ")
             .replace(Regex("""\s+"""), " ")
-            .trim(' ', '-', ':')
+            .trim(' ', '-', ':', '|')
 
         return ParsedMediaEpisodeInfo(
             cleanTitle = clean.ifBlank { base },

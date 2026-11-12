@@ -73,6 +73,7 @@ import androidx.media3.common.Player
 import androidx.media3.common.TrackSelectionOverride
 import androidx.media3.common.Tracks
 import androidx.media3.common.VideoSize
+import androidx.media3.common.text.CueGroup
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.DefaultDataSource
@@ -84,6 +85,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.SeekParameters
 import androidx.media3.exoplayer.analytics.AnalyticsListener
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
+import androidx.media3.exoplayer.source.MergingMediaSource
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import androidx.media3.extractor.DefaultExtractorsFactory
 import androidx.media3.extractor.text.SubtitleParser
@@ -212,6 +214,8 @@ class ModernPlayerActivity : ComponentActivity() {
     private var subtitleTrackOptionsState by mutableStateOf<List<PlayerTrackOption>>(emptyList())
     private var subtitlesDisabledState by mutableStateOf(true)
     private var addedSubtitles by mutableStateOf<List<MediaItem.SubtitleConfiguration>>(emptyList())
+    private var addedExternalAudioUris by mutableStateOf<List<Uri>>(emptyList())
+    private var activeMediaSourceFactory: DefaultMediaSourceFactory? = null
 
     private var chaptersState by mutableStateOf<List<VideoChapterItem>>(emptyList())
     private var currentChapterIndexState by mutableIntStateOf(-1)
@@ -219,6 +223,8 @@ class ModernPlayerActivity : ComponentActivity() {
     private var secondaryCuesState by mutableStateOf<List<SecondaryCueItem>>(emptyList())
     private var activeSecondarySubTextState by mutableStateOf("")
     private var secondarySubTitleState by mutableStateOf("")
+    private var activePrimaryCueTextState by mutableStateOf("")
+    private var translatedCueTextState by mutableStateOf("")
 
     private var sleepTimerRemainingMsState by mutableLongStateOf(0L)
     private var sleepTimerUntilEndState by mutableStateOf(false)
@@ -250,6 +256,14 @@ class ModernPlayerActivity : ComponentActivity() {
     ) { pickedUri: Uri? ->
         if (pickedUri != null) {
             importCustomSubtitleFont(pickedUri)
+        }
+    }
+
+    private val audioPickerLauncher = registerForActivityResult(
+        ActivityResultContracts.OpenDocument()
+    ) { pickedUri: Uri? ->
+        if (pickedUri != null) {
+            attachExternalAudioUri(pickedUri)
         }
     }
 
@@ -453,6 +467,8 @@ class ModernPlayerActivity : ComponentActivity() {
             val playerShuffle by AppSettings.playerShuffleMode.collectAsState()
             val showSysStatusBar by AppSettings.showSystemStatusBar.collectAsState()
             val showSysNavBar by AppSettings.showSystemNavBar.collectAsState()
+            val translateSubsEnabled by AppSettings.translateSubtitlesEnabled.collectAsState()
+            val translateSubsLang by AppSettings.translateSubtitlesLang.collectAsState()
 
             var isLocked by remember { mutableStateOf(false) }
             var orientationMode by remember {
@@ -470,6 +486,17 @@ class ModernPlayerActivity : ComponentActivity() {
             LaunchedEffect(showSysStatusBar, showSysNavBar) { hideSystemUI() }
             LaunchedEffect(hasResolvedVideoSize, videoWidthPx, videoHeightPx, orientationMode) {
                 applyOrientationPreference(if (orientationMode == "Auto-Rotate") "Auto" else orientationMode)
+            }
+            LaunchedEffect(translateSubsEnabled, translateSubsLang, activePrimaryCueTextState, subtitlesDisabledState) {
+                if (!translateSubsEnabled || subtitlesDisabledState || activePrimaryCueTextState.isBlank()) {
+                    translatedCueTextState = ""
+                } else {
+                    val cueSnapshot = activePrimaryCueTextState
+                    translatedCueTextState = com.cmstudio.player.subtitle.OnlineSubtitleClient.translateCueCached(
+                        cueSnapshot,
+                        translateSubsLang
+                    )
+                }
             }
 
             // Load Matroska chapters asynchronously whenever media URI or duration changes
@@ -602,6 +629,7 @@ class ModernPlayerActivity : ComponentActivity() {
                     audioTrackOptionsState = mpvSnap.audioTracks
                     subtitleTrackOptionsState = mpvSnap.subtitleTracks
                     subtitlesDisabledState = mpvSnap.subtitleTracks.none { it.selected }
+                    activePrimaryCueTextState = if (subtitlesDisabledState) "" else mpvSnap.currentSubText
                     if (mpvSnap.lastError != null && activePlaybackError == null) {
                         activePlaybackError = mpvSnap.lastError
                         activePlaybackErrorDetails = "Engine: libmpv\nVO: ${mpvSnap.voName}\nError: ${mpvSnap.lastError}"
@@ -825,10 +853,13 @@ class ModernPlayerActivity : ComponentActivity() {
                         sleepTimerUntilEnd = sleepTimerUntilEndState,
                         secondarySubtitleText = activeSecondarySubTextState,
                         secondarySubtitleTitle = secondarySubTitleState,
+                        translatedSubtitleText = translatedCueTextState,
                         onSelectVideoQualityTrack = { g, t -> selectTrack(C.TRACK_TYPE_VIDEO, g, t) },
                         onResetVideoQualityAuto = { resetVideoQualityToAuto() },
                         onSelectAudioTrack = { g, t -> selectTrack(C.TRACK_TYPE_AUDIO, g, t) },
+                        onRequestExternalAudioFile = { audioPickerLauncher.launch(arrayOf("audio/*", "*/*")) },
                         onSelectSubtitleTrack = { g, t -> selectTrack(C.TRACK_TYPE_TEXT, g, t) },
+                        onSelectSecondarySubtitleTrack = { sub -> selectSecondarySubtitleOption(sub) },
                         onDisableSubtitles = { disableTrackType(C.TRACK_TYPE_TEXT) },
                         onRequestSubtitleFile = { subtitlePickerLauncher.launch(arrayOf("*/*")) },
                         onAttachExternalSubtitleUri = { subUri -> attachExternalSubtitleUri(subUri) },
@@ -1450,6 +1481,7 @@ class ModernPlayerActivity : ComponentActivity() {
             DefaultDataSource.Factory(ctx, httpFactory),
             extractorsFactory
         ).setSubtitleParserFactory(combinedSubtitleParserFactory)
+        activeMediaSourceFactory = mediaSourceFactory
 
         val bandwidthMeter = NetworkSpeed(
             androidx.media3.exoplayer.upstream.DefaultBandwidthMeter.Builder(ctx).build()
@@ -1563,7 +1595,15 @@ class ModernPlayerActivity : ComponentActivity() {
                 audioTrackOptionsState = audioList
                 subtitleTrackOptionsState = subList
                 subtitlesDisabledState = subList.none { it.selected }
+                if (subtitlesDisabledState) activePrimaryCueTextState = ""
                 updatePipAspectParams()
+            }
+
+            override fun onCues(cueGroup: CueGroup) {
+                val joined = cueGroup.cues.mapNotNull { it.text?.toString()?.trim() }
+                    .filter { it.isNotEmpty() }
+                    .joinToString("\n")
+                activePrimaryCueTextState = joined
             }
         })
 
@@ -1671,7 +1711,7 @@ class ModernPlayerActivity : ComponentActivity() {
         prepareCurrentMediaOnPlayer(player, startPosOverride ?: pendingResumePositionMs)
     }
 
-    private fun prepareCurrentMediaOnPlayer(player: ExoPlayer, resumePosMs: Long) {
+    private fun prepareCurrentMediaOnPlayer(player: ExoPlayer, resumePosMs: Long, autoPlay: Boolean = true) {
         val targetUri = currentUriState ?: return
         hasResolvedVideoSize = false
         videoWidthPx = 0
@@ -1681,12 +1721,23 @@ class ModernPlayerActivity : ComponentActivity() {
         if (addedSubtitles.isNotEmpty()) {
             builder.setSubtitleConfigurations(addedSubtitles)
         }
-        player.setMediaItem(builder.build())
+        val mainItem = builder.build()
+        val factory = activeMediaSourceFactory
+        if (addedExternalAudioUris.isNotEmpty() && factory != null) {
+            val videoSource = factory.createMediaSource(mainItem)
+            val audioSources = addedExternalAudioUris.map { audioUri ->
+                factory.createMediaSource(MediaItem.fromUri(audioUri))
+            }
+            val merged = MergingMediaSource(videoSource, *audioSources.toTypedArray())
+            player.setMediaSource(merged)
+        } else {
+            player.setMediaItem(mainItem)
+        }
         player.prepare()
         if (resumePosMs > 1500L) {
             player.seekTo(resumePosMs)
         }
-        player.playWhenReady = true
+        player.playWhenReady = autoPlay
     }
 
     private fun switchDecoderPriorityAndRebuild(priority: String) {
@@ -1726,6 +1777,9 @@ class ModernPlayerActivity : ComponentActivity() {
         abLoopEndMsState = -1L
         droppedFramesTotalState = 0
         addedSubtitles = discoverSidecarSubtitles(nextUri)
+        addedExternalAudioUris = emptyList()
+        activePrimaryCueTextState = ""
+        translatedCueTextState = ""
         perVideoEngineOverride = AppSettings.getVideoEngineOverride(nextUri.toString())
         currentAspectRatioMode = AppSettings.getVideoAspectOverride(nextUri.toString()) ?: AppSettings.defaultAspectRatio.value
         val resumeMs = if (AppSettings.rememberPosition.value) PlaybackHistoryBridge.savedPositionFor(this, nextUri) else 0L
@@ -1798,17 +1852,66 @@ class ModernPlayerActivity : ComponentActivity() {
             val pos = exoPlayer?.currentPosition ?: 0L
             val wasPlaying = exoPlayer?.playWhenReady ?: true
             exoPlayer?.let { p ->
-                val mediaItem = MediaItem.Builder()
-                    .setUri(currentUriState ?: return)
-                    .setSubtitleConfigurations(addedSubtitles)
-                    .build()
-                p.setMediaItem(mediaItem, pos)
-                p.prepare()
-                p.playWhenReady = wasPlaying
+                prepareCurrentMediaOnPlayer(p, pos, autoPlay = wasPlaying)
             }
             Toast.makeText(this, "Loaded subtitle: $displayName", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
             Toast.makeText(this, "Failed to load subtitle: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun attachExternalAudioUri(pickedUri: Uri) {
+        try {
+            val displayName = resolveDisplayName(pickedUri)
+            val ext = displayName.substringAfterLast('.', "").lowercase(Locale.US)
+            if (ext !in setOf("mp3", "aac", "m4a", "ac3", "eac3", "dts", "flac", "opus", "ogg", "wav", "mka")) {
+                Toast.makeText(this, "Unsupported audio format: .$ext", Toast.LENGTH_SHORT).show()
+                return
+            }
+            val copiedUri = SubtitleFiles.copy(this, pickedUri, "ext_audio_$displayName") ?: pickedUri
+            if (activeEngineMode == PlaybackEngineMode.MPV) {
+                val added = MpvEngineController.addExternalAudio(this, copiedUri)
+                Toast.makeText(
+                    this,
+                    if (added) "Loaded audio track: $displayName" else "Failed to load audio track in MPV",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return
+            }
+            addedExternalAudioUris = addedExternalAudioUris.filterNot { it == copiedUri } + copiedUri
+            val pos = exoPlayer?.currentPosition ?: 0L
+            val wasPlaying = exoPlayer?.playWhenReady ?: true
+            exoPlayer?.let { p ->
+                prepareCurrentMediaOnPlayer(p, pos, autoPlay = wasPlaying)
+            }
+            Toast.makeText(this, "Loaded audio track: $displayName", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Toast.makeText(this, "Failed to load audio: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun selectSecondarySubtitleOption(sub: PlayerTrackOption) {
+        if (activeEngineMode == PlaybackEngineMode.MPV) {
+            val nextId = if (sub.secondarySelected) null else sub.trackIndex
+            MpvEngineController.selectSecondarySubtitleTrack(nextId)
+            AppSettings.setDualSubtitles(nextId != null)
+            return
+        }
+        val group = exoPlayer?.currentTracks?.groups?.getOrNull(sub.groupIndex)
+        val fmt = group?.getTrackFormat(sub.trackIndex)
+        val matchedConfig = addedSubtitles.firstOrNull { cfg ->
+            val name = cfg.uri.lastPathSegment.orEmpty()
+            (fmt?.label != null && name.contains(fmt.label!!, ignoreCase = true)) ||
+                (cfg.label != null && sub.label.contains(cfg.label!!, ignoreCase = true))
+        }
+        if (matchedConfig != null) {
+            loadSecondarySubtitleUri(matchedConfig.uri)
+        } else {
+            Toast.makeText(
+                this,
+                "Switch to MPV Engine (in More) or load an external subtitle for Dual (S) tracks",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -1908,7 +2011,22 @@ class ModernPlayerActivity : ComponentActivity() {
                             }
                             ?: "Track $trackNum"
                         val codecTag = fmt.sampleMimeType?.substringAfter('/')?.uppercase(Locale.US)
-                        if (!codecTag.isNullOrBlank()) "$label ($codecTag)" else label
+                        val chTag = if (trackType == C.TRACK_TYPE_AUDIO && fmt.channelCount > 0) {
+                            when (fmt.channelCount) {
+                                1 -> "Mono"
+                                2 -> "Stereo"
+                                6 -> "5.1"
+                                8 -> "7.1"
+                                else -> "${fmt.channelCount}ch"
+                            }
+                        } else null
+                        val meta = listOfNotNull(codecTag, chTag).joinToString(" • ")
+                        val full = if (meta.isNotBlank()) "$label ($meta)" else label
+                        val isExt = trackType == C.TRACK_TYPE_TEXT &&
+                            addedSubtitles.any { cfg -> (cfg.label != null && label.contains(cfg.label!!, ignoreCase = true)) }
+                        result.add(PlayerTrackOption(groupIndex, tIdx, full, group.isTrackSelected(tIdx), isExternal = isExt))
+                        trackNum++
+                        continue
                     }
                     result.add(PlayerTrackOption(groupIndex, tIdx, fullLabel, group.isTrackSelected(tIdx)))
                     trackNum++

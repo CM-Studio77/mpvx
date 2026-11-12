@@ -175,9 +175,6 @@ import com.cmstudio.player.codec.CodecInspector
 import com.cmstudio.player.player.IntroLookupResult
 import com.cmstudio.player.player.IntroOutroManager
 import com.cmstudio.player.player.IntroSegmentKind
-import com.cmstudio.player.subtitle.OnlineSubtitleClient
-import com.cmstudio.player.subtitle.OnlineSubtitleResult
-import com.cmstudio.player.subtitle.OnlineSubtitleSearchOutcome
 import com.cmstudio.player.ui.AppSettings
 import com.cmstudio.player.ui.theme.LiquidGlassBorder
 import com.cmstudio.player.ui.theme.LiquidGlassSurface
@@ -193,7 +190,9 @@ data class PlayerTrackOption(
     val groupIndex: Int,
     val trackIndex: Int,
     val label: String,
-    val selected: Boolean
+    val selected: Boolean,
+    val secondarySelected: Boolean = false,
+    val isExternal: Boolean = false
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -266,8 +265,11 @@ fun VideoPlayerScreen(
     sleepTimerUntilEnd: Boolean = false,
     secondarySubtitleText: String = "",
     secondarySubtitleTitle: String = "",
+    translatedSubtitleText: String = "",
     onSelectVideoQualityTrack: (Int, Int) -> Unit = { _, _ -> },
     onResetVideoQualityAuto: () -> Unit = {},
+    onRequestExternalAudioFile: () -> Unit = {},
+    onSelectSecondarySubtitleTrack: (PlayerTrackOption) -> Unit = {},
     onRequestSecondarySubtitleFile: () -> Unit = {},
     onClearSecondarySubtitle: () -> Unit = {},
     onRequestCustomSubtitleFont: () -> Unit = {},
@@ -515,6 +517,8 @@ fun VideoPlayerScreen(
     var showCodecInspectorSheet by remember { mutableStateOf(false) }
     var showQueueSheet by remember { mutableStateOf(false) }
     var showToolsSheet by remember { mutableStateOf(false) }
+    var showOnlineSubtitleSearchSheet by remember { mutableStateOf(false) }
+    val statsOverlayPage by AppSettings.statsOverlayPage.collectAsState()
 
     val subtitleDelayMs by AppSettings.subtitleDelayMs.collectAsState()
     val subtitleFontSize by AppSettings.subtitleFontSize.collectAsState()
@@ -538,7 +542,7 @@ fun VideoPlayerScreen(
 
     val isAnySheetOpen = showEngineSheet || showSubtitlesSheet || showAudioSheet || showSpeedSheet ||
         showAspectRatioSheet || showZoomSheet || showFrameNavSheet || showAbLoopSheet ||
-        showCodecInspectorSheet || showQueueSheet || showToolsSheet ||
+        showCodecInspectorSheet || showQueueSheet || showToolsSheet || showOnlineSubtitleSearchSheet ||
         showChaptersSheet || showQualitySheet || showSleepTimerSheet || showEqualizerSheet || showEdgeDrawer
 
     // Always keep fresh values inside pointerInput gesture coroutine
@@ -662,6 +666,60 @@ fun VideoPlayerScreen(
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
                 )
             }
+        }
+
+        // Live Translated Subtitle Overlay (when "Translate embedded subtitles" is enabled)
+        if (translatedSubtitleText.isNotBlank()) {
+            Surface(
+                shape = RoundedCornerShape(10.dp),
+                color = Color(0xC2090D14),
+                border = BorderStroke(1.dp, playerSheetAccent().copy(alpha = 0.45f)),
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(horizontal = 24.dp, vertical = (subBottomPadDp + if (dualSubEnabled && secondarySubtitleText.isNotBlank()) 104 else 62).dp)
+            ) {
+                Text(
+                    text = translatedSubtitleText,
+                    color = Color(0xFFBAE6FD),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                )
+            }
+        }
+
+        // Live Statistics HUD Overlay (Page 1..4 controlled via More -> Default statistics page)
+        if (statsOverlayPage in 1..4) {
+            LiveStatsHudOverlayCard(
+                page = statsOverlayPage,
+                activeEngine = activeEngine,
+                isHwDecoder = isHwDecoder,
+                activeDecoderName = activeDecoderName,
+                codecName = codecName,
+                resolutionText = resolutionText,
+                hdrFormatText = hdrFormatText,
+                bitrateText = bitrateText,
+                detectedFps = detectedFps,
+                droppedFrames = droppedFrames,
+                channelLayoutText = channelLayoutText,
+                currentSpeed = currentSpeed,
+                audioDelayMs = audioDelayMs,
+                subtitleDelayMs = subtitleDelayMs,
+                currentPositionMs = currentPositionMs,
+                bufferedPositionMs = bufferedPositionMs,
+                durationMs = durationMs,
+                aspectRatioMode = aspectRatioMode,
+                orientationMode = orientationMode,
+                audioTracksCount = audioTrackOptions.size,
+                subtitleTracksCount = subtitleTrackOptions.size,
+                accent = playerSheetAccent(),
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .displayCutoutPadding()
+                    .statusBarsPadding()
+                    .padding(start = 16.dp, top = 74.dp)
+            )
         }
 
         // Sleep Timer or Speed-Lock Persistent Pill
@@ -3042,474 +3100,76 @@ fun VideoPlayerScreen(
         }
     }
 
-    // 7. Audio Tracks, Sync Delay & Real Equalizer Sheet
+    // 7. Frosted Audio Tracks, External Audio, Sync Delay & Equalizer Sheet
     if (showAudioSheet) {
-        ModalBottomSheet(
-            onDismissRequest = { showAudioSheet = false },
+        FrostedAudioTracksSheet(
             sheetState = sheetState,
-            containerColor = activeSheetColor
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 24.dp, vertical = 16.dp)
-            ) {
-                Text("Audio Tracks & Equalizer", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, color = Color.White)
-                Spacer(modifier = Modifier.height(12.dp))
-
-                if (audioTrackOptions.isEmpty()) {
-                    Text("No selectable audio tracks found", color = Color.White.copy(alpha = 0.65f))
-                }
-                audioTrackOptions.forEach { track ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable { onSelectAudioTrack(track.groupIndex, track.trackIndex) }
-                            .padding(vertical = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(Icons.Rounded.Audiotrack, contentDescription = null, tint = sheetAccent, modifier = Modifier.size(20.dp))
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Text(track.label, style = MaterialTheme.typography.bodyMedium, color = Color.White, modifier = Modifier.weight(1f))
-                        if (track.selected) Icon(Icons.Rounded.Check, contentDescription = "Selected", tint = sheetAccent)
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(10.dp))
-                HorizontalDivider(color = Color.White.copy(alpha = 0.15f))
-                Spacer(modifier = Modifier.height(10.dp))
-
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text(
-                        text = if (loudnessBoost > 100f) "Loudness Boost" else "Master Volume",
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color.White
-                    )
-                    Text(
-                        text = "${loudnessBoost.toInt()}%",
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = if (loudnessBoost > 100f) Color(0xFFFF7A00) else sheetAccent
-                    )
-                }
-
-                Slider(
-                    value = loudnessBoost.coerceIn(0f, 200f),
-                    onValueChange = {
-                        loudnessBoost = it
-                        onVolumeChange(it)
-                    },
-                    valueRange = 0f..200f,
-                    colors = SliderDefaults.colors(
-                        thumbColor = if (loudnessBoost > 100f) Color(0xFFFF7A00) else sheetAccent,
-                        activeTrackColor = if (loudnessBoost > 100f) Color(0xFFFF7A00) else sheetAccent
-                    ),
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                // Audio Delay Stepper
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 6.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column {
-                        Text("Audio Sync Delay", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold, color = Color.White)
-                        Text("${audioDelayMs} ms", style = MaterialTheme.typography.bodySmall, color = sheetAccent)
-                    }
-                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        DelayChip("-100ms") {
-                            val next = (audioDelayMs - 100).coerceIn(-5000, 5000)
-                            onAudioDelayChange(next)
-                        }
-                        DelayChip("0") { onAudioDelayChange(0) }
-                        DelayChip("+100ms") {
-                            val next = (audioDelayMs + 100).coerceIn(-5000, 5000)
-                            onAudioDelayChange(next)
-                        }
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(8.dp))
-                Text("Equalizer & Channels", style = MaterialTheme.typography.labelSmall, color = Color.White.copy(alpha = 0.7f))
-                Spacer(modifier = Modifier.height(6.dp))
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .horizontalScroll(rememberScrollState()),
-                    horizontalArrangement = Arrangement.spacedBy(6.dp)
-                ) {
-                    listOf("Flat", "Cinema", "Bass Boost", "Vocal Clarifier", "Rock").forEach { preset ->
-                        val isSelected = selectedEqPreset == preset
-                        FilterChip(
-                            selected = isSelected,
-                            onClick = {
-                                AppSettings.setEqualizerPreset(preset)
-                                onEqualizerPresetChange(preset)
-                            },
-                            label = { Text(preset, fontSize = 12.sp) },
-                            colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = sheetAccent,
-                                selectedLabelColor = onSheetAccent,
-                                containerColor = Color.White.copy(alpha = 0.08f),
-                                labelColor = Color.White.copy(alpha = 0.8f)
-                            )
-                        )
-                    }
-                }
-                Spacer(modifier = Modifier.height(10.dp))
-                OutlinedButton(
-                    onClick = {
-                        showAudioSheet = false
-                        showEqualizerSheet = true
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp)
-                ) {
-                    Icon(Icons.Rounded.GraphicEq, contentDescription = null, modifier = Modifier.size(18.dp))
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text("Open 5-Band Equalizer & Channels")
-                }
-                Spacer(modifier = Modifier.height(20.dp))
-            }
-        }
+            sheetColor = activeSheetColor,
+            accent = sheetAccent,
+            onAccent = onSheetAccent,
+            audioTrackOptions = audioTrackOptions,
+            channelLayoutText = channelLayoutText,
+            loudnessBoost = loudnessBoost,
+            audioDelayMs = audioDelayMs,
+            selectedEqPreset = selectedEqPreset,
+            onSelectAudioTrack = onSelectAudioTrack,
+            onRequestExternalAudioFile = onRequestExternalAudioFile,
+            onVolumeChange = {
+                loudnessBoost = it
+                onVolumeChange(it)
+            },
+            onAudioDelayChange = onAudioDelayChange,
+            onSelectEqPreset = { preset ->
+                AppSettings.setEqualizerPreset(preset)
+                onEqualizerPresetChange(preset)
+            },
+            onOpenFullEqualizer = { showEqualizerSheet = true },
+            onDismiss = { showAudioSheet = false }
+        )
     }
 
-    // 8. Real Subtitles Sheet (Tracks, External File, Real Delay, Real Size/Bg/Edge/Position Styling)
+    // 8. Frosted Subtitles Sheet (External Picker, Search, Translate, P/S Dual Subs, Styling & Timing)
     if (showSubtitlesSheet) {
-        ModalBottomSheet(
-            onDismissRequest = { showSubtitlesSheet = false },
+        FrostedSubtitlesSheet(
             sheetState = sheetState,
-            containerColor = activeSheetColor
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 24.dp, vertical = 16.dp)
-            ) {
-                Text("Subtitles & Sync", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, color = Color.White)
-                Spacer(modifier = Modifier.height(12.dp))
+            sheetColor = activeSheetColor,
+            accent = sheetAccent,
+            onAccent = onSheetAccent,
+            subtitleTrackOptions = subtitleTrackOptions,
+            subtitlesDisabled = subtitlesDisabled,
+            secondarySubtitleTitle = secondarySubtitleTitle,
+            subtitleDelayMs = subtitleDelayMs,
+            subtitleFontSize = subtitleFontSize,
+            subtitleBgOpacity = subtitleBgOpacity,
+            subtitleBottomPaddingDp = subtitleBottomPaddingDp,
+            subtitleEdgeType = subtitleEdgeType,
+            subtitleBold = subtitleBold,
+            onSelectSubtitleTrack = onSelectSubtitleTrack,
+            onSelectSecondarySubtitleTrack = onSelectSecondarySubtitleTrack,
+            onDisableSubtitles = onDisableSubtitles,
+            onRequestSubtitleFile = onRequestSubtitleFile,
+            onOpenOnlineSearch = { showOnlineSubtitleSearchSheet = true },
+            onSubtitleDelayChange = onSubtitleDelayChange,
+            onSubtitleSpeedChange = onSubtitleSpeedChange,
+            onRequestSecondarySubtitleFile = onRequestSecondarySubtitleFile,
+            onClearSecondarySubtitle = onClearSecondarySubtitle,
+            onRequestCustomSubtitleFont = onRequestCustomSubtitleFont,
+            onClearCustomSubtitleFont = onClearCustomSubtitleFont,
+            onDismiss = { showSubtitlesSheet = false }
+        )
+    }
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { onDisableSubtitles() }
-                        .padding(vertical = 10.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(Icons.Rounded.Subtitles, contentDescription = null, tint = sheetAccent, modifier = Modifier.size(20.dp))
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Text("Off", color = Color.White, modifier = Modifier.weight(1f))
-                    if (subtitlesDisabled) Icon(Icons.Rounded.Check, contentDescription = "Selected", tint = sheetAccent)
-                }
-
-                subtitleTrackOptions.forEach { sub ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable { onSelectSubtitleTrack(sub.groupIndex, sub.trackIndex) }
-                            .padding(vertical = 10.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(Icons.Rounded.Subtitles, contentDescription = null, tint = sheetAccent, modifier = Modifier.size(20.dp))
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Text(sub.label, style = MaterialTheme.typography.bodyMedium, color = Color.White, modifier = Modifier.weight(1f))
-                        if (sub.selected) Icon(Icons.Rounded.Check, contentDescription = "Selected", tint = sheetAccent)
-                    }
-                }
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            showSubtitlesSheet = false
-                            onRequestSubtitleFile()
-                        }
-                        .padding(vertical = 10.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(Icons.Rounded.Subtitles, contentDescription = null, tint = sheetAccent, modifier = Modifier.size(20.dp))
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Text("Load subtitle file (.srt, .ass, .ssa, .vtt, .ttml)", color = sheetAccent, fontWeight = FontWeight.SemiBold)
-                }
-
-                // Online Subtitle Search & Direct Attach (Wyzie + optional SubDL)
-                var showOnlineSearchPanel by remember { mutableStateOf(false) }
-                var onlineQuery by remember(videoTitle) {
-                    mutableStateOf(IntroOutroManager.parseEpisodeInfo(videoTitle).cleanTitle.ifBlank { videoTitle })
-                }
-                var onlineLang by remember(onlineSubPreferredLang) { mutableStateOf(onlineSubPreferredLang) }
-                var isSearchingOnlineSubs by remember { mutableStateOf(false) }
-                var isDownloadingSubId by remember { mutableStateOf<String?>(null) }
-                var onlineSearchOutcome by remember { mutableStateOf<OnlineSubtitleSearchOutcome?>(null) }
-
-                Surface(
-                    shape = RoundedCornerShape(14.dp),
-                    color = Color.White.copy(alpha = 0.06f),
-                    border = BorderStroke(1.dp, sheetAccent.copy(alpha = if (showOnlineSearchPanel) 0.55f else 0.22f)),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 6.dp)
-                ) {
-                    Column(modifier = Modifier.fillMaxWidth().padding(12.dp)) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable { showOnlineSearchPanel = !showOnlineSearchPanel },
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(Icons.Rounded.Search, contentDescription = null, tint = sheetAccent, modifier = Modifier.size(20.dp))
-                            Spacer(modifier = Modifier.width(10.dp))
-                            Column(modifier = Modifier.weight(1f)) {
-                                Text("Search Online Subtitles", color = Color.White, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold)
-                                Text("Mode: $onlineSubMode • Wyzie & SubDL", color = Color.White.copy(alpha = 0.65f), style = MaterialTheme.typography.labelSmall)
-                            }
-                            Text(if (showOnlineSearchPanel) "Hide" else "Open", color = sheetAccent, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold)
-                        }
-
-                        AnimatedVisibility(visible = showOnlineSearchPanel) {
-                            Column(modifier = Modifier.fillMaxWidth().padding(top = 10.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                                OutlinedTextField(
-                                    value = onlineQuery,
-                                    onValueChange = { onlineQuery = it },
-                                    label = { Text("Title / Episode (e.g. Show S01E02)", color = Color.White.copy(alpha = 0.7f)) },
-                                    singleLine = true,
-                                    colors = OutlinedTextFieldDefaults.colors(
-                                        focusedTextColor = Color.White,
-                                        unfocusedTextColor = Color.White,
-                                        focusedBorderColor = sheetAccent,
-                                        unfocusedBorderColor = Color.White.copy(alpha = 0.28f)
-                                    ),
-                                    modifier = Modifier.fillMaxWidth()
-                                )
-
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .horizontalScroll(rememberScrollState()),
-                                    horizontalArrangement = Arrangement.spacedBy(6.dp)
-                                ) {
-                                    OnlineSubtitleClient.SUPPORTED_LANGUAGES.forEach { (code, label) ->
-                                        FilterChip(
-                                            selected = onlineLang.equals(code, ignoreCase = true),
-                                            onClick = {
-                                                onlineLang = code
-                                                AppSettings.setOnlineSubPreferredLang(code)
-                                            },
-                                            label = { Text(label, fontSize = 11.sp) },
-                                            colors = FilterChipDefaults.filterChipColors(
-                                                selectedContainerColor = sheetAccent,
-                                                selectedLabelColor = onSheetAccent,
-                                                containerColor = Color.White.copy(alpha = 0.08f),
-                                                labelColor = Color.White.copy(alpha = 0.85f)
-                                            )
-                                        )
-                                    }
-                                }
-
-                                Button(
-                                    enabled = !isSearchingOnlineSubs && onlineQuery.isNotBlank(),
-                                    onClick = {
-                                        isSearchingOnlineSubs = true
-                                        coroutineScope.launch {
-                                            val outcome = OnlineSubtitleClient.search(
-                                                query = onlineQuery,
-                                                languageCode = onlineLang,
-                                                searchMode = onlineSubMode,
-                                                subdlApiKey = AppSettings.getSubdlApiKey()
-                                            )
-                                            onlineSearchOutcome = outcome
-                                            isSearchingOnlineSubs = false
-                                        }
-                                    },
-                                    modifier = Modifier.fillMaxWidth()
-                                ) {
-                                    if (isSearchingOnlineSubs) {
-                                        CircularProgressIndicator(modifier = Modifier.size(16.dp), strokeWidth = 2.dp, color = onSheetAccent)
-                                        Spacer(modifier = Modifier.width(8.dp))
-                                        Text("Searching...")
-                                    } else {
-                                        Icon(Icons.Rounded.Search, contentDescription = null, modifier = Modifier.size(16.dp))
-                                        Spacer(modifier = Modifier.width(6.dp))
-                                        Text("Search Subtitles")
-                                    }
-                                }
-
-                                onlineSearchOutcome?.let { outcome ->
-                                    Text(
-                                        text = outcome.statusMessage,
-                                        style = MaterialTheme.typography.labelSmall,
-                                        color = if (outcome.error != null && outcome.results.isEmpty()) Color(0xFFFCA5A5) else sheetAccent
-                                    )
-                                    outcome.results.take(15).forEach { subItem: OnlineSubtitleResult ->
-                                        Surface(
-                                            onClick = {
-                                                if (isDownloadingSubId == null) {
-                                                    isDownloadingSubId = subItem.id
-                                                    coroutineScope.launch {
-                                                        val dlResult = OnlineSubtitleClient.downloadSubtitleToCache(context, subItem)
-                                                        isDownloadingSubId = null
-                                                        dlResult.onSuccess { subUri ->
-                                                            onAttachExternalSubtitleUri(subUri)
-                                                            showSubtitlesSheet = false
-                                                        }.onFailure { err ->
-                                                            Toast.makeText(
-                                                                context,
-                                                                "Subtitle download failed: ${err.localizedMessage ?: "error"}",
-                                                                Toast.LENGTH_SHORT
-                                                            ).show()
-                                                        }
-                                                    }
-                                                }
-                                            },
-                                            shape = RoundedCornerShape(10.dp),
-                                            color = Color.White.copy(alpha = 0.08f),
-                                            modifier = Modifier.fillMaxWidth()
-                                        ) {
-                                            Row(
-                                                modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 8.dp),
-                                                verticalAlignment = Alignment.CenterVertically,
-                                                horizontalArrangement = Arrangement.spacedBy(8.dp)
-                                            ) {
-                                                Column(modifier = Modifier.weight(1f)) {
-                                                    Text(
-                                                        text = subItem.title,
-                                                        style = MaterialTheme.typography.labelMedium,
-                                                        color = Color.White,
-                                                        maxLines = 2,
-                                                        overflow = TextOverflow.Ellipsis
-                                                    )
-                                                    Text(
-                                                        text = "${subItem.languageName} • ${subItem.format.uppercase(Locale.ROOT)} • ${subItem.source}${if (subItem.isHearingImpaired) " • HI" else ""}",
-                                                        style = MaterialTheme.typography.labelSmall,
-                                                        color = Color.White.copy(alpha = 0.65f)
-                                                    )
-                                                }
-                                                if (isDownloadingSubId == subItem.id) {
-                                                    CircularProgressIndicator(modifier = Modifier.size(16.dp), strokeWidth = 2.dp, color = sheetAccent)
-                                                } else {
-                                                    Text("Use", style = MaterialTheme.typography.labelMedium, color = sheetAccent, fontWeight = FontWeight.Bold)
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(10.dp))
-                HorizontalDivider(color = Color.White.copy(alpha = 0.15f))
-                Spacer(modifier = Modifier.height(10.dp))
-
-                // Real Subtitle Delay Stepper
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column {
-                        Text("Subtitle Sync Delay", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold, color = Color.White)
-                        Text("${subtitleDelayMs} ms", style = MaterialTheme.typography.bodySmall, color = sheetAccent)
-                    }
-                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        DelayChip("-100ms") { onSubtitleDelayChange((subtitleDelayMs - 100).coerceIn(-10000, 10000)) }
-                        DelayChip("0") { onSubtitleDelayChange(0) }
-                        DelayChip("+100ms") { onSubtitleDelayChange((subtitleDelayMs + 100).coerceIn(-10000, 10000)) }
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text("Font Size", color = Color.White, style = MaterialTheme.typography.bodyMedium)
-                    Text("${subtitleFontSize.toInt()} sp", color = sheetAccent, fontWeight = FontWeight.Bold)
-                }
-                Slider(
-                    value = subtitleFontSize.coerceIn(12f, 44f),
-                    onValueChange = { AppSettings.setSubtitleFontSize(it) },
-                    valueRange = 12f..44f,
-                    colors = SliderDefaults.colors(thumbColor = sheetAccent, activeTrackColor = sheetAccent)
-                )
-
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text("Background Opacity", color = Color.White, style = MaterialTheme.typography.bodyMedium)
-                    Text("${(subtitleBgOpacity * 100).roundToInt()}%", color = sheetAccent, fontWeight = FontWeight.Bold)
-                }
-                Slider(
-                    value = subtitleBgOpacity.coerceIn(0f, 1f),
-                    onValueChange = { AppSettings.setSubtitleBgOpacity(it) },
-                    valueRange = 0f..1f,
-                    colors = SliderDefaults.colors(thumbColor = sheetAccent, activeTrackColor = sheetAccent)
-                )
-
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text("Bottom Offset", color = Color.White, style = MaterialTheme.typography.bodyMedium)
-                    Text("${subtitleBottomPaddingDp} dp", color = sheetAccent, fontWeight = FontWeight.Bold)
-                }
-                Slider(
-                    value = subtitleBottomPaddingDp.toFloat().coerceIn(0f, 120f),
-                    onValueChange = { AppSettings.setSubtitleBottomPaddingDp(it.roundToInt()) },
-                    valueRange = 0f..120f,
-                    colors = SliderDefaults.colors(thumbColor = sheetAccent, activeTrackColor = sheetAccent)
-                )
-
-                Text("Edge Style", color = Color.White, style = MaterialTheme.typography.labelMedium)
-                Spacer(modifier = Modifier.height(6.dp))
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .horizontalScroll(rememberScrollState()),
-                    horizontalArrangement = Arrangement.spacedBy(6.dp)
-                ) {
-                    listOf("DROP_SHADOW" to "Shadow", "OUTLINE" to "Outline", "NONE" to "None", "RAISED" to "Raised").forEach { (key, label) ->
-                        FilterChip(
-                            selected = subtitleEdgeType == key,
-                            onClick = { AppSettings.setSubtitleEdgeType(key) },
-                            label = { Text(label, fontSize = 12.sp) },
-                            colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = sheetAccent,
-                                selectedLabelColor = onSheetAccent,
-                                containerColor = Color.White.copy(alpha = 0.08f),
-                                labelColor = Color.White.copy(alpha = 0.8f)
-                            )
-                        )
-                    }
-                }
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text("Bold Text", color = Color.White, style = MaterialTheme.typography.bodyMedium)
-                    Switch(
-                        checked = subtitleBold,
-                        onCheckedChange = { AppSettings.setSubtitleBold(it) },
-                        colors = SwitchDefaults.colors(checkedThumbColor = onSheetAccent, checkedTrackColor = sheetAccent)
-                    )
-                }
-                SubtitleAdvancedControlsSection(
-                    accent = sheetAccent,
-                    secondarySubtitleTitle = secondarySubtitleTitle,
-                    onSubtitleDelayChange = onSubtitleDelayChange,
-                    onSubtitleSpeedChange = onSubtitleSpeedChange,
-                    onRequestSecondarySubtitleFile = onRequestSecondarySubtitleFile,
-                    onClearSecondarySubtitle = onClearSecondarySubtitle,
-                    onRequestCustomSubtitleFont = onRequestCustomSubtitleFont,
-                    onClearCustomSubtitleFont = onClearCustomSubtitleFont
-                )
-                Spacer(modifier = Modifier.height(20.dp))
-            }
-        }
+    // 8b. Dedicated Online Subtitle Search Sheet (Poster Carousel + Multi-Provider Keyless Download)
+    if (showOnlineSubtitleSearchSheet) {
+        OnlineSubtitleSearchSheet(
+            sheetState = sheetState,
+            sheetColor = activeSheetColor,
+            accent = sheetAccent,
+            onAccent = onSheetAccent,
+            videoTitle = videoTitle,
+            onAttachExternalSubtitleUri = onAttachExternalSubtitleUri,
+            onDismiss = { showOnlineSubtitleSearchSheet = false }
+        )
     }
 
     // 9. Playlist Queue Sheet
@@ -3550,180 +3210,56 @@ fun VideoPlayerScreen(
         }
     }
 
-    // 10. More Player Tools Sheet (Zero fake Anime4K or fake Clip Cutter!)
+    // 10. Frosted More Sheet (Quick header, Engine switch card, Default statistics page & full Player Tools)
     if (showToolsSheet) {
         val bgPlaybackEnabled by AppSettings.backgroundPlayback.collectAsState()
-        ModalBottomSheet(
-            onDismissRequest = { showToolsSheet = false },
+        FrostedMoreToolsSheet(
             sheetState = sheetState,
-            containerColor = activeSheetColor
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 24.dp, vertical = 16.dp)
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text("Player Tools", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, color = Color.White)
-                    TextButton(onClick = {
-                        showToolsSheet = false
-                        showEdgeDrawer = true
-                    }) {
-                        Text("Edge Drawer", color = sheetAccent)
-                    }
-                }
-                Spacer(modifier = Modifier.height(10.dp))
-
-                ToolsHubItem(
-                    icon = Icons.Rounded.Bookmarks,
-                    title = "Chapters (${chapters.size})",
-                    subtitle = if (currentChapterIndex in chapters.indices) "Now: ${chapters[currentChapterIndex].title}" else "Jump to MKV chapters",
-                    onClick = {
-                        showToolsSheet = false
-                        showChaptersSheet = true
-                    }
-                )
-                ToolsHubItem(
-                    icon = Icons.Rounded.HighQuality,
-                    title = "Video Quality",
-                    subtitle = if (videoTrackOptions.size > 1) "${videoTrackOptions.size} resolution streams" else "Auto stream",
-                    onClick = {
-                        showToolsSheet = false
-                        showQualitySheet = true
-                    }
-                )
-                ToolsHubItem(
-                    icon = Icons.Rounded.GraphicEq,
-                    title = "5-Band Equalizer & Channels",
-                    subtitle = "Preset: $selectedEqPreset",
-                    onClick = {
-                        showToolsSheet = false
-                        showEqualizerSheet = true
-                    }
-                )
-                ToolsHubItem(
-                    icon = Icons.Rounded.Bedtime,
-                    title = "Sleep Timer",
-                    subtitle = when {
-                        sleepTimerRemainingMs > 0L -> "Active: ${formatDuration(sleepTimerRemainingMs)}"
-                        sleepTimerUntilEnd -> "Pause at End of Video"
-                        else -> "Auto-fade & pause playback"
-                    },
-                    onClick = {
-                        showToolsSheet = false
-                        showSleepTimerSheet = true
-                    }
-                )
-                ToolsHubItem(
-                    icon = Icons.Rounded.FastForward,
-                    title = "Custom Skip (+${customSkipSec}s)",
-                    subtitle = "One-tap intro/scene skip forward",
-                    onClick = {
-                        showToolsSheet = false
-                        val target = if (durationMs > 0L) (currentPositionMs + customSkipSec * 1000L).coerceAtMost(durationMs) else currentPositionMs + customSkipSec * 1000L
-                        onSeek(target)
-                    }
-                )
-                ToolsHubItem(
-                    icon = Icons.Rounded.Flip,
-                    title = if (isMirrored) "Mirror Horizontal (ON)" else "Mirror Horizontal",
-                    subtitle = "Flip video horizontally via TextureView",
-                    onClick = {
-                        onToggleMirror()
-                        showToolsSheet = false
-                    }
-                )
-                ToolsHubItem(
-                    icon = Icons.Rounded.FlipCameraAndroid,
-                    title = if (isFlippedVertical) "Vertical Flip (ON)" else "Vertical Flip",
-                    subtitle = "Flip video vertically via TextureView",
-                    onClick = {
-                        onToggleVerticalFlip()
-                        showToolsSheet = false
-                    }
-                )
-                ToolsHubItem(
-                    icon = Icons.Rounded.Shuffle,
-                    title = if (isShuffleEnabled) "Queue Shuffle (ON)" else "Queue Shuffle",
-                    subtitle = "Randomize next item in queue",
-                    onClick = {
-                        onToggleShuffle()
-                        showToolsSheet = false
-                    }
-                )
-                ToolsHubItem(
-                    icon = Icons.Rounded.AutoAwesome,
-                    title = if (ambientEnabled) "Ambient Aura Glow (ON)" else "Ambient Aura Glow",
-                    subtitle = "Sample playback colors gently around viewport",
-                    onClick = {
-                        onToggleAmbientMode()
-                        showToolsSheet = false
-                    }
-                )
-                ToolsHubItem(
-                    icon = Icons.Rounded.Headphones,
-                    title = if (bgPlaybackEnabled) "Background Audio Playback (ON)" else "Background Audio Playback",
-                    subtitle = "Keep audio playing with MediaSession notification when minimized",
-                    onClick = {
-                        onToggleBackgroundPlayback()
-                        showToolsSheet = false
-                    }
-                )
-                ToolsHubItem(
-                    icon = Icons.Rounded.SlowMotionVideo,
-                    title = "Frame-by-Frame Navigation",
-                    subtitle = "Step exact frames & capture lossless PNG",
-                    onClick = {
-                        showToolsSheet = false
-                        showFrameNavSheet = true
-                    }
-                )
-                ToolsHubItem(
-                    icon = Icons.Rounded.Loop,
-                    title = "A-B Scene Loop",
-                    subtitle = if (abLoopActive) "Loop active" else "Repeat any scene cleanly",
-                    onClick = {
-                        showToolsSheet = false
-                        showAbLoopSheet = true
-                    }
-                )
-                ToolsHubItem(
-                    icon = Icons.Rounded.ZoomIn,
-                    title = "Zoom & Pan Adjustment",
-                    subtitle = "Current: ${(zoomScale * 100).roundToInt()}%",
-                    onClick = {
-                        showToolsSheet = false
-                        showZoomSheet = true
-                    }
-                )
-                ToolsHubItem(
-                    icon = Icons.Rounded.DeveloperBoard,
-                    title = "Stream Telemetry & Codecs",
-                    subtitle = activeDecoderName.ifBlank { "Hardware & runtime format diagnostics" },
-                    onClick = {
-                        showToolsSheet = false
-                        showCodecInspectorSheet = true
-                    }
-                )
-                if (queueTitles.size > 1) {
-                    ToolsHubItem(
-                        icon = Icons.AutoMirrored.Rounded.QueueMusic,
-                        title = "Playback Queue (${queueTitles.size} items)",
-                        subtitle = "Jump between videos in queue",
-                        onClick = {
-                            showToolsSheet = false
-                            showQueueSheet = true
-                        }
-                    )
-                }
-                Spacer(modifier = Modifier.height(20.dp))
-            }
-        }
+            sheetColor = activeSheetColor,
+            accent = sheetAccent,
+            onAccent = onSheetAccent,
+            activeEngine = activeEngine,
+            activeDecoderName = activeDecoderName,
+            statsPage = statsOverlayPage,
+            sleepTimerRemainingMs = sleepTimerRemainingMs,
+            sleepTimerUntilEnd = sleepTimerUntilEnd,
+            selectedEqPreset = selectedEqPreset,
+            chaptersCount = chapters.size,
+            currentChapterTitle = chapters.getOrNull(currentChapterIndex)?.title,
+            videoTracksCount = videoTrackOptions.size,
+            customSkipSec = customSkipSec,
+            isMirrored = isMirrored,
+            isFlippedVertical = isFlippedVertical,
+            isShuffleEnabled = isShuffleEnabled,
+            ambientEnabled = ambientEnabled,
+            bgPlaybackEnabled = bgPlaybackEnabled,
+            abLoopActive = abLoopActive,
+            zoomScale = zoomScale,
+            queueSize = queueTitles.size,
+            onOpenSleepTimer = { showSleepTimerSheet = true },
+            onOpenEqualizer = { showEqualizerSheet = true },
+            onOpenEngineSheet = { showEngineSheet = true },
+            onOpenEdgeDrawer = { showEdgeDrawer = true },
+            onOpenOnlineSubs = { showOnlineSubtitleSearchSheet = true },
+            onSelectStatsPage = { page -> AppSettings.setStatsOverlayPage(page) },
+            onOpenChapters = { showChaptersSheet = true },
+            onOpenQuality = { showQualitySheet = true },
+            onCustomSkip = {
+                val target = if (durationMs > 0L) (currentPositionMs + customSkipSec * 1000L).coerceAtMost(durationMs) else currentPositionMs + customSkipSec * 1000L
+                onSeek(target)
+            },
+            onToggleMirror = onToggleMirror,
+            onToggleVerticalFlip = onToggleVerticalFlip,
+            onToggleShuffle = onToggleShuffle,
+            onToggleAmbientMode = onToggleAmbientMode,
+            onToggleBackgroundPlayback = onToggleBackgroundPlayback,
+            onOpenFrameNav = { showFrameNavSheet = true },
+            onOpenAbLoop = { showAbLoopSheet = true },
+            onOpenZoom = { showZoomSheet = true },
+            onOpenCodecInspector = { showCodecInspectorSheet = true },
+            onOpenQueue = { showQueueSheet = true },
+            onDismiss = { showToolsSheet = false }
+        )
     }
 
     if (showChaptersSheet) {
@@ -3992,7 +3528,7 @@ private fun TelemetryBadge(
 }
 
 @Composable
-private fun DelayChip(label: String, onClick: () -> Unit) {
+internal fun DelayChip(label: String, onClick: () -> Unit) {
     Surface(
         shape = RoundedCornerShape(8.dp),
         color = Color.White.copy(alpha = 0.12f),
@@ -4075,7 +3611,7 @@ private fun HudCircleButton(
 }
 
 @Composable
-private fun ToolsHubItem(
+internal fun ToolsHubItem(
     icon: ImageVector,
     title: String,
     subtitle: String,
@@ -4155,16 +3691,16 @@ fun PlayerOverlayHud(
 )
 
 @Composable
-private fun playerSheetAccent(): Color {
+internal fun playerSheetAccent(): Color {
     val primary = MaterialTheme.colorScheme.primary
     return if (primary.luminance() >= 0.28f) primary else lerp(primary, Color.White, 0.45f)
 }
 
-private fun playerOnAccentColor(accent: Color): Color {
+internal fun playerOnAccentColor(accent: Color): Color {
     return if (accent.luminance() > 0.4f) Color(0xFF061E1C) else Color.White
 }
 
-private fun formatDuration(ms: Long): String {
+internal fun formatDuration(ms: Long): String {
     val totalSec = (ms / 1000L).coerceAtLeast(0L)
     val hours = totalSec / 3600L
     val minutes = (totalSec % 3600L) / 60L

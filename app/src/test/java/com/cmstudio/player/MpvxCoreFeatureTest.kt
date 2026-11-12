@@ -1076,6 +1076,71 @@ class MpvxCoreFeatureTest {
         )
         assertTrue(dupes.isEmpty())
     }
+
+    @Test
+    fun onlineSubtitleCinemetaOpenSubtitlesZipUnpackAndTranslationPrefsWork() {
+        val parsed = IntroOutroManager.parseEpisodeInfo("TG: [@ClipmateZone] The.Paradise.(2026).1080p.10bit.WEB-DL.mkv")
+        assertEquals("The Paradise", parsed.cleanTitle)
+        assertEquals(2026, parsed.year)
+
+        val cinemetaJson = """
+            {"metas":[{"id":"tt31969655","imdb_id":"tt31969655","type":"movie","name":"The Paradise","releaseInfo":"2026","poster":"https://images.metahub.space/poster/small/tt31969655/img"}]}
+        """.trimIndent()
+        val matches = OnlineSubtitleClient.parseCinemetaJson(cinemetaJson, "movie")
+        assertEquals(1, matches.size)
+        assertEquals("tt31969655", matches[0].imdbId)
+        assertEquals("2026", matches[0].year)
+        assertTrue(matches[0].posterUrl!!.startsWith("https://"))
+
+        val wyzieCatJson = """
+            {"results":[{"id":1376856,"mediaType":"movie","title":"The Paradise","releaseYear":"2026","poster":"/abc.jpg"}]}
+        """.trimIndent()
+        val tmdbMatches = OnlineSubtitleClient.parseWyzieCatalogJson(wyzieCatJson)
+        assertEquals(1, tmdbMatches.size)
+        assertEquals("1376856", tmdbMatches[0].tmdbId)
+        assertEquals("https://image.tmdb.org/t/p/w342/abc.jpg", tmdbMatches[0].posterUrl)
+
+        val osV3Json = """
+            {"subtitles":[
+                {"id":"1","url":"https://subs5.strem.io/file/1","lang":"eng","subtitleFileName":"Paradise.2026.WEB.srt"},
+                {"id":"2","url":"https://subs5.strem.io/file/2","lang":"hin","subtitleFileName":"Paradise.2026.Hindi.ass"}
+            ]}
+        """.trimIndent()
+        val hiOnly = OnlineSubtitleClient.parseOpenSubtitlesV3Json(osV3Json, "hi")
+        assertEquals(1, hiOnly.size)
+        assertEquals("hi", hiOnly[0].languageCode)
+        assertEquals("Hindi", hiOnly[0].languageName)
+        assertEquals("ass", hiOnly[0].format)
+
+        val allLangs = OnlineSubtitleClient.parseOpenSubtitlesV3Json(osV3Json, "all")
+        assertEquals(2, allLangs.size)
+
+        // Verify ZIP extraction cleanly extracts .srt payload
+        val baos = java.io.ByteArrayOutputStream()
+        java.util.zip.ZipOutputStream(baos).use { zos ->
+            zos.putNextEntry(java.util.zip.ZipEntry("readme.txt"))
+            zos.write("ignored".toByteArray())
+            zos.closeEntry()
+            zos.putNextEntry(java.util.zip.ZipEntry("movie.en.srt"))
+            zos.write("1\n00:00:01,000 --> 00:00:03,000\nHello MPVX\n".toByteArray())
+            zos.closeEntry()
+        }
+        val (subBytes, ext) = OnlineSubtitleClient.extractSubtitleBytesIfArchive(baos.toByteArray(), "zip")
+        assertEquals("srt", ext)
+        assertTrue(String(subBytes).contains("Hello MPVX"))
+
+        // Verify Translate & Stats Page settings state cleanly
+        AppSettings.setTranslateSubtitlesEnabled(true)
+        AppSettings.setTranslateSubtitlesLang("hi")
+        AppSettings.setStatsOverlayPage(2)
+        assertTrue(AppSettings.translateSubtitlesEnabled.value)
+        assertEquals("hi", AppSettings.translateSubtitlesLang.value)
+        assertEquals(2, AppSettings.statsOverlayPage.value)
+        AppSettings.setStatsOverlayPage(99)
+        assertEquals(4, AppSettings.statsOverlayPage.value)
+        AppSettings.setStatsOverlayPage(0)
+        AppSettings.setTranslateSubtitlesEnabled(false)
+    }
 }
 
 private class InMemorySharedPreferences : SharedPreferences {

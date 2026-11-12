@@ -51,6 +51,8 @@ data class MpvRuntimeSnapshot(
     val videoTracks: List<PlayerTrackOption> = emptyList(),
     val audioTracks: List<PlayerTrackOption> = emptyList(),
     val subtitleTracks: List<PlayerTrackOption> = emptyList(),
+    val currentSubText: String = "",
+    val activeSecondarySid: Int = 0,
     val lastError: String? = null
 )
 
@@ -209,7 +211,7 @@ object MpvEngineController : MPVLib.EventObserver {
         val boolProps = listOf("pause", "paused-for-cache", "eof-reached")
         val longProps = listOf("video-params/w", "video-params/h", "video-params/rotate", "chapter", "aid", "sid", "secondary-sid")
         val doubleProps = listOf("time-pos", "duration", "demuxer-cache-duration", "container-fps", "video-bitrate")
-        val strProps = listOf("video-codec", "hwdec-current", "video-params/gamma", "video-params/primaries")
+        val strProps = listOf("video-codec", "hwdec-current", "video-params/gamma", "video-params/primaries", "sub-text")
         val nodeProps = listOf("track-list", "chapter-list")
 
         boolProps.forEach { MPVLib.observeProperty(it, MPVLib.MpvFormat.MPV_FORMAT_FLAG) }
@@ -321,6 +323,8 @@ object MpvEngineController : MPVLib.EventObserver {
                 videoWidth = 0,
                 videoHeight = 0,
                 videoRotate = 0,
+                currentSubText = "",
+                activeSecondarySid = 0,
                 lastError = null
             )
             MPVLib.setPropertyBoolean("pause", !autoPlay)
@@ -433,8 +437,11 @@ object MpvEngineController : MPVLib.EventObserver {
             if (!isInitialized) return
             if (mpvTrackId == null || mpvTrackId <= 0) {
                 MPVLib.setPropertyString("secondary-sid", "no")
+                _snapshot.value = _snapshot.value.copy(activeSecondarySid = 0)
             } else {
+                MPVLib.setPropertyString("sub-visibility", "yes")
                 MPVLib.setPropertyInt("secondary-sid", mpvTrackId)
+                _snapshot.value = _snapshot.value.copy(activeSecondarySid = mpvTrackId)
             }
         }
         refreshTrackLists()
@@ -445,8 +452,19 @@ object MpvEngineController : MPVLib.EventObserver {
             if (!isInitialized) return
             MPVLib.setPropertyString("sid", "no")
             MPVLib.setPropertyString("secondary-sid", "no")
+            _snapshot.value = _snapshot.value.copy(activeSecondarySid = 0, currentSubText = "")
         }
         refreshTrackLists()
+    }
+
+    fun addExternalAudio(context: Context, uri: Uri): Boolean {
+        val path = Utils.resolvePlayableUriForMpv(context, uri) ?: return false
+        nativeLock.withLock {
+            if (!isInitialized) return false
+            MPVLib.command("audio-add", path, "select")
+        }
+        mainHandler.postDelayed({ refreshTrackLists() }, 250L)
+        return true
     }
 
     fun addExternalSubtitle(context: Context, uri: Uri): Boolean {
@@ -684,42 +702,50 @@ object MpvEngineController : MPVLib.EventObserver {
         val vList = mutableListOf<PlayerTrackOption>()
         val aList = mutableListOf<PlayerTrackOption>()
         val sList = mutableListOf<PlayerTrackOption>()
+        val activeSecSid = _snapshot.value.activeSecondarySid
 
         for (entry in arr) {
             val type = entry.get("type")?.asString().orEmpty()
             val id = entry.get("id")?.asInt()?.toInt() ?: continue
-            val selected = entry.get("selected")?.asBoolean() ?: false
+            val rawSelected = entry.get("selected")?.asBoolean() ?: false
+            val mainSel = entry.get("main-selection")?.asInt()?.toInt() ?: -1
+            val isSecSub = type == "sub" && ((activeSecSid > 0 && id == activeSecSid) || mainSel == 1)
+            val isPrimarySelected = if (type == "sub" && isSecSub && mainSel != 0) false else rawSelected
+            val isExternal = entry.get("external")?.asBoolean() ?: false
             val title = entry.get("title")?.asString()?.takeIf { it.isNotBlank() }
             val lang = entry.get("lang")?.asString()?.takeIf { it.isNotBlank() }
             val codec = entry.get("codec")?.asString()?.uppercase(Locale.US)
+            val ch = if (type == "audio") entry.get("demux-channel-count")?.asInt()?.toInt() ?: 0 else 0
+            val chLabel = when (ch) {
+                1 -> "Mono"
+                2 -> "Stereo"
+                6 -> "5.1"
+                8 -> "7.1"
+                else -> if (ch > 0) "${ch}ch" else null
+            }
             val labelParts = listOfNotNull(
                 title ?: lang?.let {
                     Locale.forLanguageTag(it.replace('_', '-')).getDisplayLanguage(Locale.ENGLISH).takeIf { d -> d.isNotBlank() }
                         ?: it.uppercase(Locale.US)
                 } ?: "Track $id",
                 if (title != null && lang != null) lang.uppercase(Locale.US) else null,
-                codec
+                codec,
+                chLabel
             )
             val option = PlayerTrackOption(
                 groupIndex = 0,
                 trackIndex = id,
                 label = labelParts.joinToString(" • "),
-                selected = selected
+                selected = isPrimarySelected,
+                secondarySelected = isSecSub,
+                isExternal = isExternal
             )
             when (type) {
                 "video" -> vList += option
                 "audio" -> {
                     aList += option
-                    if (selected) {
-                        val ch = entry.get("demux-channel-count")?.asInt()?.toInt() ?: 0
-                        val layout = when (ch) {
-                            1 -> "Mono"
-                            2 -> "Stereo"
-                            6 -> "5.1"
-                            8 -> "7.1"
-                            else -> if (ch > 0) "${ch}ch" else "Stereo"
-                        }
-                        _snapshot.value = _snapshot.value.copy(channelLayout = layout)
+                    if (isPrimarySelected) {
+                        _snapshot.value = _snapshot.value.copy(channelLayout = chLabel ?: "Stereo")
                     }
                 }
                 "sub" -> sList += option
@@ -756,7 +782,11 @@ object MpvEngineController : MPVLib.EventObserver {
             "video-params/h" -> _snapshot.value = _snapshot.value.copy(videoHeight = value.toInt().coerceAtLeast(0))
             "video-params/rotate" -> _snapshot.value = _snapshot.value.copy(videoRotate = value.toInt())
             "chapter" -> _snapshot.value = _snapshot.value.copy(currentChapterIndex = value.toInt())
-            "aid", "sid", "secondary-sid" -> mainHandler.post { refreshTrackLists() }
+            "secondary-sid" -> {
+                _snapshot.value = _snapshot.value.copy(activeSecondarySid = value.toInt().coerceAtLeast(0))
+                mainHandler.post { refreshTrackLists() }
+            }
+            "aid", "sid" -> mainHandler.post { refreshTrackLists() }
         }
     }
 
@@ -776,6 +806,7 @@ object MpvEngineController : MPVLib.EventObserver {
         when (property) {
             "video-codec" -> _snapshot.value = snap.copy(codecName = value.ifBlank { "MPV" }.uppercase(Locale.US))
             "hwdec-current" -> _snapshot.value = snap.copy(hwdecCurrent = value)
+            "sub-text" -> _snapshot.value = snap.copy(currentSubText = value)
             "video-params/gamma" -> {
                 val hdr = when (value.lowercase(Locale.ROOT)) {
                     "pq", "st2084" -> "HDR10"

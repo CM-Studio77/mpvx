@@ -655,6 +655,9 @@ object AppSettings {
     private const val KEY_SHOW_PROVIDER_STATUS_OV = "pref_show_provider_status_ov"
     private const val KEY_ONLINE_SUB_MODE = "pref_online_sub_mode"
     private const val KEY_ONLINE_SUB_LANG = "pref_online_sub_lang"
+    private const val KEY_TRANSLATE_SUBS_ENABLED = "pref_translate_subs_enabled"
+    private const val KEY_TRANSLATE_SUBS_LANG = "pref_translate_subs_lang"
+    private const val KEY_STATS_OVERLAY_PAGE = "pref_stats_overlay_page"
     private const val KEY_AUDIO_STANDBY_SEC = "pref_audio_standby_sec"
     private const val KEY_MUSIC_VISUALIZER_STYLE = "pref_music_visualizer_style"
     private const val KEY_MUSIC_ORIENTATION = "pref_music_orientation"
@@ -833,6 +836,15 @@ object AppSettings {
 
     private val _onlineSubPreferredLang = MutableStateFlow("en")
     val onlineSubPreferredLang: StateFlow<String> = _onlineSubPreferredLang.asStateFlow()
+
+    private val _translateSubtitlesEnabled = MutableStateFlow(false)
+    val translateSubtitlesEnabled: StateFlow<Boolean> = _translateSubtitlesEnabled.asStateFlow()
+
+    private val _translateSubtitlesLang = MutableStateFlow("hi")
+    val translateSubtitlesLang: StateFlow<String> = _translateSubtitlesLang.asStateFlow()
+
+    private val _statsOverlayPage = MutableStateFlow(0)
+    val statsOverlayPage: StateFlow<Int> = _statsOverlayPage.asStateFlow()
 
     private val _audioStandbyDelaySec = MutableStateFlow(0)
     val audioStandbyDelaySec: StateFlow<Int> = _audioStandbyDelaySec.asStateFlow()
@@ -1472,6 +1484,9 @@ object AppSettings {
         _showProviderStatusOverlay.value = prefs.getBoolean(KEY_SHOW_PROVIDER_STATUS_OV, false)
         _onlineSubSearchMode.value = prefs.getString(KEY_ONLINE_SUB_MODE, "HYBRID") ?: "HYBRID"
         _onlineSubPreferredLang.value = prefs.getString(KEY_ONLINE_SUB_LANG, "en") ?: "en"
+        _translateSubtitlesEnabled.value = prefs.getBoolean(KEY_TRANSLATE_SUBS_ENABLED, false)
+        _translateSubtitlesLang.value = prefs.getString(KEY_TRANSLATE_SUBS_LANG, "hi") ?: "hi"
+        _statsOverlayPage.value = prefs.getInt(KEY_STATS_OVERLAY_PAGE, 0).coerceIn(0, 4)
         _audioStandbyDelaySec.value = prefs.getInt(KEY_AUDIO_STANDBY_SEC, 0).coerceIn(0, 1800)
         _musicVisualizerStyle.value = prefs.getString(KEY_MUSIC_VISUALIZER_STYLE, "WAVE") ?: "WAVE"
         _musicPlayerOrientation.value = prefs.getString(KEY_MUSIC_ORIENTATION, "AUTO") ?: "AUTO"
@@ -3671,6 +3686,29 @@ object AppSettings {
 
     fun setSubdlApiKey(key: String) {
         EncryptedCredentialStore.putSecret(appContext, "subdl_api_key", key.trim())
+    }
+
+    fun getWyzieApiKey(): String = EncryptedCredentialStore.getSecret(appContext, "wyzie_api_key")
+
+    fun setWyzieApiKey(key: String) {
+        EncryptedCredentialStore.putSecret(appContext, "wyzie_api_key", key.trim())
+    }
+
+    fun setTranslateSubtitlesEnabled(enabled: Boolean) {
+        _translateSubtitlesEnabled.value = enabled
+        if (::prefs.isInitialized) prefs.edit().putBoolean(KEY_TRANSLATE_SUBS_ENABLED, enabled).apply()
+    }
+
+    fun setTranslateSubtitlesLang(langCode: String) {
+        val clean = langCode.trim().lowercase().ifBlank { "hi" }
+        _translateSubtitlesLang.value = clean
+        if (::prefs.isInitialized) prefs.edit().putString(KEY_TRANSLATE_SUBS_LANG, clean).apply()
+    }
+
+    fun setStatsOverlayPage(page: Int) {
+        val clamped = page.coerceIn(0, 4)
+        _statsOverlayPage.value = clamped
+        if (::prefs.isInitialized) prefs.edit().putInt(KEY_STATS_OVERLAY_PAGE, clamped).apply()
     }
 
     fun setAudioStandbyDelaySec(sec: Int) {
