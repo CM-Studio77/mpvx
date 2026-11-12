@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MPVX Vertical Smartphone Mockup Demo (72dp x 128dp) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="72dp"
+    android:height="128dp"
+    android:viewportWidth="72"
+    android:viewportHeight="128">
+
+    <!-- Phone Chassis Frame -->
+    <path
+        android:pathData="M 8,0 H 64 A 8,8 0 0 1 72,8 V 120 A 8,8 0 0 1 64,128 H 8 A 8,8 0 0 1 0,120 V 8 A 8,8 0 0 1 8,0 Z"
+        android:fillColor="#0D111A" />
+    <path
+        android:pathData="M 8,0.8 H 64 A 7.2,7.2 0 0 1 71.2,8 V 120 A 7.2,7.2 0 0 1 64,127.2 H 8 A 7.2,7.2 0 0 1 0.8,120 V 8 A 7.2,7.2 0 0 1 8,0.8 Z"
+        android:strokeColor="#2500E5FF"
+        android:strokeWidth="0.8" />
+
+    <!-- Screen Bezel Background -->
+    <path
+        android:pathData="M 4,4 H 68 V 124 H 4 Z"
+        android:fillColor="#07090E" />
+
+    <!-- Top Speaker / Punch-hole -->
+    <path
+        android:pathData="M 31,5.5 H 41 V 7 H 31 Z"
+        android:fillColor="#33FFFFFF" />
+    <path
+        android:pathData="M 36,9 m -1.2,0 a 1.2,1.2 0 1 0 2.4,0 a 1.2,1.2 0 1 0 -2.4,0"
+        android:fillColor="#66FFFFFF" />
+
+    
+    <path android:pathData="M 4,14 H 68 V 120 H 4 Z" android:fillColor="#101826" />
+    <!-- Top Specs -->
+    <path android:pathData="M 8,18 H 32 V 24 H 8 Z" android:fillColor="#501A2436" />
+    <!-- Large Center Radial Cockpit Disc -->
+    <path android:pathData="M 36,64 m -22,0 a 22,22 0 1 0 44,0 a 22,22 0 1 0 -44,0" android:fillColor="#35162233" />
+    <path android:pathData="M 36,64 m -22,0 a 22,22 0 1 0 44,0 a 22,22 0 1 0 -44,0" android:strokeColor="#4000E5FF" android:strokeWidth="0.8" />
+    <!-- Orbit Ring -->
+    <path android:pathData="M 36,64 m -16,0 a 16,16 0 1 0 32,0 a 16,16 0 1 0 -32,0" android:strokeColor="#25FFFFFF" android:strokeWidth="0.6" />
+    <path android:pathData="M 23,64 m -2,0 a 2,2 0 1 0 4,0 a 2,2 0 1 0 -4,0" android:fillColor="#00E5FF" />
+    <path android:pathData="M 49,64 m -2,0 a 2,2 0 1 0 4,0 a 2,2 0 1 0 -4,0" android:fillColor="#00E5FF" />
+    <path android:pathData="M 36,49 m -2,0 a 2,2 0 1 0 4,0 a 2,2 0 1 0 -4,0" android:fillColor="#FFFFFF" />
+    <!-- Center Play Button -->
+    <path android:pathData="M 36,64 m -8,0 a 8,8 0 1 0 16,0 a 8,8 0 1 0 -16,0" android:fillColor="#00E5FF" />
+    <path android:pathData="M 34,61 L 39,64 L 34,67 Z" android:fillColor="#07090E" />
+    <!-- Right Curved Cockpit Arc Gauge -->
+    <path android:pathData="M 66,36 Q 58,64 66,92" android:strokeColor="#00E5FF" android:strokeWidth="2" />
+    <path android:pathData="M 61,46 H 64 V 48 H 61 Z" android:fillColor="#FFFFFF" />
+    <path android:pathData="M 59,56 H 63 V 58 H 59 Z" android:fillColor="#FFFFFF" />
+    <path android:pathData="M 59,66 H 63 V 68 H 59 Z" android:fillColor="#00E5FF" />
+    <path android:pathData="M 61,76 H 64 V 78 H 61 Z" android:fillColor="#FFFFFF" />
+    <!-- Bottom Seekbar -->
+    <path android:pathData="M 8,104 H 64 V 106 H 8 Z" android:fillColor="#33FFFFFF" />
+    <path android:pathData="M 8,104 H 38 V 106 H 8 Z" android:fillColor="#FF9100" />
+  
+
+    <!-- Bottom Gesture Bar -->
+    <path
+        android:pathData="M 27,123 H 45 V 124.5 H 27 Z"
+        android:fillColor="#66FFFFFF" />
+</vector>

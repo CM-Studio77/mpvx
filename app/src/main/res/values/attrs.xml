@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- a theme attribute so an overlay can change the accent at runtime -->
+    <attr name="accentColor" format="color" />
+</resources>
+

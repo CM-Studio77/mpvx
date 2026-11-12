@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MPVX Vertical Smartphone Mockup - Minimalism Style (72dp x 128dp) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="72dp"
+    android:height="128dp"
+    android:viewportWidth="72"
+    android:viewportHeight="128">
+
+    <!-- Phone Chassis Frame -->
+    <path
+        android:pathData="M 8,0 H 64 A 8,8 0 0 1 72,8 V 120 A 8,8 0 0 1 64,128 H 8 A 8,8 0 0 1 0,120 V 8 A 8,8 0 0 1 8,0 Z"
+        android:fillColor="#000000" />
+    <path
+        android:pathData="M 8,0.8 H 64 A 7.2,7.2 0 0 1 71.2,8 V 120 A 7.2,7.2 0 0 1 64,127.2 H 8 A 7.2,7.2 0 0 1 0.8,120 V 8 A 7.2,7.2 0 0 1 8,0.8 Z"
+        android:strokeColor="#22FFFFFF"
+        android:strokeWidth="0.8" />
+
+    <!-- Screen Bezel Background (Pure Void Black & Maximum White Space) -->
+    <path
+        android:pathData="M 4,4 H 68 V 124 H 4 Z"
+        android:fillColor="#000000" />
+
+    <!-- Top Speaker / Punch-hole -->
+    <path
+        android:pathData="M 31,5.5 H 41 V 7 H 31 Z"
+        android:fillColor="#22FFFFFF" />
+
+    <!-- Minimal Film Surface -->
+    <path android:pathData="M 4,14 H 68 V 120 H 4 Z" android:fillColor="#080808" />
+
+    <!-- Minimalist Title: Clean single line, high white space -->
+    <path android:pathData="M 12,22 H 34 V 24 H 12 Z" android:fillColor="#EEEEEE" />
+
+    <!-- Center Play: Sleek thin stroke circle, no heavy fill -->
+    <path android:pathData="M 36,64 m -10,0 a 10,10 0 1 0 20,0 a 10,10 0 1 0 -20,0"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.2"
+        android:fillColor="#00000000" />
+    <path android:pathData="M 34.5,60.5 L 39.5,64 L 34.5,67.5 Z" android:fillColor="#FFFFFF" />
+
+    <!-- Ultra-thin Minimalist Hairline Timebar -->
+    <path android:pathData="M 12,104 H 60 V 104.8 H 12 Z" android:fillColor="#33FFFFFF" />
+    <path android:pathData="M 12,104 H 30 V 104.8 H 12 Z" android:fillColor="#FFFFFF" />
+    <path android:pathData="M 30,104.4 m -1.5,0 a 1.5,1.5 0 1 0 3,0 a 1.5,1.5 0 1 0 -3,0" android:fillColor="#FFFFFF" />
+
+    <!-- Pure Minimal Icons: Clean dots & dashes -->
+    <path android:pathData="M 12,112 H 16 V 114 H 12 Z" android:fillColor="#888888" />
+    <path android:pathData="M 56,112 H 60 V 114 H 56 Z" android:fillColor="#888888" />
+
+    <!-- Bottom Gesture Bar -->
+    <path
+        android:pathData="M 27,123 H 45 V 124.2 H 27 Z"
+        android:fillColor="#33FFFFFF" />
+</vector>

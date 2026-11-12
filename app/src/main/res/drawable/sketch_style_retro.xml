@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MPVX Vertical Smartphone Mockup - Retro 80s/90s Style (72dp x 128dp) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="72dp"
+    android:height="128dp"
+    android:viewportWidth="72"
+    android:viewportHeight="128">
+
+    <!-- Phone Chassis Frame (Warm Vintage Charcoal #1C1917) -->
+    <path
+        android:pathData="M 8,0 H 64 A 8,8 0 0 1 72,8 V 120 A 8,8 0 0 1 64,128 H 8 A 8,8 0 0 1 0,120 V 8 A 8,8 0 0 1 8,0 Z"
+        android:fillColor="#1C1917" />
+    <path
+        android:pathData="M 8,0.8 H 64 A 7.2,7.2 0 0 1 71.2,8 V 120 A 7.2,7.2 0 0 1 64,127.2 H 8 A 7.2,7.2 0 0 1 0.8,120 V 8 A 7.2,7.2 0 0 1 8,0.8 Z"
+        android:strokeColor="#785535"
+        android:strokeWidth="0.8" />
+
+    <!-- CRT Screen Curved Bezel Background (Dark Amber Cathode Ray) -->
+    <path android:pathData="M 4,4 H 68 V 124 H 4 Z" android:fillColor="#120E0A" />
+
+    <!-- Speaker Slits -->
+    <path android:pathData="M 31,5.5 H 41 V 7 H 31 Z" android:fillColor="#443422" />
+
+    <!-- Video Surface with CRT Horizontal Scanlines -->
+    <path android:pathData="M 4,14 H 68 V 120 H 4 Z" android:fillColor="#1A140E" />
+    <path android:pathData="M 4,20 H 68 V 20.8 H 4 Z" android:fillColor="#10FFB000" />
+    <path android:pathData="M 4,28 H 68 V 28.8 H 4 Z" android:fillColor="#10FFB000" />
+    <path android:pathData="M 4,36 H 68 V 36.8 H 4 Z" android:fillColor="#10FFB000" />
+    <path android:pathData="M 4,44 H 68 V 44.8 H 4 Z" android:fillColor="#10FFB000" />
+    <path android:pathData="M 4,52 H 68 V 52.8 H 4 Z" android:fillColor="#10FFB000" />
+    <path android:pathData="M 4,60 H 68 V 60.8 H 4 Z" android:fillColor="#10FFB000" />
+    <path android:pathData="M 4,68 H 68 V 68.8 H 4 Z" android:fillColor="#10FFB000" />
+    <path android:pathData="M 4,76 H 68 V 76.8 H 4 Z" android:fillColor="#10FFB000" />
+    <path android:pathData="M 4,84 H 68 V 84.8 H 4 Z" android:fillColor="#10FFB000" />
+    <path android:pathData="M 4,92 H 68 V 92.8 H 4 Z" android:fillColor="#10FFB000" />
+
+    <!-- Vintage Header: Amber On-Screen Display (OSD PLAY >) -->
+    <path android:pathData="M 8,18 H 22 V 22 H 8 Z" android:fillColor="#FFB000" />
+    <path android:pathData="M 44,18 H 64 V 22 H 44 Z" android:fillColor="#FFB000" />
+
+    <!-- Center Cassette Tape Deck Wheels -->
+    <!-- Left Tape Reel -->
+    <path android:pathData="M 22,64 m -8,0 a 8,8 0 1 0 16,0 a 8,8 0 1 0 -16,0" android:strokeColor="#FFB000" android:strokeWidth="1.0" />
+    <path android:pathData="M 22,64 m -3,0 a 3,3 0 1 0 6,0 a 3,3 0 1 0 -6,0" android:fillColor="#FFB000" />
+    <!-- Tape bridge line -->
+    <path android:pathData="M 22,72 H 50 V 73 H 22 Z" android:fillColor="#FFB000" />
+    <!-- Right Tape Reel -->
+    <path android:pathData="M 50,64 m -8,0 a 8,8 0 1 0 16,0 a 8,8 0 1 0 -16,0" android:strokeColor="#FFB000" android:strokeWidth="1.0" />
+    <path android:pathData="M 50,64 m -3,0 a 3,3 0 1 0 6,0 a 3,3 0 1 0 -6,0" android:fillColor="#FFB000" />
+    <!-- Play symbol in center bridge -->
+    <path android:pathData="M 34,60.5 L 40,64 L 34,67.5 Z" android:fillColor="#20B2AA" />
+
+    <!-- Segmented Phosphor Amber Timebar -->
+    <path android:pathData="M 8,99 H 64 V 102 H 8 Z" android:fillColor="#332410" />
+    <path android:pathData="M 8,99 H 36 V 102 H 8 Z" android:fillColor="#FFB000" />
+    <path android:pathData="M 36,97 H 39 V 104 H 36 Z" android:fillColor="#20B2AA" />
+
+    <!-- Retro Analog Keypad Buttons at Bottom -->
+    <path android:pathData="M 8,110 H 22 V 117 H 8 Z" android:fillColor="#281D14" />
+    <path android:pathData="M 8,110 H 22 V 117 H 8 Z" android:strokeColor="#FFB000" android:strokeWidth="0.8" />
+
+    <path android:pathData="M 26,110 H 46 V 117 H 26 Z" android:fillColor="#281D14" />
+    <path android:pathData="M 26,110 H 46 V 117 H 26 Z" android:strokeColor="#20B2AA" android:strokeWidth="0.8" />
+
+    <path android:pathData="M 50,110 H 64 V 117 H 50 Z" android:fillColor="#281D14" />
+    <path android:pathData="M 50,110 H 64 V 117 H 50 Z" android:strokeColor="#FFB000" android:strokeWidth="0.8" />
+
+    <!-- Bottom Gesture Bar -->
+    <path android:pathData="M 27,123 H 45 V 124.5 H 27 Z" android:fillColor="#553A22" />
+</vector>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MPVX Adaptive Launcher Foreground Emblem -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Soft Cyan Ambient Outer Halo -->
+    <path
+        android:pathData="M54,24.5 A29.5,29.5 0 1 1 53.99,24.5"
+        android:strokeWidth="7"
+        android:strokeColor="#2A00D4D8"
+        android:fillColor="#00000000" />
+
+    <!-- Deep Translucent Cinema Aperture Disc -->
+    <path
+        android:pathData="M54,28.2 A25.8,25.8 0 1 1 53.99,28.2 Z"
+        android:fillColor="#DC071818" />
+
+    <!-- Glowing Aqua-Cyan Outer Ring -->
+    <path
+        android:pathData="M54,26.5 A27.5,27.5 0 1 1 53.99,26.5 Z"
+        android:strokeWidth="4.2"
+        android:fillColor="#00000000">
+        <aapt:attr name="android:strokeColor">
+            <gradient
+                android:type="linear"
+                android:startX="54"
+                android:startY="25"
+                android:endX="54"
+                android:endY="83"
+                android:startColor="#8EF9EE"
+                android:centerColor="#00C4D4"
+                android:endColor="#0098B8" />
+        </aapt:attr>
+    </path>
+
+    <!-- Soft Shadow Under Play Triangle -->
+    <path
+        android:pathData="M49.4,34.8 L64.5,43.2 C65.7,43.9 65.7,45.1 64.5,45.8 L49.4,54.2 C48.2,54.9 47.0,54.1 47.0,52.8 L47.0,36.2 C47.0,34.9 48.2,34.1 49.4,34.8 Z"
+        android:fillColor="#48000000" />
+
+    <!-- Glossy Ice-White Play Triangle -->
+    <path
+        android:pathData="M49.0,34.0 L64.0,42.3 C65.2,43.0 65.2,44.2 64.0,44.9 L49.0,53.2 C47.8,53.9 46.6,53.1 46.6,51.8 L46.6,35.4 C46.6,34.1 47.8,33.3 49.0,34.0 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="linear"
+                android:startX="46.6"
+                android:startY="34"
+                android:endX="64"
+                android:endY="53.2"
+                android:startColor="#FFFFFF"
+                android:endColor="#D8FBF6" />
+        </aapt:attr>
+    </path>
+
+    <!-- Geometric MPVX Emblem Letterforms -->
+    <!-- M -->
+    <path
+        android:pathData="M37.4,64.8 L37.4,57.2 L41.1,61.6 L44.8,57.2 L44.8,64.8"
+        android:strokeWidth="2.0"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeColor="#F2FFFD"
+        android:fillColor="#00000000" />
+
+    <!-- P -->
+    <path
+        android:pathData="M48.0,64.8 L48.0,57.2 L50.4,57.2 C52.9,57.2 52.9,61.2 50.4,61.2 L48.0,61.2"
+        android:strokeWidth="2.0"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeColor="#F2FFFD"
+        android:fillColor="#00000000" />
+
+    <!-- V -->
+    <path
+        android:pathData="M55.2,57.2 L58.2,64.8 L61.2,57.2"
+        android:strokeWidth="2.0"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeColor="#F2FFFD"
+        android:fillColor="#00000000" />
+
+    <!-- X (Signature Aqua Cyan) -->
+    <path
+        android:pathData="M64.0,57.2 L70.6,64.8 M70.6,57.2 L64.0,64.8"
+        android:strokeWidth="2.1"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeColor="#73F2E5"
+        android:fillColor="#00000000" />
+</vector>

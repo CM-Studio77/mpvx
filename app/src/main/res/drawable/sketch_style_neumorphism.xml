@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MPVX Vertical Smartphone Mockup - Neumorphism Style (72dp x 128dp) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="72dp"
+    android:height="128dp"
+    android:viewportWidth="72"
+    android:viewportHeight="128">
+
+    <!-- Phone Chassis Frame -->
+    <path
+        android:pathData="M 8,0 H 64 A 8,8 0 0 1 72,8 V 120 A 8,8 0 0 1 64,128 H 8 A 8,8 0 0 1 0,120 V 8 A 8,8 0 0 1 8,0 Z"
+        android:fillColor="#15181E" />
+    <path
+        android:pathData="M 8,0.8 H 64 A 7.2,7.2 0 0 1 71.2,8 V 120 A 7.2,7.2 0 0 1 64,127.2 H 8 A 7.2,7.2 0 0 1 0.8,120 V 8 A 7.2,7.2 0 0 1 8,0.8 Z"
+        android:strokeColor="#252A34"
+        android:strokeWidth="0.8" />
+
+    <!-- Screen Bezel Background (Uniform Neumorphic Base Tone #1E222B) -->
+    <path android:pathData="M 4,4 H 68 V 124 H 4 Z" android:fillColor="#1E222B" />
+
+    <!-- Top Speaker / Punch-hole -->
+    <path android:pathData="M 31,5.5 H 41 V 7 H 31 Z" android:fillColor="#15181E" />
+
+    <!-- Soft Inset Header Bar (Debossed Neumorphic Well) -->
+    <path android:pathData="M 8,18 H 64 V 28 H 8 Z" android:fillColor="#171A21" />
+    <path android:pathData="M 8,18 H 64 V 19 H 8 Z" android:fillColor="#0D0F14" />
+    <path android:pathData="M 8,27 H 64 V 28 H 8 Z" android:fillColor="#2D3340" />
+    <path android:pathData="M 14,22 H 38 V 24 H 14 Z" android:fillColor="#8C98AC" />
+
+    <!-- Center Play Button (Extruded Neumorphic Dome) -->
+    <!-- Dark bottom-right shadow -->
+    <path android:pathData="M 37.5,65.5 m -12,0 a 12,12 0 1 0 24,0 a 12,12 0 1 0 -24,0" android:fillColor="#111318" />
+    <!-- Light top-left highlight -->
+    <path android:pathData="M 34.5,62.5 m -12,0 a 12,12 0 1 0 24,0 a 12,12 0 1 0 -24,0" android:fillColor="#2D3342" />
+    <!-- Convex Button Face -->
+    <path android:pathData="M 36,64 m -11.5,0 a 11.5,11.5 0 1 0 23,0 a 11.5,11.5 0 1 0 -23,0" android:fillColor="#1E222B" />
+    <path android:pathData="M 36,64 m -9,0 a 9,9 0 1 0 18,0 a 9,9 0 1 0 -18,0" android:fillColor="#222731" />
+    <path android:pathData="M 34.5,60.5 L 39.5,64 L 34.5,67.5 Z" android:fillColor="#00E5FF" />
+
+    <!-- Neumorphic Inset Groove Timebar -->
+    <path android:pathData="M 8,99 H 64 A 3,3 0 0 1 64,103 H 8 A 3,3 0 0 1 8,99 Z" android:fillColor="#151820" />
+    <path android:pathData="M 8,99 H 34 A 3,3 0 0 1 34,103 H 8 A 3,3 0 0 1 8,99 Z" android:fillColor="#00E5FF" />
+    <path android:pathData="M 34,101 m -3.5,0 a 3.5,3.5 0 1 0 7,0 a 3.5,3.5 0 1 0 -7,0" android:fillColor="#1E222B" />
+    <path android:pathData="M 34,101 m -2,0 a 2,2 0 1 0 4,0 a 2,2 0 1 0 -4,0" android:fillColor="#00E5FF" />
+
+    <!-- Neumorphic Extruded Floating Chips at Bottom -->
+    <path android:pathData="M 10,109 H 24 A 3,3 0 0 1 24,117 H 10 A 3,3 0 0 1 10,109 Z" android:fillColor="#232731" />
+    <path android:pathData="M 29,109 H 43 A 3,3 0 0 1 43,117 H 29 A 3,3 0 0 1 29,109 Z" android:fillColor="#232731" />
+    <path android:pathData="M 48,109 H 62 A 3,3 0 0 1 62,117 H 48 A 3,3 0 0 1 48,109 Z" android:fillColor="#232731" />
+
+    <!-- Bottom Gesture Bar -->
+    <path android:pathData="M 27,123 H 45 V 124.5 H 27 Z" android:fillColor="#3D4555" />
+</vector>

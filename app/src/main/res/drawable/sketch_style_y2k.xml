@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MPVX Vertical Smartphone Mockup - Y2K Design Style (72dp x 128dp) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="72dp"
+    android:height="128dp"
+    android:viewportWidth="72"
+    android:viewportHeight="128">
+
+    <!-- Phone Chassis Frame (Chrome / Silver Iridescent Edge) -->
+    <path
+        android:pathData="M 8,0 H 64 A 8,8 0 0 1 72,8 V 120 A 8,8 0 0 1 64,128 H 8 A 8,8 0 0 1 0,120 V 8 A 8,8 0 0 1 8,0 Z"
+        android:fillColor="#180B28" />
+    <path
+        android:pathData="M 8,0.8 H 64 A 7.2,7.2 0 0 1 71.2,8 V 120 A 7.2,7.2 0 0 1 64,127.2 H 8 A 7.2,7.2 0 0 1 0.8,120 V 8 A 7.2,7.2 0 0 1 8,0.8 Z"
+        android:strokeColor="#FF00FF"
+        android:strokeWidth="0.9" />
+
+    <!-- Screen Bezel Background (Deep Cyber Violet) -->
+    <path android:pathData="M 4,4 H 68 V 124 H 4 Z" android:fillColor="#0E051C" />
+
+    <!-- Speaker -->
+    <path android:pathData="M 31,5.5 H 41 V 7 H 31 Z" android:fillColor="#9D00FF" />
+
+    <!-- Video Surface -->
+    <path android:pathData="M 4,14 H 68 V 120 H 4 Z" android:fillColor="#150826" />
+
+    <!-- Y2K Holographic Shiny Top Pill -->
+    <path android:pathData="M 8,17 H 64 A 5,5 0 0 1 64,27 H 8 A 5,5 0 0 1 8,17 Z" android:fillColor="#3A1258" />
+    <path android:pathData="M 8,17 H 64 A 5,5 0 0 1 64,27 H 8 A 5,5 0 0 1 8,17 Z" android:strokeColor="#FF00A0" android:strokeWidth="0.8" />
+    <path android:pathData="M 12,19 Q 36,18 60,19" android:strokeColor="#FFFFFF" android:strokeWidth="0.8" />
+    <!-- 4-pointed Y2K chrome sparkle star -->
+    <path android:pathData="M 14,22 L 15,19 L 16,22 L 19,23 L 16,24 L 15,27 L 14,24 L 11,23 Z" android:fillColor="#00FFFF" />
+    <path android:pathData="M 22,21 H 46 V 23 H 22 Z" android:fillColor="#FF77FF" />
+
+    <!-- Center Play: Glossy Jelly Bubble (Iridescent Violet & Magenta with Shiny Gloss Arc) -->
+    <!-- Magenta Glow Halo -->
+    <path android:pathData="M 36,64 m -13,0 a 13,13 0 1 0 26,0 a 13,13 0 1 0 -26,0" android:fillColor="#40FF007F" />
+    <!-- Main Jelly Disc -->
+    <path android:pathData="M 36,64 m -11,0 a 11,11 0 1 0 22,0 a 11,11 0 1 0 -22,0" android:fillColor="#9D00FF" />
+    <path android:pathData="M 36,64 m -11,0 a 11,11 0 1 0 22,0 a 11,11 0 1 0 -22,0" android:strokeColor="#00FFFF" android:strokeWidth="1.0" />
+    <!-- Top Half White Curved Gloss Bubble -->
+    <path android:pathData="M 28,60 Q 36,55 44,60 Q 36,58 28,60 Z" android:fillColor="#D9FFFFFF" />
+    <path android:pathData="M 34,60.5 L 40,64 L 34,67.5 Z" android:fillColor="#FFFFFF" />
+
+    <!-- Y2K Bubble Capsule Seekbar -->
+    <path android:pathData="M 8,99 H 64 A 3,3 0 0 1 64,103 H 8 A 3,3 0 0 1 8,99 Z" android:fillColor="#280C42" />
+    <path android:pathData="M 8,99 H 38 A 3,3 0 0 1 38,103 H 8 A 3,3 0 0 1 8,99 Z" android:fillColor="#FF007F" />
+    <path android:pathData="M 38,101 m -3,0 a 3,3 0 1 0 6,0 a 3,3 0 1 0 -6,0" android:fillColor="#00FFFF" />
+
+    <!-- Iridescent Jelly Bottom Capsules -->
+    <path android:pathData="M 8,109 H 24 A 4,4 0 0 1 24,117 H 8 A 4,4 0 0 1 8,109 Z" android:fillColor="#3A1258" />
+    <path android:pathData="M 8,109 H 24 A 4,4 0 0 1 24,117 H 8 A 4,4 0 0 1 8,109 Z" android:strokeColor="#00FFFF" android:strokeWidth="0.8" />
+
+    <path android:pathData="M 28,109 H 44 A 4,4 0 0 1 44,117 H 28 A 4,4 0 0 1 28,109 Z" android:fillColor="#FF007F" />
+    <path android:pathData="M 28,109 H 44 A 4,4 0 0 1 44,117 H 28 A 4,4 0 0 1 28,109 Z" android:strokeColor="#FFFFFF" android:strokeWidth="0.8" />
+
+    <path android:pathData="M 48,109 H 64 A 4,4 0 0 1 64,117 H 48 A 4,4 0 0 1 48,109 Z" android:fillColor="#3A1258" />
+    <path android:pathData="M 48,109 H 64 A 4,4 0 0 1 64,117 H 48 A 4,4 0 0 1 48,109 Z" android:strokeColor="#FF00A0" android:strokeWidth="0.8" />
+
+    <!-- Bottom Gesture Bar -->
+    <path android:pathData="M 27,123 H 45 V 124.5 H 27 Z" android:fillColor="#9D00FF" />
+</vector>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MPVX Vertical Smartphone Mockup Demo (72dp x 128dp) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="72dp"
+    android:height="128dp"
+    android:viewportWidth="72"
+    android:viewportHeight="128">
+
+    <!-- Phone Chassis Frame -->
+    <path
+        android:pathData="M 8,0 H 64 A 8,8 0 0 1 72,8 V 120 A 8,8 0 0 1 64,128 H 8 A 8,8 0 0 1 0,120 V 8 A 8,8 0 0 1 8,0 Z"
+        android:fillColor="#0D111A" />
+    <path
+        android:pathData="M 8,0.8 H 64 A 7.2,7.2 0 0 1 71.2,8 V 120 A 7.2,7.2 0 0 1 64,127.2 H 8 A 7.2,7.2 0 0 1 0.8,120 V 8 A 7.2,7.2 0 0 1 8,0.8 Z"
+        android:strokeColor="#2500E5FF"
+        android:strokeWidth="0.8" />
+
+    <!-- Screen Bezel Background -->
+    <path
+        android:pathData="M 4,4 H 68 V 124 H 4 Z"
+        android:fillColor="#07090E" />
+
+    <!-- Top Speaker / Punch-hole -->
+    <path
+        android:pathData="M 31,5.5 H 41 V 7 H 31 Z"
+        android:fillColor="#33FFFFFF" />
+    <path
+        android:pathData="M 36,9 m -1.2,0 a 1.2,1.2 0 1 0 2.4,0 a 1.2,1.2 0 1 0 -2.4,0"
+        android:fillColor="#66FFFFFF" />
+
+    
+    <!-- Top App Bar -->
+    <path android:pathData="M 4,14 H 68 V 26 H 4 Z" android:fillColor="#0F131D" />
+    <path android:pathData="M 8,18 H 32 V 22 H 8 Z" android:fillColor="#FFFFFF" />
+    <!-- Hero Continue Watching Banner -->
+    <path android:pathData="M 7,29 H 65 A 3,3 0 0 1 65,51 H 7 A 3,3 0 0 1 7,29 Z" android:fillColor="#161C2A" />
+    <path android:pathData="M 9,31 H 31 V 49 H 9 Z" android:fillColor="#243048" />
+    <path android:pathData="M 34,34 H 56 V 37 H 34 Z" android:fillColor="#FFFFFF" />
+    <path android:pathData="M 34,40 H 50 V 43 H 34 Z" android:fillColor="#8F9CAE" />
+    <!-- Video List Items (Cinematic 16:9 Cards) -->
+    <path android:pathData="M 7,55 H 65 A 3,3 0 0 1 65,73 H 7 A 3,3 0 0 1 7,55 Z" android:fillColor="#161C2A" />
+    <path android:pathData="M 9,57 H 28 V 71 H 9 Z" android:fillColor="#1F2A3F" />
+    <path android:pathData="M 31,60 H 58 V 63 H 31 Z" android:fillColor="#FFFFFF" />
+    <path android:pathData="M 31,66 H 48 V 68.5 H 31 Z" android:fillColor="#8F9CAE" />
+
+    <path android:pathData="M 7,77 H 65 A 3,3 0 0 1 65,95 H 7 A 3,3 0 0 1 7,77 Z" android:fillColor="#161C2A" />
+    <path android:pathData="M 9,79 H 28 V 93 H 9 Z" android:fillColor="#1F2A3F" />
+    <path android:pathData="M 31,82 H 58 V 85 H 31 Z" android:fillColor="#FFFFFF" />
+    <path android:pathData="M 31,88 H 48 V 90.5 H 31 Z" android:fillColor="#8F9CAE" />
+
+    <path android:pathData="M 7,99 H 65 A 3,3 0 0 1 65,117 H 7 A 3,3 0 0 1 7,99 Z" android:fillColor="#161C2A" />
+    <path android:pathData="M 9,101 H 28 V 115 H 9 Z" android:fillColor="#1F2A3F" />
+    <path android:pathData="M 31,104 H 58 V 107 H 31 Z" android:fillColor="#FFFFFF" />
+
+    <!-- Floating Bottom 5-Tab Nav Pill -->
+    <path android:pathData="M 12,114 H 60 A 4,4 0 0 1 60,121 H 12 A 4,4 0 0 1 12,114 Z" android:fillColor="#D90F131D" />
+    <path android:pathData="M 14,115.5 H 22 V 119.5 H 14 Z" android:fillColor="#00E5FF" />
+  
+
+    <!-- Bottom Gesture Bar -->
+    <path
+        android:pathData="M 27,123 H 45 V 124.5 H 27 Z"
+        android:fillColor="#66FFFFFF" />
+</vector>

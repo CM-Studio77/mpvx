@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MPVX Vertical Smartphone Mockup - Skeuomorphism Style (72dp x 128dp) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="72dp"
+    android:height="128dp"
+    android:viewportWidth="72"
+    android:viewportHeight="128">
+
+    <!-- Phone Chassis Frame (Polished Metallic Steel) -->
+    <path
+        android:pathData="M 8,0 H 64 A 8,8 0 0 1 72,8 V 120 A 8,8 0 0 1 64,128 H 8 A 8,8 0 0 1 0,120 V 8 A 8,8 0 0 1 8,0 Z"
+        android:fillColor="#2C3038" />
+    <path
+        android:pathData="M 8,0.8 H 64 A 7.2,7.2 0 0 1 71.2,8 V 120 A 7.2,7.2 0 0 1 64,127.2 H 8 A 7.2,7.2 0 0 1 0.8,120 V 8 A 7.2,7.2 0 0 1 8,0.8 Z"
+        android:strokeColor="#788496"
+        android:strokeWidth="0.8" />
+
+    <!-- Screen Bezel (Dark Titanium Texture) -->
+    <path android:pathData="M 4,4 H 68 V 124 H 4 Z" android:fillColor="#15171C" />
+
+    <!-- Speaker Grille -->
+    <path android:pathData="M 30,5.5 H 42 V 7 H 30 Z" android:fillColor="#4D5564" />
+
+    <!-- Video Surface -->
+    <path android:pathData="M 4,14 H 68 V 120 H 4 Z" android:fillColor="#0E1014" />
+
+    <!-- Brushed Aluminum Top Bezel with Screws -->
+    <path android:pathData="M 6,17 H 66 V 29 H 6 Z" android:fillColor="#3A3E48" />
+    <path android:pathData="M 6,17 H 66 V 18 H 6 Z" android:fillColor="#687082" />
+    <path android:pathData="M 6,28 H 66 V 29 H 6 Z" android:fillColor="#20232A" />
+    <!-- Metallic Screw heads -->
+    <path android:pathData="M 9,23 m -1.5,0 a 1.5,1.5 0 1 0 3,0 a 1.5,1.5 0 1 0 -3,0" android:fillColor="#8C96A8" />
+    <path android:pathData="M 63,23 m -1.5,0 a 1.5,1.5 0 1 0 3,0 a 1.5,1.5 0 1 0 -3,0" android:fillColor="#8C96A8" />
+    <!-- Analog VU Meter bar in header -->
+    <path android:pathData="M 18,22 H 54 V 24 H 18 Z" android:fillColor="#1E222A" />
+    <path android:pathData="M 18,22 H 38 V 24 H 18 Z" android:fillColor="#FFB300" />
+    <path android:pathData="M 38,22 H 44 V 24 H 38 Z" android:fillColor="#E53935" />
+
+    <!-- Skeuomorphic Center Knob / Dial Button (Turned Metal Dial with Bevel & Gloss) -->
+    <!-- Outer Deep Shadow -->
+    <path android:pathData="M 36,66 m -13,0 a 13,13 0 1 0 26,0 a 13,13 0 1 0 -26,0" android:fillColor="#08090C" />
+    <!-- Outer Beveled Metallic Ring -->
+    <path android:pathData="M 36,64 m -13,0 a 13,13 0 1 0 26,0 a 13,13 0 1 0 -26,0" android:fillColor="#505664" />
+    <path android:pathData="M 36,64 m -11,0 a 11,11 0 1 0 22,0 a 11,11 0 1 0 -22,0" android:fillColor="#2B2F38" />
+    <!-- Dial Center Cap -->
+    <path android:pathData="M 36,64 m -8.5,0 a 8.5,8.5 0 1 0 17,0 a 8.5,8.5 0 1 0 -17,0" android:fillColor="#3D434F" />
+    <!-- Specular Arc Reflection -->
+    <path android:pathData="M 30,59 Q 36,56 42,59 Q 36,57.5 30,59 Z" android:fillColor="#A0FFFFFF" />
+    <path android:pathData="M 34,60.5 L 39.5,64 L 34,67.5 Z" android:fillColor="#E6ECF5" />
+
+    <!-- Vintage Heavy Gauge Slider Track -->
+    <path android:pathData="M 8,98 H 64 V 102 H 8 Z" android:fillColor="#12141A" />
+    <path android:pathData="M 8,99 H 64 V 101 H 8 Z" android:fillColor="#222630" />
+    <path android:pathData="M 8,99 H 35 V 101 H 8 Z" android:fillColor="#FFB300" />
+    <!-- Metallic Slider Handle -->
+    <path android:pathData="M 33,95 H 37 V 105 H 33 Z" android:fillColor="#9EA8B8" />
+    <path android:pathData="M 34,96 H 36 V 104 H 34 Z" android:fillColor="#D8E0ED" />
+
+    <!-- Tactile Beveled Metallic Buttons at bottom -->
+    <path android:pathData="M 8,110 H 22 V 118 H 8 Z" android:fillColor="#3C414D" />
+    <path android:pathData="M 8,110 H 22 V 111.5 H 8 Z" android:fillColor="#687082" />
+    <path android:pathData="M 26,110 H 46 V 118 H 26 Z" android:fillColor="#3C414D" />
+    <path android:pathData="M 26,110 H 46 V 111.5 H 26 Z" android:fillColor="#687082" />
+    <path android:pathData="M 50,110 H 64 V 118 H 50 Z" android:fillColor="#3C414D" />
+    <path android:pathData="M 50,110 H 64 V 111.5 H 50 Z" android:fillColor="#687082" />
+
+    <!-- Bottom Gesture Bar -->
+    <path android:pathData="M 27,123 H 45 V 124.5 H 27 Z" android:fillColor="#505664" />
+</vector>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MPVX Liquid Glass Cinema HUD Vertical Smartphone Mockup Demo (72dp x 128dp) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="72dp"
+    android:height="128dp"
+    android:viewportWidth="72"
+    android:viewportHeight="128">
+
+    <!-- Phone Chassis Frame -->
+    <path
+        android:pathData="M 8,0 H 64 A 8,8 0 0 1 72,8 V 120 A 8,8 0 0 1 64,128 H 8 A 8,8 0 0 1 0,120 V 8 A 8,8 0 0 1 8,0 Z"
+        android:fillColor="#0D111A" />
+    <path
+        android:pathData="M 8,0.8 H 64 A 7.2,7.2 0 0 1 71.2,8 V 120 A 7.2,7.2 0 0 1 64,127.2 H 8 A 7.2,7.2 0 0 1 0.8,120 V 8 A 7.2,7.2 0 0 1 8,0.8 Z"
+        android:strokeColor="#4000E5FF"
+        android:strokeWidth="0.8" />
+
+    <!-- Screen Bezel Background -->
+    <path
+        android:pathData="M 4,4 H 68 V 124 H 4 Z"
+        android:fillColor="#07090E" />
+
+    <!-- Top Speaker / Punch-hole -->
+    <path
+        android:pathData="M 31,5.5 H 41 V 7 H 31 Z"
+        android:fillColor="#33FFFFFF" />
+    <path
+        android:pathData="M 36,9 m -1.2,0 a 1.2,1.2 0 1 0 2.4,0 a 1.2,1.2 0 1 0 -2.4,0"
+        android:fillColor="#66FFFFFF" />
+
+    <!-- Frosted Cinema Canvas Background -->
+    <path android:pathData="M 4,14 H 68 V 120 H 4 Z" android:fillColor="#0E1624" />
+
+    <!-- Top Liquid Glass Island Capsule -->
+    <path
+        android:pathData="M 8,18 H 64 A 4,4 0 0 1 64,26 H 8 A 4,4 0 0 1 8,18 Z"
+        android:fillColor="#28FFFFFF" />
+    <path
+        android:pathData="M 8,18 H 64 A 4,4 0 0 1 64,26 H 8 A 4,4 0 0 1 8,18 Z"
+        android:strokeColor="#50FFFFFF"
+        android:strokeWidth="0.6" />
+    <!-- Island Icon & Text hints -->
+    <path android:pathData="M 12,21 H 16 V 23 H 12 Z" android:fillColor="#00E5FF" />
+    <path android:pathData="M 18,21.5 H 38 V 22.5 H 18 Z" android:fillColor="#FFFFFF" />
+    <path android:pathData="M 56,21 H 60 V 23 H 56 Z" android:fillColor="#00E5FF" />
+
+    <!-- Center Liquid Glass Orb & Glowing Play Transport -->
+    <path
+        android:pathData="M 36,64 m -13,0 a 13,13 0 1 0 26,0 a 13,13 0 1 0 -26,0"
+        android:fillColor="#1A00E5FF" />
+    <path
+        android:pathData="M 36,64 m -13,0 a 13,13 0 1 0 26,0 a 13,13 0 1 0 -26,0"
+        android:strokeColor="#6000E5FF"
+        android:strokeWidth="0.8" />
+    <path
+        android:pathData="M 36,64 m -9,0 a 9,9 0 1 0 18,0 a 9,9 0 1 0 -18,0"
+        android:fillColor="#00E5FF" />
+    <path
+        android:pathData="M 34,60.5 L 40,64 L 34,67.5 Z"
+        android:fillColor="#07090E" />
+
+    <!-- Floating Skip Glass Bubbles -->
+    <path
+        android:pathData="M 18,64 m -4,0 a 4,4 0 1 0 8,0 a 4,4 0 1 0 -8,0"
+        android:fillColor="#25FFFFFF" />
+    <path
+        android:pathData="M 18,64 m -4,0 a 4,4 0 1 0 8,0 a 4,4 0 1 0 -8,0"
+        android:strokeColor="#45FFFFFF"
+        android:strokeWidth="0.5" />
+    <path
+        android:pathData="M 54,64 m -4,0 a 4,4 0 1 0 8,0 a 4,4 0 1 0 -8,0"
+        android:fillColor="#25FFFFFF" />
+    <path
+        android:pathData="M 54,64 m -4,0 a 4,4 0 1 0 8,0 a 4,4 0 1 0 -8,0"
+        android:strokeColor="#45FFFFFF"
+        android:strokeWidth="0.5" />
+
+    <!-- Frosted Time Badges & Neon Cyan Seekbar -->
+    <path
+        android:pathData="M 8,93 H 18 V 97 H 8 Z"
+        android:fillColor="#30FFFFFF" />
+    <path
+        android:pathData="M 54,93 H 64 V 97 H 54 Z"
+        android:fillColor="#30FFFFFF" />
+    <!-- Seekbar Track -->
+    <path android:pathData="M 8,99 H 64 V 101 H 8 Z" android:fillColor="#30FFFFFF" />
+    <path android:pathData="M 8,99 H 38 V 101 H 8 Z" android:fillColor="#00E5FF" />
+    <path android:pathData="M 38,100 m -2,0 a 2,2 0 1 0 4,0 a 2,2 0 1 0 -4,0" android:fillColor="#FFFFFF" />
+
+    <!-- Floating Liquid Glass Bottom Dock Shelf -->
+    <path
+        android:pathData="M 16,106 H 56 A 4.5,4.5 0 0 1 56,115 H 16 A 4.5,4.5 0 0 1 16,106 Z"
+        android:fillColor="#30FFFFFF" />
+    <path
+        android:pathData="M 16,106 H 56 A 4.5,4.5 0 0 1 56,115 H 16 A 4.5,4.5 0 0 1 16,106 Z"
+        android:strokeColor="#60FFFFFF"
+        android:strokeWidth="0.7" />
+    <!-- Dock Action Pills inside Shelf -->
+    <path android:pathData="M 20,109 H 26 V 112 H 20 Z" android:fillColor="#00E5FF" />
+    <path android:pathData="M 30,109 H 36 V 112 H 30 Z" android:fillColor="#FFFFFF" />
+    <path android:pathData="M 40,109 H 46 V 112 H 40 Z" android:fillColor="#FFFFFF" />
+    <path android:pathData="M 50,109 H 52 V 112 H 50 Z" android:fillColor="#00E5FF" />
+
+    <!-- Bottom Gesture Bar -->
+    <path
+        android:pathData="M 27,123 H 45 V 124.5 H 27 Z"
+        android:fillColor="#66FFFFFF" />
+</vector>

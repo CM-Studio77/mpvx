@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MPVX Hologram Laser Underline Beam -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="90"
+        android:startColor="#CC00E5FF"
+        android:centerColor="#408A2BE2"
+        android:endColor="#00000000" />
+    <corners
+        android:topLeftRadius="8dp"
+        android:topRightRadius="8dp" />
+</shape>

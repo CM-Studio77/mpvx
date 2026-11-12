@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string-array name="file_access_entries">
+    <item>@string/pref_file_access_auto</item>
+    <item>@string/pref_file_access_home</item>
+    <item>Storage Access Framework</item>
+    <item>MediaStore</item>
+    <item>@string/pref_file_access_legacy</item>
+  </string-array>
+
+  <string-array name="file_access_values" translatable="false">
+    <item>auto</item>
+    <item>home</item>
+    <item>saf</item>
+    <item>mediastore</item>
+    <item>legacy</item>
+  </string-array>
+
+  <string-array name="decoder_priority_entries">
+    <item>@string/pref_decoder_priority_prefer_device</item>
+    <item>@string/pref_decoder_priority_prefer_app</item>
+    <item>@string/pref_decoder_priority_only_device</item>
+  </string-array>
+
+  <string-array name="decoder_priority_values" translatable="false">
+    <item>1</item>
+    <item>2</item>
+    <item>0</item>
+  </string-array>
+
+    <!-- values are the codes sent to each source; SubDL's call uppercases them -->
+    <string-array name="subtitle_language_entries" translatable="false">
+        <item>English</item>
+        <item>Arabic</item>
+        <item>Chinese</item>
+        <item>Dutch</item>
+        <item>French</item>
+        <item>German</item>
+        <item>Hindi</item>
+        <item>Indonesian</item>
+        <item>Italian</item>
+        <item>Japanese</item>
+        <item>Korean</item>
+        <item>Polish</item>
+        <item>Portuguese</item>
+        <item>Russian</item>
+        <item>Spanish</item>
+        <item>Swedish</item>
+        <item>Thai</item>
+        <item>Turkish</item>
+        <item>Urdu</item>
+        <item>Vietnamese</item>
+    </string-array>
+
+    <string-array name="subtitle_language_values" translatable="false">
+        <item>en</item>
+        <item>ar</item>
+    <item>fa</item>
+        <item>zh</item>
+        <item>nl</item>
+        <item>fr</item>
+        <item>de</item>
+        <item>hi</item>
+        <item>id</item>
+        <item>it</item>
+        <item>ja</item>
+    <item>ko</item>
+        <item>ko</item>
+        <item>pl</item>
+        <item>pt</item>
+        <item>ru</item>
+        <item>es</item>
+        <item>sv</item>
+        <item>th</item>
+        <item>tr</item>
+        <item>ur</item>
+        <item>vi</item>
+    </string-array>
+
+    <string-array name="identify_mode_entries">
+        <item>@string/pref_identify_auto</item>
+        <item>@string/pref_identify_manual</item>
+    </string-array>
+
+    <string-array name="identify_mode_values" translatable="false">
+        <item>auto</item>
+        <item>manual</item>
+    </string-array>
+
+    <string-array name="playback_engine_entries">
+        <item>@string/pref_engine_auto</item>
+        <item>@string/pref_engine_mpv</item>
+        <item>@string/pref_engine_media3</item>
+    </string-array>
+
+    <string-array name="playback_engine_values" translatable="false">
+        <item>auto</item>
+        <item>mpv</item>
+        <item>media3</item>
+    </string-array>
+
+    <string-array name="accent_entries">
+        <item>@string/accent_indigo</item>
+        <item>@string/accent_cyan</item>
+        <item>@string/accent_red</item>
+        <item>@string/accent_orange</item>
+        <item>@string/accent_yellow</item>
+        <item>@string/accent_lime</item>
+        <item>@string/accent_green</item>
+        <item>@string/accent_blue</item>
+        <item>@string/accent_violet</item>
+        <item>@string/accent_fuchsia</item>
+        <item>@string/accent_pink</item>
+        <item>@string/accent_slate</item>
+        <item>@string/accent_catppuccin</item>
+        <item>@string/accent_aurora</item>
+        <item>@string/accent_cloudflare</item>
+        <item>@string/accent_cotton_candy</item>
+        <item>@string/accent_doom_one</item>
+        <item>@string/accent_green_apple</item>
+        <item>@string/accent_lavender</item>
+        <item>@string/accent_midnight_dusk</item>
+        <item>@string/accent_monokai</item>
+        <item>@string/accent_nord</item>
+        <item>@string/accent_sakura</item>
+        <item>@string/accent_strawberry</item>
+        <item>@string/accent_takao</item>
+        <item>@string/accent_tea</item>
+        <item>@string/accent_tidal_wave</item>
+        <item>@string/accent_amber</item>
+        <item>@string/accent_cyberpunk</item>
+        <item>@string/accent_gruvbox</item>
+        <item>@string/accent_tokyo_night</item>
+        <item>@string/accent_dracula</item>
+    </string-array>
+
+    <string-array name="accent_values" translatable="false">
+        <item>indigo</item>
+        <item>cyan</item>
+        <item>red</item>
+        <item>orange</item>
+        <item>yellow</item>
+        <item>lime</item>
+        <item>green</item>
+        <item>blue</item>
+        <item>violet</item>
+        <item>fuchsia</item>
+        <item>pink</item>
+        <item>slate</item>
+        <item>catppuccin</item>
+        <item>aurora</item>
+        <item>cloudflare</item>
+        <item>cotton_candy</item>
+        <item>doom_one</item>
+        <item>green_apple</item>
+        <item>lavender</item>
+        <item>midnight_dusk</item>
+        <item>monokai</item>
+        <item>nord</item>
+        <item>sakura</item>
+        <item>strawberry</item>
+        <item>takao</item>
+        <item>tea</item>
+        <item>tidal_wave</item>
+        <item>amber</item>
+        <item>cyberpunk</item>
+        <item>gruvbox</item>
+        <item>tokyo_night</item>
+        <item>dracula</item>
+    </string-array>
+
+    <string-array name="seek_preview_entries">
+        <item>@string/seek_preview_off</item>
+        <item>@string/seek_preview_local</item>
+        <item>@string/seek_preview_all</item>
+    </string-array>
+
+    <string-array name="seek_preview_values" translatable="false">
+        <item>off</item>
+        <item>local</item>
+        <item>all</item>
+    </string-array>
+
+    <string-array name="player_style_entries">
+        <item>@string/player_style_minimalism</item>
+        <item>@string/player_style_maximalism</item>
+        <item>@string/player_style_glass</item>
+        <item>@string/player_style_neumorphism</item>
+        <item>@string/player_style_claymorphism</item>
+        <item>@string/player_style_brutalism</item>
+        <item>@string/player_style_neobrutalism</item>
+        <item>@string/player_style_skeuomorphism</item>
+        <item>@string/player_style_flat</item>
+        <item>@string/player_style_material</item>
+        <item>@string/player_style_bento</item>
+        <item>@string/player_style_y2k</item>
+        <item>@string/player_style_retro</item>
+        <item>@string/player_style_cyberpunk</item>
+        <item>@string/player_style_classic</item>
+    </string-array>
+
+    <string-array name="player_style_values" translatable="false">
+        <item>minimalism</item>
+        <item>maximalism</item>
+        <item>glass</item>
+        <item>neumorphism</item>
+        <item>claymorphism</item>
+        <item>brutalism</item>
+        <item>neobrutalism</item>
+        <item>skeuomorphism</item>
+        <item>flat</item>
+        <item>material</item>
+        <item>bento</item>
+        <item>y2k</item>
+        <item>retro</item>
+        <item>cyberpunk</item>
+        <item>classic</item>
+    </string-array>
+
+    <!-- Player HUD Layout Architecture Arrays (Reference Boards 1, 2, 3) -->
+    <string-array name="hud_layout_entries">
+        <item>@string/hud_layout_liquid_glass</item>
+        <item>@string/hud_layout_neon_compact</item>
+        <item>@string/hud_layout_radial_cockpit</item>
+        <item>@string/hud_layout_sliding_edge</item>
+        <item>@string/hud_layout_corner_dial</item>
+        <item>@string/hud_layout_expanded_header</item>
+        <item>@string/hud_layout_bottom_dock</item>
+        <item>@string/hud_layout_left_arc</item>
+        <item>@string/hud_layout_minimal_floating</item>
+    </string-array>
+
+    <string-array name="hud_layout_values" translatable="false">
+        <item>liquid_glass</item>
+        <item>neon_compact</item>
+        <item>radial_cockpit</item>
+        <item>sliding_edge</item>
+        <item>corner_dial</item>
+        <item>expanded_header</item>
+        <item>bottom_dock</item>
+        <item>left_arc</item>
+        <item>minimal_floating</item>
+    </string-array>
+
+    <array name="hud_layout_pictures">
+        <item>@drawable/sketch_hud_liquid_glass</item>
+        <item>@drawable/sketch_hud_neon_compact</item>
+        <item>@drawable/sketch_hud_radial_cockpit</item>
+        <item>@drawable/sketch_hud_sliding_edge</item>
+        <item>@drawable/sketch_hud_corner_dial</item>
+        <item>@drawable/sketch_hud_expanded_header</item>
+        <item>@drawable/sketch_hud_bottom_dock</item>
+        <item>@drawable/sketch_hud_left_arc</item>
+        <item>@drawable/sketch_hud_minimal_floating</item>
+    </array>
+
+    <string-array name="hud_layout_descriptions">
+        <item>@string/hud_layout_liquid_glass_desc</item>
+        <item>@string/hud_layout_neon_compact_desc</item>
+        <item>@string/hud_layout_radial_cockpit_desc</item>
+        <item>@string/hud_layout_sliding_edge_desc</item>
+        <item>@string/hud_layout_corner_dial_desc</item>
+        <item>@string/hud_layout_expanded_header_desc</item>
+        <item>@string/hud_layout_bottom_dock_desc</item>
+        <item>@string/hud_layout_left_arc_desc</item>
+        <item>@string/hud_layout_minimal_floating_desc</item>
+    </string-array>
+
+    <!-- Glass Navigation Bar Style Arrays (me20.studio) -->
+    <string-array name="glass_nav_style_entries">
+        <item>@string/nav_style_gooey</item>
+        <item>@string/nav_style_capsule</item>
+        <item>@string/nav_style_prism</item>
+        <item>@string/nav_style_hologram</item>
+        <item>@string/nav_style_orbit</item>
+        <item>@string/nav_style_ripple</item>
+    </string-array>
+
+    <string-array name="glass_nav_style_values" translatable="false">
+        <item>gooey</item>
+        <item>capsule</item>
+        <item>prism</item>
+        <item>hologram</item>
+        <item>orbit</item>
+        <item>ripple</item>
+    </string-array>
+
+    <string-array name="glass_nav_style_descriptions">
+        <item>@string/nav_style_gooey_desc</item>
+        <item>@string/nav_style_capsule_desc</item>
+        <item>@string/nav_style_prism_desc</item>
+        <item>@string/nav_style_hologram_desc</item>
+        <item>@string/nav_style_orbit_desc</item>
+        <item>@string/nav_style_ripple_desc</item>
+    </string-array>
+
+    <string-array name="home_layout_entries">
+        <item>@string/home_layout_list</item>
+        <item>@string/home_layout_wall</item>
+    </string-array>
+
+    <string-array name="home_layout_values" translatable="false">
+        <item>list</item>
+        <item>wall</item>
+    </string-array>
+
+    <string-array name="start_on_entries">
+        <item>@string/start_on_home</item>
+        <item>@string/start_on_last</item>
+    </string-array>
+
+    <string-array name="start_on_values" translatable="false">
+        <item>home</item>
+        <item>last</item>
+    </string-array>
+
+    <!-- in the order of player_style_values -->
+    <array name="player_style_pictures">
+        <item>@drawable/sketch_style_minimalism</item>
+        <item>@drawable/sketch_style_maximalism</item>
+        <item>@drawable/sketch_style_glass</item>
+        <item>@drawable/sketch_style_neumorphism</item>
+        <item>@drawable/sketch_style_claymorphism</item>
+        <item>@drawable/sketch_style_brutalism</item>
+        <item>@drawable/sketch_style_neobrutalism</item>
+        <item>@drawable/sketch_style_skeuomorphism</item>
+        <item>@drawable/sketch_style_flat</item>
+        <item>@drawable/sketch_style_material</item>
+        <item>@drawable/sketch_style_bento</item>
+        <item>@drawable/sketch_style_y2k</item>
+        <item>@drawable/sketch_style_retro</item>
+        <item>@drawable/sketch_style_cyberpunk</item>
+        <item>@drawable/sketch_style_classic</item>
+    </array>
+    <string-array name="player_style_descriptions">
+        <item>@string/player_style_minimalism_desc</item>
+        <item>@string/player_style_maximalism_desc</item>
+        <item>@string/player_style_glass_desc</item>
+        <item>@string/player_style_neumorphism_desc</item>
+        <item>@string/player_style_claymorphism_desc</item>
+        <item>@string/player_style_brutalism_desc</item>
+        <item>@string/player_style_neobrutalism_desc</item>
+        <item>@string/player_style_skeuomorphism_desc</item>
+        <item>@string/player_style_flat_desc</item>
+        <item>@string/player_style_material_desc</item>
+        <item>@string/player_style_bento_desc</item>
+        <item>@string/player_style_y2k_desc</item>
+        <item>@string/player_style_retro_desc</item>
+        <item>@string/player_style_cyberpunk_desc</item>
+        <item>@string/player_style_classic_desc</item>
+    </string-array>
+    <array name="home_layout_pictures">
+        <item>@drawable/sketch_layout_list</item>
+        <item>@drawable/sketch_layout_wall</item>
+    </array>
+    <string-array name="home_layout_descriptions">
+        <item>@string/home_layout_list_desc</item>
+        <item>@string/home_layout_wall_desc</item>
+    </string-array>
+    <string-array name="corner_mode_entries">
+        <item>@string/set_corner_off</item>
+        <item>@string/set_corner_controls</item>
+        <item>@string/set_corner_always</item>
+    </string-array>
+    <string-array name="clock_format_entries">
+        <item>@string/set_clock_format_phone</item>
+        <item>@string/set_clock_format_12</item>
+        <item>@string/set_clock_format_24</item>
+    </string-array>
+
+    <string-array name="clock_format_values" translatable="false">
+        <item>phone</item>
+        <item>12</item>
+        <item>24</item>
+    </string-array>
+
+    <string-array name="corner_mode_values" translatable="false">
+        <item>off</item>
+        <item>controls</item>
+        <item>always</item>
+    </string-array>
+    <array name="clock_mode_pictures">
+        <item>@drawable/sketch_clock_off</item>
+        <item>@drawable/sketch_clock_controls</item>
+        <item>@drawable/sketch_clock_always</item>
+    </array>
+    <string-array name="clock_mode_descriptions">
+        <item>@string/set_clock_off_desc</item>
+        <item>@string/set_corner_controls_desc</item>
+        <item>@string/set_corner_always_desc</item>
+    </string-array>
+    <array name="battery_mode_pictures">
+        <item>@drawable/sketch_battery_off</item>
+        <item>@drawable/sketch_battery_controls</item>
+        <item>@drawable/sketch_battery_always</item>
+    </array>
+    <string-array name="battery_mode_descriptions">
+        <item>@string/set_battery_off_desc</item>
+        <item>@string/set_corner_controls_desc</item>
+        <item>@string/set_corner_always_desc</item>
+    </string-array>
+    <array name="start_on_pictures">
+        <item>@drawable/sketch_start_home</item>
+        <item>@drawable/sketch_start_last</item>
+    </array>
+    <string-array name="start_on_descriptions">
+        <item>@string/start_on_home_desc</item>
+        <item>@string/start_on_last_desc</item>
+    </string-array>
+    <array name="seek_preview_pictures">
+        <item>@drawable/sketch_seek_off</item>
+        <item>@drawable/sketch_seek_local</item>
+        <item>@drawable/sketch_seek_all</item>
+    </array>
+    <string-array name="seek_preview_descriptions">
+        <item>@string/seek_preview_off_desc</item>
+        <item>@string/seek_preview_local_desc</item>
+        <item>@string/seek_preview_all_desc</item>
+    </string-array>
+
+  <!-- keep in step with xml/locales_config.xml -->
+  <string-array name="app_language_entries" translatable="false">
+    <item>@string/pref_app_language_system</item>
+    <item>Bahasa Indonesia</item>
+    <item>Deutsch</item>
+    <item>English</item>
+    <item>Español</item>
+    <item>Français</item>
+    <item>Italiano</item>
+    <item>Polski</item>
+    <item>Português (Brasil)</item>
+    <item>Tiếng Việt</item>
+    <item>Türkçe</item>
+    <item>Русский</item>
+    <item>Українська</item>
+    <item>العربية</item>
+    <item>فارسی</item>
+    <item>हिन्दी</item>
+    <item>简体中文</item>
+    <item>繁體中文</item>
+    <item>日本語</item>
+    <item>한국어</item>
+  </string-array>
+
+  <string-array name="app_language_values" translatable="false">
+    <item></item>
+    <item>id</item>
+    <item>de</item>
+    <item>en</item>
+    <item>es</item>
+    <item>fr</item>
+    <item>it</item>
+    <item>pl</item>
+    <item>pt-BR</item>
+    <item>vi</item>
+    <item>tr</item>
+    <item>ru</item>
+    <item>uk</item>
+    <item>ar</item>
+    <item>fa</item>
+    <item>hi</item>
+    <item>zh-CN</item>
+    <item>zh-TW</item>
+    <item>ja</item>
+    <item>ko</item>
+  </string-array>
+  <string-array name="thumbnail_quality_entries">
+    <item>Standard (256 px)</item>
+    <item>High Definition (512 px)</item>
+    <item>Ultra HD (1024 px)</item>
+  </string-array>
+
+  <string-array name="thumbnail_quality_values" translatable="false">
+    <item>256</item>
+    <item>512</item>
+    <item>1024</item>
+  </string-array>
+</resources>
+

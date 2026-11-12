@@ -1,0 +1,25 @@
+<resources>
+
+    <!-- MPVX branded splash screen on Android 12+ (API 31+) -->
+    <style name="Theme.Player" parent="BaseTheme.Player">
+        <item name="android:windowSplashScreenBackground">@color/kr_bg</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_kr_splash_logo</item>
+    </style>
+
+    <style name="Theme.Player.Home" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="accentColor">@color/kr_accent_primary</item>
+        <item name="colorAccent">?attr/accentColor</item>
+        <item name="android:colorAccent">?attr/accentColor</item>
+        <item name="android:windowBackground">@color/kr_bg</item>
+        <item name="android:colorBackground">@color/kr_bg</item>
+        <item name="colorSurface">@color/kr_surface</item>
+        <item name="android:textColorPrimary">@color/kr_text_primary</item>
+        <item name="android:textColorSecondary">@color/kr_text_secondary</item>
+        <item name="android:statusBarColor">@color/kr_bg</item>
+        <item name="android:navigationBarColor">@color/kr_bg</item>
+        <item name="android:windowSplashScreenBackground">@color/kr_bg</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_kr_splash_logo</item>
+    </style>
+
+</resources>
+

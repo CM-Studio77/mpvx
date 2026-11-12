@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MPVX Monochrome Themed Launcher Icon -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <path
+        android:pathData="M54,26.5 A27.5,27.5 0 1 1 53.99,26.5 Z"
+        android:strokeWidth="4.2"
+        android:strokeColor="#FFFFFFFF"
+        android:fillColor="#00000000" />
+
+    <path
+        android:pathData="M49.0,34.0 L64.0,42.3 C65.2,43.0 65.2,44.2 64.0,44.9 L49.0,53.2 C47.8,53.9 46.6,53.1 46.6,51.8 L46.6,35.4 C46.6,34.1 47.8,33.3 49.0,34.0 Z"
+        android:fillColor="#FFFFFFFF" />
+
+    <path
+        android:pathData="M37.4,64.8 L37.4,57.2 L41.1,61.6 L44.8,57.2 L44.8,64.8 M48.0,64.8 L48.0,57.2 L50.4,57.2 C52.9,57.2 52.9,61.2 50.4,61.2 L48.0,61.2 M55.2,57.2 L58.2,64.8 L61.2,57.2 M64.0,57.2 L70.6,64.8 M70.6,57.2 L64.0,64.8"
+        android:strokeWidth="2.0"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeColor="#FFFFFFFF"
+        android:fillColor="#00000000" />
+</vector>

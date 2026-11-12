@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MPVX Vertical Smartphone Mockup - Brutalism Style (72dp x 128dp) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="72dp"
+    android:height="128dp"
+    android:viewportWidth="72"
+    android:viewportHeight="128">
+
+    <!-- Phone Chassis Frame (Sharp Industrial) -->
+    <path
+        android:pathData="M 0,0 H 72 V 128 H 0 Z"
+        android:fillColor="#000000" />
+    <path
+        android:pathData="M 1,1 H 71 V 127 H 1 Z"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.2" />
+
+    <!-- Screen Bezel Background (Pure Raw Stark Black) -->
+    <path android:pathData="M 4,4 H 68 V 124 H 4 Z" android:fillColor="#0A0A0A" />
+
+    <!-- Top Speaker: Strict Sharp Slot -->
+    <path android:pathData="M 28,6 H 44 V 8 H 28 Z" android:fillColor="#FFFFFF" />
+
+    <!-- Video Surface Frame -->
+    <path android:pathData="M 6,14 H 66 V 118 H 6 Z" android:fillColor="#121212" />
+    <path android:pathData="M 6,14 H 66 V 118 H 6 Z" android:strokeColor="#FFFFFF" android:strokeWidth="1.0" />
+
+    <!-- Brutalist Header: Sharp rectangular black & white contrast block -->
+    <path android:pathData="M 6,14 H 66 V 26 H 6 Z" android:fillColor="#FFFFFF" />
+    <path android:pathData="M 10,18 H 36 V 22 H 10 Z" android:fillColor="#000000" />
+    <path android:pathData="M 52,17 H 62 V 23 H 52 Z" android:fillColor="#000000" />
+
+    <!-- Raw Center Play: Pure Square (0 radius) with sharp border -->
+    <path android:pathData="M 26,54 H 46 V 74 H 26 Z" android:fillColor="#000000" />
+    <path android:pathData="M 26,54 H 46 V 74 H 26 Z" android:strokeColor="#FFFFFF" android:strokeWidth="1.8" />
+    <path android:pathData="M 33,59 L 41,64 L 33,69 Z" android:fillColor="#FFFFFF" />
+
+    <!-- Sharp Brutalist Seekbar: Grid block lines -->
+    <path android:pathData="M 8,98 H 64 V 102 H 8 Z" android:fillColor="#222222" />
+    <path android:pathData="M 8,98 H 36 V 102 H 8 Z" android:fillColor="#FFFFFF" />
+    <path android:pathData="M 36,96 H 40 V 104 H 36 Z" android:fillColor="#FFFFFF" />
+
+    <!-- Sharp Segmented Bottom Blocks (Industrial Raw Buttons) -->
+    <path android:pathData="M 8,107 H 20 V 115 H 8 Z" android:fillColor="#FFFFFF" />
+    <path android:pathData="M 22,107 H 34 V 115 H 22 Z" android:strokeColor="#FFFFFF" android:strokeWidth="1.0" />
+    <path android:pathData="M 36,107 H 48 V 115 H 36 Z" android:strokeColor="#FFFFFF" android:strokeWidth="1.0" />
+    <path android:pathData="M 50,107 H 64 V 115 H 50 Z" android:fillColor="#FFFFFF" />
+
+    <!-- Bottom Gesture Bar -->
+    <path android:pathData="M 26,122 H 46 V 124 H 26 Z" android:fillColor="#FFFFFF" />
+</vector>

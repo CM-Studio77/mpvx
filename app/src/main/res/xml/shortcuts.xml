@@ -1,0 +1,12 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="videos"
+        android:enabled="true"
+        android:icon="@mipmap/shortcut_videos"
+        android:shortcutShortLabel="@string/shortcut_videos">
+        <intent
+            android:action="com.cmstudio.player.action.SHORTCUT_VIDEOS"
+            android:targetPackage="@string/shortcut_package"
+            android:targetClass="com.cmstudio.player.ui.ModernHomeActivity" />
+    </shortcut>
+</shortcuts>

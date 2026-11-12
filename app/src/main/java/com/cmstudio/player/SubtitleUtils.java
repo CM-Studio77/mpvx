@@ -1,0 +1,317 @@
+package com.cmstudio.player;
+
+import android.content.ContentResolver;
+import android.content.Context;
+import android.net.Uri;
+
+import androidx.documentfile.provider.DocumentFile;
+import androidx.media3.common.C;
+import androidx.media3.common.MediaItem;
+import androidx.media3.common.MimeTypes;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class SubtitleUtils {
+
+    public static String getSubtitleMime(Uri uri) {
+        return getSubtitleMime(uri.getPath());
+    }
+
+    // by real name; .sub, .txt and .mpl stay SubRip, the parsers tell them apart
+    public static String getSubtitleMime(Context context, Uri uri) {
+        if (PictureSubtitles.isPicture(context, uri)) {
+            return PictureSubtitles.MIME;
+        }
+        return getSubtitleMime(PictureSubtitles.name(context, uri));
+    }
+
+    private static String getSubtitleMime(String path) {
+        if (path.endsWith(".ssa") || path.endsWith(".ass")) {
+            return MimeTypes.TEXT_SSA;
+        } else if (path.endsWith(".vtt")) {
+            return MimeTypes.TEXT_VTT;
+        } else if (path.endsWith(".ttml") || path.endsWith(".xml") || path.endsWith(".dfxp")) {
+            return MimeTypes.APPLICATION_TTML;
+        } else if (path.toLowerCase(java.util.Locale.ROOT).endsWith(".smi")
+                || path.toLowerCase(java.util.Locale.ROOT).endsWith(".sami")) {
+            return com.cmstudio.player.subtitle.parser.SamiParser.MIME;
+        } else {
+            return MimeTypes.APPLICATION_SUBRIP;
+        }
+    }
+
+    public static String getSubtitleLanguage(Uri uri) {
+        final String path = uri.getPath().toLowerCase();
+
+        if (path.endsWith(".srt")) {
+            int last = path.lastIndexOf(".");
+            int prev = last;
+
+            for (int i = last; i >= 0; i--) {
+                prev = path.indexOf(".", i);
+                if (prev != last)
+                    break;
+            }
+
+            int len = last - prev;
+
+            if (len >= 2 && len <= 6) {
+                return path.substring(prev + 1, last);
+            }
+        }
+
+        return null;
+    }
+
+    public static DocumentFile findUriInScope(Context context, Uri scope, Uri uri) {
+        DocumentFile treeUri = DocumentFile.fromTreeUri(context, scope);
+        String[] trailScope = getTrailFromUri(scope);
+        String[] trailVideo = getTrailFromUri(uri);
+
+        for (int i = 0; i < trailVideo.length; i++) {
+            if (i < trailScope.length) {
+                if (!trailScope[i].equals(trailVideo[i]))
+                    break;
+            } else {
+                treeUri = treeUri.findFile(trailVideo[i]);
+                if (treeUri == null)
+                    break;
+            }
+            if (i + 1 == trailVideo.length)
+                return treeUri;
+        }
+        return null;
+    }
+
+    public static DocumentFile findDocInScope(DocumentFile scope, DocumentFile doc) {
+        if (doc == null || scope == null)
+            return null;
+        for (DocumentFile file : scope.listFiles()) {
+            if (file.isDirectory()) {
+                final DocumentFile ret = findDocInScope(file, doc);
+                if (ret != null)
+                    return ret;
+            } else {
+                // lastModified is zero when opened from Solid Explorer
+                final String docName = doc.getName();
+                final String fileName = file.getName();
+                if (docName == null || fileName == null) {
+                    continue;
+                }
+                if (doc.length() == file.length() && docName.equals(fileName)) {
+                    return file;
+                }
+            }
+        }
+        return null;
+    }
+
+    public static String getTrailPathFromUri(Uri uri) {
+        String path = uri.getPath();
+        String[] array = path.split(":");
+        if (array.length > 1) {
+            return array[array.length - 1];
+        } else {
+            return path;
+        }
+    }
+
+    public static String[] getTrailFromUri(Uri uri) {
+        if ("org.courville.nova.provider".equals(uri.getHost()) && ContentResolver.SCHEME_CONTENT.equals(uri.getScheme())) {
+            String path = uri.getPath();
+            if (path.startsWith("/external_files/")) {
+                return path.substring("/external_files/".length()).split("/");
+            }
+        }
+        return getTrailPathFromUri(uri).split("/");
+    }
+
+    private static String getFileBaseName(String name) {
+        if (name.indexOf(".") > 0)
+            return name.substring(0, name.lastIndexOf("."));
+        return name;
+    }
+
+    public static DocumentFile findSubtitle(DocumentFile video) {
+        DocumentFile dir = video.getParentFile();
+        return findSubtitle(video, dir);
+    }
+
+    public static DocumentFile findSubtitle(DocumentFile video, DocumentFile dir) {
+        String videoName = getFileBaseName(video.getName());
+        int videoFiles = 0;
+
+        if (dir == null || !dir.isDirectory())
+            return null;
+
+        List<DocumentFile> candidates = new ArrayList<>();
+
+        for (DocumentFile file : dir.listFiles()) {
+            final String fileName = file.getName();
+            if (fileName != null && fileName.startsWith("."))
+                continue;
+            if (isSubtitleFile(file))
+                candidates.add(file);
+            if (isVideoFile(file))
+                videoFiles++;
+        }
+
+        if (videoFiles == 1 && candidates.size() == 1) {
+            return candidates.get(0);
+        }
+
+        if (candidates.size() >= 1) {
+            for (DocumentFile candidate : candidates) {
+                if (candidate.getName().startsWith(videoName + '.')) {
+                    return candidate;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public static DocumentFile findNext(DocumentFile video) {
+        DocumentFile dir = video.getParentFile();
+        return findNext(video, dir);
+    }
+
+    public static DocumentFile findNext(DocumentFile video, DocumentFile dir) {
+        if (dir == null) {
+            return null;
+        }
+
+        try {
+            DocumentFile[] list = dir.listFiles();
+            Arrays.sort(list, (a, b) -> a.getName().compareToIgnoreCase(b.getName()));
+
+            final String videoName = video.getName();
+            boolean matchFound = false;
+
+            for (DocumentFile file : list) {
+                if (file.getName().equals(videoName)) {
+                    matchFound = true;
+                } else if (matchFound) {
+                    if (isVideoFile(file)) {
+                        return file;
+                    }
+                }
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static boolean isVideoFile(DocumentFile file) {
+        return file.isFile() && file.getType().startsWith("video/");
+    }
+
+    public static boolean isSubtitleFile(DocumentFile file) {
+        if (!file.isFile())
+            return false;
+        final String name = file.getName().toLowerCase();
+        return name.endsWith(".srt") || name.endsWith(".ssa") || name.endsWith(".ass")
+                || name.endsWith(".vtt") || name.endsWith(".ttml");
+    }
+
+    public static boolean isSubtitle(Uri uri, String mimeType) {
+        if (mimeType != null) {
+            for (String mime : Utils.supportedMimeTypesSubtitle) {
+                if (mimeType.equals(mime)) {
+                    return true;
+                }
+            }
+            if (mimeType.equals("text/plain") || mimeType.equals("text/x-ssa") || mimeType.equals("application/octet-stream") ||
+                    mimeType.equals("application/ass") || mimeType.equals("application/ssa") || mimeType.equals("application/vtt")) {
+                return true;
+            }
+        }
+        if (uri != null) {
+            if (Utils.isSupportedNetworkUri(uri)) {
+                String path = uri.getPath();
+                if (path != null) {
+                    path = path.toLowerCase();
+                    for (String extension : Utils.supportedExtensionsSubtitle) {
+                        if (path.endsWith("." + extension)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    // deletes only unreferenced subtitle copies; the cache also holds mpv's CA bundle
+    public static void clearCache(Context context) {
+        clearCache(context, java.util.Collections.emptyList());
+    }
+
+    public static void clearCache(Context context, java.util.Collection<Uri> extraInUse) {
+        try {
+            // in use: the caller's list and any stored active subtitle URIs
+            final java.util.List<Uri> inUse = new java.util.ArrayList<>(extraInUse);
+            final android.content.SharedPreferences preferences =
+                    androidx.preference.PreferenceManager.getDefaultSharedPreferences(context);
+            try {
+                final String stored = preferences.getString("subtitleUris", null);
+                if (stored != null) {
+                    final org.json.JSONArray array = new org.json.JSONArray(stored);
+                    for (int i = 0; i < array.length(); i++) {
+                        inUse.add(Uri.parse(array.optString(i, "")));
+                    }
+                }
+            } catch (org.json.JSONException ignored) {
+                // unreadable list: the age rule in prune still applies
+            }
+            final java.util.Set<String> keep = new java.util.HashSet<>();
+            for (Uri uri : inUse) {
+                if (uri != null && uri.getPath() != null) {
+                    keep.add(new File(uri.getPath()).getAbsolutePath());
+                }
+            }
+            final File[] loose = context.getCacheDir().listFiles();
+            if (loose != null) {
+                for (File file : loose) {
+                    if (file.isFile() && SubtitleFiles.hasSubtitleExtension(file.getName())
+                            && !keep.contains(file.getAbsolutePath())) {
+                        file.delete();
+                    }
+                }
+            }
+            SubtitleFiles.prune(context, inUse);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static MediaItem.SubtitleConfiguration buildSubtitle(Context context, Uri uri, String subtitleName, boolean selected) {
+        return buildSubtitle(context, uri, subtitleName, null, selected);
+    }
+
+    // language from the launching app when given; cache file names carry none
+    public static MediaItem.SubtitleConfiguration buildSubtitle(Context context, Uri uri, String subtitleName, String language, boolean selected) {
+        final String subtitleMime = SubtitleUtils.getSubtitleMime(context, uri);
+        final String subtitleLanguage = language == null || language.trim().isEmpty()
+                ? SubtitleUtils.getSubtitleLanguage(uri)
+                : language.trim();
+        // labelled by the rule both engines share
+        subtitleName = SubtitleNames.label(context, uri, subtitleName, subtitleLanguage);
+
+        MediaItem.SubtitleConfiguration.Builder subtitleConfigurationBuilder = new MediaItem.SubtitleConfiguration.Builder(uri)
+                .setMimeType(subtitleMime)
+                .setLanguage(subtitleLanguage)
+                .setRoleFlags(C.ROLE_FLAG_SUBTITLE)
+                .setLabel(subtitleName);
+        if (selected) {
+            subtitleConfigurationBuilder.setSelectionFlags(C.SELECTION_FLAG_DEFAULT);
+        }
+        return subtitleConfigurationBuilder.build();
+    }
+}
+

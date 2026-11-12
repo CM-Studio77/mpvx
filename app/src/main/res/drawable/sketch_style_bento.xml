@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MPVX Vertical Smartphone Mockup - Bento UI Style (72dp x 128dp) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="72dp"
+    android:height="128dp"
+    android:viewportWidth="72"
+    android:viewportHeight="128">
+
+    <!-- Phone Chassis Frame -->
+    <path
+        android:pathData="M 8,0 H 64 A 8,8 0 0 1 72,8 V 120 A 8,8 0 0 1 64,128 H 8 A 8,8 0 0 1 0,120 V 8 A 8,8 0 0 1 8,0 Z"
+        android:fillColor="#111113" />
+    <path
+        android:pathData="M 8,0.8 H 64 A 7.2,7.2 0 0 1 71.2,8 V 120 A 7.2,7.2 0 0 1 64,127.2 H 8 A 7.2,7.2 0 0 1 0.8,120 V 8 A 7.2,7.2 0 0 1 8,0.8 Z"
+        android:strokeColor="#24242A"
+        android:strokeWidth="0.8" />
+
+    <!-- Screen Bezel Background -->
+    <path android:pathData="M 4,4 H 68 V 124 H 4 Z" android:fillColor="#161618" />
+
+    <!-- Top Speaker -->
+    <path android:pathData="M 31,5.5 H 41 V 7 H 31 Z" android:fillColor="#28282E" />
+
+    <!-- Bento Card 1: Top Wide Title & Resolution Tile (Span 2x1) -->
+    <path android:pathData="M 7,16 H 65 A 3,3 0 0 1 65,28 H 7 A 3,3 0 0 1 7,16 Z" android:fillColor="#222226" />
+    <path android:pathData="M 11,20 H 35 V 22 H 11 Z" android:fillColor="#FFFFFF" />
+    <!-- 4K HDR Pill inside Bento tile -->
+    <path android:pathData="M 46,19 H 61 A 2,2 0 0 1 61,25 H 46 A 2,2 0 0 1 46,19 Z" android:fillColor="#64D2FF" />
+
+    <!-- Bento Grid Row 2: Split Cards (Left 1x1 audio stats, Right 1x1 video bitrate) -->
+    <path android:pathData="M 7,31 H 34 A 3,3 0 0 1 34,47 H 7 A 3,3 0 0 1 7,31 Z" android:fillColor="#222226" />
+    <path android:pathData="M 11,35 H 24 V 37 H 11 Z" android:fillColor="#64D2FF" />
+    <path android:pathData="M 11,41 H 30 V 43 H 11 Z" android:fillColor="#8E8E93" />
+
+    <path android:pathData="M 38,31 H 65 A 3,3 0 0 1 65,47 H 38 A 3,3 0 0 1 38,31 Z" android:fillColor="#222226" />
+    <path android:pathData="M 42,35 H 55 V 37 H 42 Z" android:fillColor="#30D158" />
+    <path android:pathData="M 42,41 H 61 V 43 H 42 Z" android:fillColor="#8E8E93" />
+
+    <!-- Bento Main Center Stage Card: Video Frame with Play Dock -->
+    <path android:pathData="M 7,50 H 65 A 4,4 0 0 1 65,92 H 7 A 4,4 0 0 1 7,50 Z" android:fillColor="#1C1C20" />
+    <!-- Center Play Icon -->
+    <path android:pathData="M 36,71 m -9,0 a 9,9 0 1 0 18,0 a 9,9 0 1 0 -18,0" android:fillColor="#64D2FF" />
+    <path android:pathData="M 34,68 L 39,71 L 34,74 Z" android:fillColor="#000000" />
+
+    <!-- Bento Bottom Grid Tile: Integrated Seekbar & Control Dock (Span 2x1) -->
+    <path android:pathData="M 7,95 H 65 A 4,4 0 0 1 65,118 H 7 A 4,4 0 0 1 7,95 Z" android:fillColor="#222226" />
+    <!-- Seekbar inside card -->
+    <path android:pathData="M 11,101 H 61 V 103 H 11 Z" android:fillColor="#38383E" />
+    <path android:pathData="M 11,101 H 36 V 103 H 11 Z" android:fillColor="#64D2FF" />
+    <!-- Bento Action Capsules inside card -->
+    <path android:pathData="M 11,108 H 23 A 2,2 0 0 1 23,114 H 11 A 2,2 0 0 1 11,108 Z" android:fillColor="#2C2C32" />
+    <path android:pathData="M 27,108 H 45 A 2,2 0 0 1 45,114 H 27 A 2,2 0 0 1 27,108 Z" android:fillColor="#64D2FF" />
+    <path android:pathData="M 49,108 H 61 A 2,2 0 0 1 61,114 H 49 A 2,2 0 0 1 49,108 Z" android:fillColor="#2C2C32" />
+
+    <!-- Bottom Gesture Bar -->
+    <path android:pathData="M 27,123 H 45 V 124.5 H 27 Z" android:fillColor="#38383E" />
+</vector>

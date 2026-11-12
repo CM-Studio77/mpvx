@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MPVX Vertical Smartphone Mockup Demo (72dp x 128dp) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="72dp"
+    android:height="128dp"
+    android:viewportWidth="72"
+    android:viewportHeight="128">
+
+    <!-- Phone Chassis Frame -->
+    <path
+        android:pathData="M 8,0 H 64 A 8,8 0 0 1 72,8 V 120 A 8,8 0 0 1 64,128 H 8 A 8,8 0 0 1 0,120 V 8 A 8,8 0 0 1 8,0 Z"
+        android:fillColor="#0D111A" />
+    <path
+        android:pathData="M 8,0.8 H 64 A 7.2,7.2 0 0 1 71.2,8 V 120 A 7.2,7.2 0 0 1 64,127.2 H 8 A 7.2,7.2 0 0 1 0.8,120 V 8 A 7.2,7.2 0 0 1 8,0.8 Z"
+        android:strokeColor="#2500E5FF"
+        android:strokeWidth="0.8" />
+
+    <!-- Screen Bezel Background -->
+    <path
+        android:pathData="M 4,4 H 68 V 124 H 4 Z"
+        android:fillColor="#07090E" />
+
+    <!-- Top Speaker / Punch-hole -->
+    <path
+        android:pathData="M 31,5.5 H 41 V 7 H 31 Z"
+        android:fillColor="#33FFFFFF" />
+    <path
+        android:pathData="M 36,9 m -1.2,0 a 1.2,1.2 0 1 0 2.4,0 a 1.2,1.2 0 1 0 -2.4,0"
+        android:fillColor="#66FFFFFF" />
+
+    
+    <path android:pathData="M 4,14 H 68 V 120 H 4 Z" android:fillColor="#101826" />
+    <!-- Top Bars -->
+    <path android:pathData="M 8,18 H 32 V 24 H 8 Z" android:fillColor="#501A2436" />
+    <path android:pathData="M 50,18 H 64 V 24 H 50 Z" android:fillColor="#501A2436" />
+    <!-- Center Play -->
+    <path android:pathData="M 32,60 m -8,0 a 8,8 0 1 0 16,0 a 8,8 0 1 0 -16,0" android:fillColor="#5000E5FF" />
+    <path android:pathData="M 30,57 L 35,60 L 30,63 Z" android:fillColor="#FFFFFF" />
+    <!-- Bottom-Right Concentric Corner Dial -->
+    <path android:pathData="M 68,76 A 40,40 0 0 0 28,116 L 68,116 Z" android:fillColor="#35141E2D" />
+    <!-- Outer Arc Indicator -->
+    <path android:pathData="M 68,76 A 40,40 0 0 0 34,116" android:strokeColor="#00E5FF" android:strokeWidth="2.5" />
+    <!-- Inner Rings & Dots -->
+    <path android:pathData="M 68,88 A 28,28 0 0 0 40,116" android:strokeColor="#35FFFFFF" android:strokeWidth="1" />
+    <path android:pathData="M 68,98 A 18,18 0 0 0 50,116" android:strokeColor="#35FFFFFF" android:strokeWidth="1" />
+    <!-- Action Icons in Radial Position -->
+    <path android:pathData="M 45,96 m -2,0 a 2,2 0 1 0 4,0 a 2,2 0 1 0 -4,0" android:fillColor="#FFFFFF" />
+    <path android:pathData="M 55,88 m -2,0 a 2,2 0 1 0 4,0 a 2,2 0 1 0 -4,0" android:fillColor="#00E5FF" />
+    <path android:pathData="M 62,106 m -2,0 a 2,2 0 1 0 4,0 a 2,2 0 1 0 -4,0" android:fillColor="#FFFFFF" />
+    <!-- Bottom-Left Seekbar -->
+    <path android:pathData="M 8,112 H 24 V 114 H 8 Z" android:fillColor="#00E5FF" />
+  
+
+    <!-- Bottom Gesture Bar -->
+    <path
+        android:pathData="M 27,123 H 45 V 124.5 H 27 Z"
+        android:fillColor="#66FFFFFF" />
+</vector>

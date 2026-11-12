@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Core Accents -->
+    <color name="accent_indigo">#625BFF</color>
+    <color name="accent_cyan">#0D59F2</color>
+    <color name="accent_red">#DC2626</color>
+    <color name="accent_orange">#F2761E</color>
+    <color name="accent_yellow">#CA8A04</color>
+    <color name="accent_lime">#4D7C0F</color>
+    <color name="accent_green">#16A34A</color>
+    <color name="accent_blue">#0D59F2</color>
+    <color name="accent_violet">#7C3AED</color>
+    <color name="accent_fuchsia">#C026D3</color>
+    <color name="accent_pink">#DB2777</color>
+    <color name="accent_slate">#475569</color>
+
+    <!-- MPVX Design System Palettes -->
+    <color name="accent_catppuccin">#9BA8CF</color>
+    <color name="accent_aurora">#5B93FF</color>
+    <color name="accent_cloudflare">#F6821F</color>
+    <color name="accent_cotton_candy">#E993C1</color>
+    <color name="accent_doom_one">#51AFEF</color>
+    <color name="accent_green_apple">#48B02C</color>
+    <color name="accent_lavender">#9C8EB9</color>
+    <color name="accent_midnight_dusk">#F05151</color>
+    <color name="accent_monokai">#E6DB74</color>
+    <color name="accent_nord">#88C0D0</color>
+    <color name="accent_sakura">#EA698B</color>
+    <color name="accent_strawberry">#E63946</color>
+    <color name="accent_takao">#3D7EAA</color>
+    <color name="accent_tea">#7BA05B</color>
+    <color name="accent_tidal_wave">#00A896</color>
+    <color name="accent_amber">#FFC107</color>
+    <color name="accent_cyberpunk">#FCEE0A</color>
+    <color name="accent_gruvbox">#FE8019</color>
+    <color name="accent_tokyo_night">#7AA2F7</color>
+    <color name="accent_dracula">#BD93F9</color>
+</resources>

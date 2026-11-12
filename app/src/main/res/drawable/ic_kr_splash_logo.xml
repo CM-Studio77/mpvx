@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MPVX Splash Brand Logo -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <path
+        android:pathData="M54,28.2 A25.8,25.8 0 1 1 53.99,28.2 Z"
+        android:fillColor="#071818" />
+
+    <path
+        android:pathData="M54,26.5 A27.5,27.5 0 1 1 53.99,26.5 Z"
+        android:strokeWidth="4.2"
+        android:fillColor="#00000000">
+        <aapt:attr name="android:strokeColor">
+            <gradient
+                android:type="linear"
+                android:startX="54"
+                android:startY="25"
+                android:endX="54"
+                android:endY="83"
+                android:startColor="#8EF9EE"
+                android:centerColor="#00C4D4"
+                android:endColor="#0098B8" />
+        </aapt:attr>
+    </path>
+
+    <path
+        android:pathData="M49.0,34.0 L64.0,42.3 C65.2,43.0 65.2,44.2 64.0,44.9 L49.0,53.2 C47.8,53.9 46.6,53.1 46.6,51.8 L46.6,35.4 C46.6,34.1 47.8,33.3 49.0,34.0 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="linear"
+                android:startX="46.6"
+                android:startY="34"
+                android:endX="64"
+                android:endY="53.2"
+                android:startColor="#FFFFFF"
+                android:endColor="#D8FBF6" />
+        </aapt:attr>
+    </path>
+
+    <path
+        android:pathData="M37.4,64.8 L37.4,57.2 L41.1,61.6 L44.8,57.2 L44.8,64.8"
+        android:strokeWidth="2.0"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeColor="#F2FFFD"
+        android:fillColor="#00000000" />
+    <path
+        android:pathData="M48.0,64.8 L48.0,57.2 L50.4,57.2 C52.9,57.2 52.9,61.2 50.4,61.2 L48.0,61.2"
+        android:strokeWidth="2.0"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeColor="#F2FFFD"
+        android:fillColor="#00000000" />
+    <path
+        android:pathData="M55.2,57.2 L58.2,64.8 L61.2,57.2"
+        android:strokeWidth="2.0"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeColor="#F2FFFD"
+        android:fillColor="#00000000" />
+    <path
+        android:pathData="M64.0,57.2 L70.6,64.8 M70.6,57.2 L64.0,64.8"
+        android:strokeWidth="2.1"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeColor="#73F2E5"
+        android:fillColor="#00000000" />
+</vector>

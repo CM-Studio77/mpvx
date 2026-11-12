@@ -1,0 +1,292 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.plugin.compose'
+}
+
+// release signing; without keystore.properties the debug key is used
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+if (keystorePropertiesFile.exists()) {
+    keystorePropertiesFile.withInputStream { keystoreProperties.load(it) }
+}
+
+android {
+    namespace 'com.cmstudio.player'
+    compileSdk = 37
+    ndkVersion '28.2.13676358'
+
+    signingConfigs {
+        debug {
+            storeFile = rootProject.file("debug.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+        if (keystorePropertiesFile.exists()) {
+            release {
+                storeFile = rootProject.file(keystoreProperties['storeFile'])
+                storePassword = keystoreProperties['storePassword']
+                keyAlias = keystoreProperties['keyAlias']
+                keyPassword = keystoreProperties['keyPassword']
+            }
+        }
+    }
+
+    defaultConfig {
+        def abiFilter = project.findProperty("abiFilter")
+        applicationId "com.cmstudio.player"
+        minSdkVersion 25
+        targetSdkVersion 36
+        versionCode 1
+        versionName "1.0.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        if (abiFilter) {
+            def abiCodeMap = ["x86": 1, "x86_64": 2, "armeabi-v7a": 3, "arm64-v8a": 4]
+            versionCode = versionCode * 10 + abiCodeMap[abiFilter]
+            ndk {
+                abiFilters abiFilter
+            }
+        }
+    }
+    base {
+        archivesName = "mpvx-player"
+    }
+    def isBundleTask = gradle.startParameter.taskNames.any { it.toLowerCase().contains("bundle") }
+    def hasAbiFilter = project.hasProperty("abiFilter") && project.findProperty("abiFilter") != null
+    if (!hasAbiFilter && !isBundleTask) {
+        splits {
+            abi {
+                enable true
+                reset()
+                include "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+                universalApk true
+            }
+        }
+    }
+    buildTypes {
+        debug {
+            applicationIdSuffix = ".debug"
+            resValue "string", "shortcut_package", "com.cmstudio.player.debug"
+            // en-XA stretches every text, ar-XB mirrors it: layout tests for translations
+            pseudoLocalesEnabled true
+        }
+        release {
+            resValue "string", "shortcut_package", "com.cmstudio.player"
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig = keystorePropertiesFile.exists() ? signingConfigs.release : signingConfigs.debug
+        }
+    }
+    flavorDimensions "targetSdk", "distribution"
+    productFlavors {
+        latest {
+            dimension "targetSdk"
+        }
+        /*legacy {
+            dimension "targetSdk"
+            versionCode = defaultConfig.versionCode + 1_000_000
+            versionNameSuffix "-legacy"
+            targetSdkVersion 29
+        }*/
+
+        universal {
+            dimension "distribution"
+        }
+        /*amazon {
+            dimension "distribution"
+        }
+        accrescent {
+            dimension "distribution"
+        }*/
+    }
+    /*
+    variantFilter { variant ->
+        def names = variant.flavors*.name
+        if (names.contains("legacy") && (names.contains("amazon") || names.contains("accrescent"))) {
+            setIgnore(true)
+        }
+    }
+    */
+    /*
+    applicationVariants.all { variant ->
+        if (variant.buildType.name == "release" && variant.flavorName == "latestUniversal") {
+            variant.outputs.all { output ->
+                output.outputFileName = "${base.archivesName.get()}.apk"
+            }
+        }
+        if (variant.buildType.name == "release" && variant.flavorName == "legacyUniversal") {
+            variant.outputs.all { output ->
+                output.outputFileName = "${base.archivesName.get()}-legacy.apk"
+            }
+        }
+    }
+    */
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlin {
+        compilerOptions {
+            jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+        }
+    }
+    buildFeatures {
+        buildConfig = true
+        resValues = true
+        compose = true
+    }
+    packaging {
+        resources {
+            excludes += [
+                'META-INF/DEPENDENCIES',
+                'META-INF/LICENSE*',
+                'META-INF/NOTICE*',
+                'META-INF/versions/9/OSGI-INF/MANIFEST.MF'
+            ]
+        }
+        jniLibs {
+            pickFirsts += ['**/libc++_shared.so']
+        }
+    }
+    // one corpus for unit and device tests, since the two runtimes can disagree
+    sourceSets {
+        test.java.srcDirs += 'src/sharedTest/java'
+        androidTest.java.srcDirs += 'src/sharedTest/java'
+        // licence notices ship inside the APK, generated from licenses/
+        main.assets.srcDirs += "${buildDir}/generated/licenses"
+    }
+
+    lint {
+        disable 'MissingTranslation'
+        disable 'UnsafeOptInUsageError'
+    }
+}
+
+dependencies {
+    // must match the patched aars in libs/
+    def media3_version = '1.10.0'
+    def androidxCoreVersion = '1.8.0'
+    implementation "androidx.media3:media3-session:$media3_version"
+    implementation "androidx.media3:media3-datasource:$media3_version"
+    implementation "androidx.media3:media3-decoder:$media3_version"
+    implementation "androidx.media3:media3-common:$media3_version"
+    implementation "androidx.media3:media3-container:$media3_version"
+    implementation "androidx.media3:media3-extractor:$media3_version"
+    // ExoPlayer itself is the patched aar in libs/. These modules must be the same
+    // version or HLS/DASH fail at runtime with NoSuchMethodError.
+    implementation("androidx.media3:media3-exoplayer-dash:$media3_version") {
+        exclude group: "androidx.media3", module: "media3-exoplayer"
+    }
+    implementation("androidx.media3:media3-exoplayer-hls:$media3_version") {
+        exclude group: "androidx.media3", module: "media3-exoplayer"
+    }
+    implementation("androidx.media3:media3-exoplayer-smoothstreaming:$media3_version") {
+        exclude group: "androidx.media3", module: "media3-exoplayer"
+    }
+    implementation("androidx.media3:media3-exoplayer-rtsp:$media3_version") {
+        exclude group: "androidx.media3", module: "media3-exoplayer"
+    }
+    implementation 'androidx.recyclerview:recyclerview:1.4.0'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation "androidx.core:core:$androidxCoreVersion"
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.preference:preference:1.2.1'
+    implementation 'com.squareup.okhttp3:okhttp:5.3.2'
+    implementation 'com.sigpwned:chardet4j:78.1.0'
+    // QR encoder, to get error reports off a TV
+    implementation 'com.google.zxing:core:3.5.3'
+    // Dual-Engine Playback: AndroidX Media3 1.10.0 + bundled libmpv (mpvlib.aar)
+    // device tests catch ICU regex differences that desktop Java misses
+    testImplementation 'junit:junit:4.13.2'
+    // real org.json; Android's is a stub in unit tests
+    testImplementation 'org.json:json:20231013'
+    androidTestImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test:runner:1.6.2'
+    androidTestImplementation 'androidx.test:rules:1.6.1'
+
+    implementation fileTree(dir: "libs", include: ["lib-*.aar", "mpvlib.aar"])
+    implementation('io.github.peerless2012:ass-kt:0.5.1')
+    implementation('io.github.peerless2012:ass-media:0.5.1') {
+        exclude group: "androidx.media3", module: "media3-exoplayer"
+        exclude group: "androidx.media3", module: "media3-ui"
+    }
+    implementation 'sh.calvin.reorderable:reorderable:3.1.0'
+
+    // Jetpack Compose & Material 3 Expressive
+    implementation platform('androidx.compose:compose-bom:2026.08.00')
+    implementation 'androidx.compose.ui:ui'
+    implementation 'androidx.compose.ui:ui-graphics'
+    implementation 'androidx.compose.ui:ui-tooling-preview'
+    implementation 'androidx.compose.material3:material3:1.5.0-alpha27'
+    implementation 'androidx.compose.material:material-icons-extended'
+    implementation 'androidx.activity:activity-compose:1.13.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7'
+    implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.8.7'
+    implementation 'androidx.navigation:navigation-compose:2.8.5'
+
+    // Async image & video thumbnail loading (Coil)
+    implementation 'io.coil-kt:coil-compose:2.7.0'
+    implementation 'io.coil-kt:coil-video:2.7.0'
+
+    // Storage Access Framework & LAN Network Protocols (SMB, FTP, SFTP, HTTP Loopback Bridge)
+    implementation 'androidx.documentfile:documentfile:1.1.0'
+    implementation 'com.hierynomus:smbj:0.15.0'
+    implementation 'commons-net:commons-net:3.13.0'
+    implementation 'com.github.mwiede:jsch:2.28.7'
+    implementation 'org.nanohttpd:nanohttpd:2.3.1'
+}
+
+// copies licenses/ into assets cleanly via Sync (no stale deleted license files), plus index.txt
+def licenseAssets = tasks.register('licenseAssets', Sync) {
+    def out = layout.buildDirectory.dir('generated/licenses/licenses')
+    from(rootProject.file('licenses')) {
+        include '*.txt'
+    }
+    from(rootProject.file('LICENSE')) {
+        rename { 'GPL-3.0.txt' }
+    }
+    from(rootProject.file('THIRD-PARTY-NOTICES.md'))
+    into out
+
+    doLast {
+        def dir = out.get().asFile
+        def titles = [
+                'GPL-3.0.txt'                : 'MPVX Player (GNU GPL v3)',
+                'THIRD-PARTY-NOTICES.md'     : 'Third-party notices',
+                'Apache-2.0.txt'             : 'Apache License 2.0 (Media3, Compose, Coil, OkHttp, Reorderable, ass-media)',
+                'LGPL-2.1.txt'               : 'GNU LGPL v2.1 (FFmpeg & libmpv)',
+                'GPL-2.0.txt'                : 'GNU GPL v2 (FFmpeg & libmpv, where enabled)',
+                'MIT-Anime4K.txt'            : 'MIT (Anime4K Shaders — bloc97)',
+                'MIT-MpvAndroid.txt'         : 'MIT (mpv-android JNI bindings)',
+                'ISC-Libass.txt'             : 'ISC (libass Subtitle Renderer)',
+                'BSD-3-Clause.txt'           : 'BSD 3-Clause (JSch SFTP & NanoHTTPD Local Bridge)',
+        ]
+        def lines = []
+        titles.each { file, title ->
+            if (new File(dir, file).exists()) {
+                lines << "${title}|${file}"
+            }
+        }
+        dir.listFiles().sort { it.name }.each { f ->
+            if (f.name != 'index.txt' && !titles.containsKey(f.name)) {
+                lines << "${f.name - ~/\.(txt|md)$/}|${f.name}"
+            }
+        }
+        new File(dir, 'index.txt').text = lines.join('\n') + '\n'
+    }
+}
+
+// lint tasks read the asset dirs too and fail the build without this dependency
+tasks.configureEach { task ->
+    if (task.name == 'licenseAssets') {
+        return
+    }
+    if (task.name.contains('Assets') || task.name.toLowerCase().contains('lint')) {
+        task.dependsOn licenseAssets
+    }
+}
+

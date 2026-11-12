@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Standard Core Colors -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00000000</color>
+    <color name="ic_launcher_background">#FFFFFFFF</color>
+
+    <color name="time_bar_buffered">#E6000000</color>
+    <color name="time_bar_unplayed">#40000000</color>
+
+    <!-- Ratings and Shortcuts -->
+    <color name="rating_amber">#F5C518</color>
+    <color name="shortcut_background">#F5F5F5</color>
+
+    <color name="ui_controls_background">#98000000</color>
+    <color name="ui_panel_background">#E6FFFFFF</color>
+    <color name="exo_white">#FFFFFFFF</color>
+    <color name="exo_white_opacity_70">#B3FFFFFF</color>
+    <color name="exo_bottom_bar_background" tools:keep="@color/exo_bottom_bar_background">@color/ui_controls_background</color>
+    <color name="exo_black_opacity_70" tools:keep="@color/exo_black_opacity_70">@color/ui_controls_background</color>
+    <color name="exo_styled_error_message_background" tools:keep="@color/exo_styled_error_message_background">@color/ui_controls_background</color>
+
+    <color name="osd_settings_title_text">#FFFFFFFF</color>
+    <color name="osd_settings_item_title_text">#FFFFFFFF</color>
+    <color name="osd_settings_item_summary_text">#B3FFFFFF</color>
+
+    <!-- MPVX Clean Light Palette Tokens -->
+    <color name="kr_bg">#F4F6FB</color>
+    <color name="kr_background">#F4F6FB</color>
+    <color name="kr_surface">#FFFFFF</color>
+    <color name="kr_surface_container">#EDF2F7</color>
+    <color name="kr_surface_subtle">#F8FAFC</color>
+    <color name="kr_surface_elevated">#F8FAFC</color>
+    <color name="kr_border_subtle">#E2E8F0</color>
+    <color name="kr_divider">#E2E8F0</color>
+
+    <color name="kr_text_primary">#0F172A</color>
+    <color name="kr_text_secondary">#475569</color>
+    <color name="kr_text_muted">#94A3B8</color>
+
+    <!-- Vibrant Accents (MPVX Light Palette) -->
+    <color name="kr_primary">#0096B4</color>
+    <color name="kr_primary_glow">#200096B4</color>
+    <color name="kr_cyan">#0096B4</color>
+    <color name="kr_cyan_glow">#200096B4</color>
+    <color name="kr_accent_primary">#0096B4</color>
+    <color name="kr_accent_cyan">#0096B4</color>
+    <color name="kr_accent_blue_light">#E0F7FA</color>
+    <color name="kr_accent_blue_pill">#D4F1F9</color>
+    <color name="kr_accent_purple">#7C3AED</color>
+    <color name="kr_accent_purple_light">#F5F3FF</color>
+    <color name="kr_accent_green">#16A34A</color>
+    <color name="kr_accent_green_light">#DCFCE7</color>
+    <color name="kr_accent_amber">#D97706</color>
+    <color name="kr_accent_amber_light">#FEF3C7</color>
+    <color name="kr_accent_sky">#0284C7</color>
+    <color name="kr_accent_sky_light">#E0F2FE</color>
+
+    <!-- Glass & Card Tokens -->
+    <color name="kr_glass_surface">#CCFFFFFF</color>
+    <color name="kr_glass_border">#E2E8F0</color>
+    <color name="kr_card_bg">#FFFFFF</color>
+    <color name="kr_badge_bg">#EDF2F7</color>
+    <color name="kr_badge_text">#475569</color>
+
+    <!-- Neo System Tokens -->
+    <color name="neo_accent">#0096B4</color>
+    <color name="neo_accent_dim">#200096B4</color>
+    <color name="neo_accent_glow">#100096B4</color>
+    <color name="neo_purple">#7C3AED</color>
+    <color name="neo_purple_dim">#207C3AED</color>
+    <color name="neo_nav_bg">#F1F5F9</color>
+    <color name="neo_nav_pill">#0096B4</color>
+    <color name="neo_nav_active">#FFFFFF</color>
+    <color name="neo_nav_inactive">#64748B</color>
+    <color name="neo_dock_bg">#E6FFFFFF</color>
+    <color name="neo_dock_stroke">#330096B4</color>
+    <color name="neo_seekbar_played">#0096B4</color>
+    <color name="neo_seekbar_buffered">#4D0096B4</color>
+    <color name="neo_seekbar_unplayed">#1A0096B4</color>
+
+    <!-- Folder Card & Icon -->
+    <color name="neo_folder_icon_bg">#E0F2FE</color>
+    <color name="neo_folder_icon_tint">#0284C7</color>
+    <color name="neo_badge_bg">#EDF2F7</color>
+    <color name="neo_badge_text">#475569</color>
+
+    <!-- Floating Play FAB (MPVX Soft Squircle) -->
+    <color name="neo_fab_bg">#0096B4</color>
+    <color name="neo_fab_icon">#FFFFFF</color>
+
+    <!-- Glass Control Tokens -->
+    <color name="glass_dock_bg">#E6FFFFFF</color>
+    <color name="glass_dock_stroke">#330096B4</color>
+    <color name="glass_button_bg">#1A0096B4</color>
+    <color name="glass_button_active">#0096B4</color>
+    <color name="glass_control_text">#0F172A</color>
+</resources>

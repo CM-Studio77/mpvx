@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MPVX Vertical Smartphone Mockup - Flat Design Style (72dp x 128dp) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="72dp"
+    android:height="128dp"
+    android:viewportWidth="72"
+    android:viewportHeight="128">
+
+    <!-- Phone Chassis Frame -->
+    <path
+        android:pathData="M 8,0 H 64 A 8,8 0 0 1 72,8 V 120 A 8,8 0 0 1 64,128 H 8 A 8,8 0 0 1 0,120 V 8 A 8,8 0 0 1 8,0 Z"
+        android:fillColor="#121212" />
+    <path
+        android:pathData="M 8,0.8 H 64 A 7.2,7.2 0 0 1 71.2,8 V 120 A 7.2,7.2 0 0 1 64,127.2 H 8 A 7.2,7.2 0 0 1 0.8,120 V 8 A 7.2,7.2 0 0 1 8,0.8 Z"
+        android:strokeColor="#2C2C2C"
+        android:strokeWidth="0.8" />
+
+    <!-- Screen Bezel Background -->
+    <path android:pathData="M 4,4 H 68 V 124 H 4 Z" android:fillColor="#181818" />
+
+    <!-- Top Speaker -->
+    <path android:pathData="M 31,5.5 H 41 V 7 H 31 Z" android:fillColor="#333333" />
+
+    <!-- Video Surface -->
+    <path android:pathData="M 4,14 H 68 V 120 H 4 Z" android:fillColor="#202020" />
+
+    <!-- Pure Flat Solid Header Bar -->
+    <path android:pathData="M 6,17 H 66 V 27 H 6 Z" android:fillColor="#007AFF" />
+    <path android:pathData="M 10,21 H 36 V 23 H 10 Z" android:fillColor="#FFFFFF" />
+
+    <!-- Center Play: Pure 2D Flat Circle (Solid Blue #007AFF, no shadow, no gradient) -->
+    <path android:pathData="M 36,64 m -11,0 a 11,11 0 1 0 22,0 a 11,11 0 1 0 -22,0" android:fillColor="#007AFF" />
+    <path android:pathData="M 33.5,60.5 L 40,64 L 33.5,67.5 Z" android:fillColor="#FFFFFF" />
+
+    <!-- Pure 2D Flat Clean Seekbar -->
+    <path android:pathData="M 8,100 H 64 V 103 H 8 Z" android:fillColor="#3A3A3C" />
+    <path android:pathData="M 8,100 H 34 V 103 H 8 Z" android:fillColor="#007AFF" />
+    <path android:pathData="M 34,101.5 m -2.5,0 a 2.5,2.5 0 1 0 5,0 a 2.5,2.5 0 1 0 -5,0" android:fillColor="#FFFFFF" />
+
+    <!-- Pure Flat Solid Control Tiles -->
+    <path android:pathData="M 8,109 H 20 V 117 H 8 Z" android:fillColor="#2C2C2E" />
+    <path android:pathData="M 23,109 H 35 V 117 H 23 Z" android:fillColor="#2C2C2E" />
+    <path android:pathData="M 38,109 H 50 V 117 H 38 Z" android:fillColor="#007AFF" />
+    <path android:pathData="M 53,109 H 64 V 117 H 53 Z" android:fillColor="#2C2C2E" />
+
+    <!-- Bottom Gesture Bar -->
+    <path android:pathData="M 27,123 H 45 V 124.5 H 27 Z" android:fillColor="#444444" />
+</vector>

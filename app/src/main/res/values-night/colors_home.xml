@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="film_backdrop_empty">#17191F</color>
+    <color name="film_poster_empty">#20232B</color>
+</resources>
+

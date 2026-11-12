@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MPVX Vertical Smartphone Mockup Demo (72dp x 128dp) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="72dp"
+    android:height="128dp"
+    android:viewportWidth="72"
+    android:viewportHeight="128">
+
+    <!-- Phone Chassis Frame -->
+    <path
+        android:pathData="M 8,0 H 64 A 8,8 0 0 1 72,8 V 120 A 8,8 0 0 1 64,128 H 8 A 8,8 0 0 1 0,120 V 8 A 8,8 0 0 1 8,0 Z"
+        android:fillColor="#0D111A" />
+    <path
+        android:pathData="M 8,0.8 H 64 A 7.2,7.2 0 0 1 71.2,8 V 120 A 7.2,7.2 0 0 1 64,127.2 H 8 A 7.2,7.2 0 0 1 0.8,120 V 8 A 7.2,7.2 0 0 1 8,0.8 Z"
+        android:strokeColor="#2500E5FF"
+        android:strokeWidth="0.8" />
+
+    <!-- Screen Bezel Background -->
+    <path
+        android:pathData="M 4,4 H 68 V 124 H 4 Z"
+        android:fillColor="#07090E" />
+
+    <!-- Top Speaker / Punch-hole -->
+    <path
+        android:pathData="M 31,5.5 H 41 V 7 H 31 Z"
+        android:fillColor="#33FFFFFF" />
+    <path
+        android:pathData="M 36,9 m -1.2,0 a 1.2,1.2 0 1 0 2.4,0 a 1.2,1.2 0 1 0 -2.4,0"
+        android:fillColor="#66FFFFFF" />
+
+    
+    <!-- Video Surface -->
+    <path android:pathData="M 4,14 H 68 V 120 H 4 Z" android:fillColor="#101826" />
+    <!-- Gradient Film Scenery -->
+    <path android:pathData="M 4,60 Q 20,40 36,55 T 68,48 V 120 H 4 Z" android:fillColor="#16253B" />
+    <path android:pathData="M 4,78 Q 24,66 42,75 T 68,68 V 120 H 4 Z" android:fillColor="#0E3D4D" />
+    <!-- VisionOS Top Floating Island -->
+    <path android:pathData="M 8,18 H 22 V 26 H 8 Z" android:fillColor="#501A2436" />
+    <path android:pathData="M 26,18 H 48 V 26 H 26 Z" android:fillColor="#501A2436" />
+    <path android:pathData="M 52,18 H 64 V 26 H 52 Z" android:fillColor="#501A2436" />
+    <!-- Center Glowing Cyan Play Circle (VisionOS) -->
+    <path android:pathData="M 36,66 m -11,0 a 11,11 0 1 0 22,0 a 11,11 0 1 0 -22,0" android:fillColor="#3000E5FF" />
+    <path android:pathData="M 36,66 m -9,0 a 9,9 0 1 0 18,0 a 9,9 0 1 0 -18,0" android:fillColor="#7000E5FF" />
+    <path android:pathData="M 33.5,61.5 L 40.5,66 L 33.5,70.5 Z" android:fillColor="#FFFFFF" />
+    <!-- Rewind & Forward circles -->
+    <path android:pathData="M 18,66 m -5.5,0 a 5.5,5.5 0 1 0 11,0 a 5.5,5.5 0 1 0 -11,0" android:fillColor="#35FFFFFF" />
+    <path android:pathData="M 54,66 m -5.5,0 a 5.5,5.5 0 1 0 11,0 a 5.5,5.5 0 1 0 -11,0" android:fillColor="#35FFFFFF" />
+    <!-- Right Vertical Capsule Dock -->
+    <path android:pathData="M 60,42 H 66 V 90 H 60 Z" android:fillColor="#55141C2B" />
+    <!-- Floating Cyan Timebar -->
+    <path android:pathData="M 8,100 H 64 V 102 H 8 Z" android:fillColor="#33FFFFFF" />
+    <path android:pathData="M 8,100 H 32 V 102 H 8 Z" android:fillColor="#00E5FF" />
+    <path android:pathData="M 32,101 m -2,0 a 2,2 0 1 0 4,0 a 2,2 0 1 0 -4,0" android:fillColor="#FFFFFF" />
+    <!-- Bottom Floating Capsule Dock -->
+    <path android:pathData="M 16,107 H 56 V 118 H 16 Z" android:fillColor="#60141C2B" />
+    <path android:pathData="M 18,107 H 54 A 5.5,5.5 0 0 1 54,118 H 18 A 5.5,5.5 0 0 1 18,107 Z" android:strokeColor="#4000E5FF" android:strokeWidth="0.8" />
+  
+
+    <!-- Bottom Gesture Bar -->
+    <path
+        android:pathData="M 27,123 H 45 V 124.5 H 27 Z"
+        android:fillColor="#66FFFFFF" />
+</vector>

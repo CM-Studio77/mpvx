@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MPVX Vertical Smartphone Mockup - Maximalism Style (72dp x 128dp) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="72dp"
+    android:height="128dp"
+    android:viewportWidth="72"
+    android:viewportHeight="128">
+
+    <!-- Phone Chassis Frame -->
+    <path
+        android:pathData="M 8,0 H 64 A 8,8 0 0 1 72,8 V 120 A 8,8 0 0 1 64,128 H 8 A 8,8 0 0 1 0,120 V 8 A 8,8 0 0 1 8,0 Z"
+        android:fillColor="#150520" />
+    <path
+        android:pathData="M 8,0.8 H 64 A 7.2,7.2 0 0 1 71.2,8 V 120 A 7.2,7.2 0 0 1 64,127.2 H 8 A 7.2,7.2 0 0 1 0.8,120 V 8 A 7.2,7.2 0 0 1 8,0.8 Z"
+        android:strokeColor="#FFFF007F"
+        android:strokeWidth="1.0" />
+
+    <!-- Screen Bezel Background -->
+    <path android:pathData="M 4,4 H 68 V 124 H 4 Z" android:fillColor="#1A0A2A" />
+
+    <!-- Top Speaker / Punch-hole -->
+    <path android:pathData="M 31,5.5 H 41 V 7 H 31 Z" android:fillColor="#55FF007F" />
+
+    <!-- Video Surface with Rich Vibrant Art -->
+    <path android:pathData="M 4,14 H 68 V 120 H 4 Z" android:fillColor="#240D36" />
+    <path android:pathData="M 4,30 Q 36,15 68,34 V 120 H 4 Z" android:fillColor="#4A154B" />
+    <path android:pathData="M 4,50 Q 20,38 45,54 T 68,44 V 120 H 4 Z" android:fillColor="#801050" />
+    <path android:pathData="M 4,75 Q 35,60 68,78 V 120 H 4 Z" android:fillColor="#B81D65" />
+
+    <!-- Maximalist Header: Multiple colorful chips & tags -->
+    <path android:pathData="M 6,17 H 22 V 23 H 6 Z" android:fillColor="#FF007F" />
+    <path android:pathData="M 24,17 H 38 V 23 H 24 Z" android:fillColor="#FFD700" />
+    <path android:pathData="M 40,17 H 52 V 23 H 40 Z" android:fillColor="#00FFEE" />
+    <path android:pathData="M 54,17 H 66 V 23 H 54 Z" android:fillColor="#FF6600" />
+
+    <!-- Center Play: Layered psychedelic starburst rings -->
+    <path android:pathData="M 36,64 m -14,0 a 14,14 0 1 0 28,0 a 14,14 0 1 0 -28,0" android:fillColor="#30FF007F" />
+    <path android:pathData="M 36,64 m -11,0 a 11,11 0 1 0 22,0 a 11,11 0 1 0 -22,0" android:fillColor="#60FFD700" />
+    <path android:pathData="M 36,64 m -8,0 a 8,8 0 1 0 16,0 a 8,8 0 1 0 -16,0" android:fillColor="#FF007F" />
+    <path android:pathData="M 34,60.5 L 39.5,64 L 34,67.5 Z" android:fillColor="#FFFFFF" />
+
+    <!-- Additional side controls & visual sparks -->
+    <path android:pathData="M 12,64 m -4,0 a 4,4 0 1 0 8,0 a 4,4 0 1 0 -8,0" android:fillColor="#00FFEE" />
+    <path android:pathData="M 60,64 m -4,0 a 4,4 0 1 0 8,0 a 4,4 0 1 0 -8,0" android:fillColor="#FFD700" />
+
+    <!-- Multicolored Rainbow Timebar -->
+    <path android:pathData="M 6,98 H 66 V 102 H 6 Z" android:fillColor="#33FFFFFF" />
+    <path android:pathData="M 6,98 H 26 V 102 H 6 Z" android:fillColor="#FF007F" />
+    <path android:pathData="M 26,98 H 42 V 102 H 26 Z" android:fillColor="#FFD700" />
+    <path android:pathData="M 42,98 H 50 V 102 H 42 Z" android:fillColor="#00FFEE" />
+
+    <!-- Bottom Dock: Loaded with colorful action badges -->
+    <path android:pathData="M 6,106 H 18 V 118 H 6 Z" android:fillColor="#FF007F" />
+    <path android:pathData="M 20,106 H 32 V 118 H 20 Z" android:fillColor="#7928CA" />
+    <path android:pathData="M 34,106 H 46 V 118 H 34 Z" android:fillColor="#FF6600" />
+    <path android:pathData="M 48,106 H 66 V 118 H 48 Z" android:fillColor="#00DFD8" />
+
+    <!-- Bottom Gesture Bar -->
+    <path android:pathData="M 27,123 H 45 V 124.5 H 27 Z" android:fillColor="#88FF007F" />
+</vector>

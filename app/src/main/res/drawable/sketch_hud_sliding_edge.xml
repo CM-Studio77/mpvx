@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MPVX Vertical Smartphone Mockup Demo (72dp x 128dp) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="72dp"
+    android:height="128dp"
+    android:viewportWidth="72"
+    android:viewportHeight="128">
+
+    <!-- Phone Chassis Frame -->
+    <path
+        android:pathData="M 8,0 H 64 A 8,8 0 0 1 72,8 V 120 A 8,8 0 0 1 64,128 H 8 A 8,8 0 0 1 0,120 V 8 A 8,8 0 0 1 8,0 Z"
+        android:fillColor="#0D111A" />
+    <path
+        android:pathData="M 8,0.8 H 64 A 7.2,7.2 0 0 1 71.2,8 V 120 A 7.2,7.2 0 0 1 64,127.2 H 8 A 7.2,7.2 0 0 1 0.8,120 V 8 A 7.2,7.2 0 0 1 8,0.8 Z"
+        android:strokeColor="#2500E5FF"
+        android:strokeWidth="0.8" />
+
+    <!-- Screen Bezel Background -->
+    <path
+        android:pathData="M 4,4 H 68 V 124 H 4 Z"
+        android:fillColor="#07090E" />
+
+    <!-- Top Speaker / Punch-hole -->
+    <path
+        android:pathData="M 31,5.5 H 41 V 7 H 31 Z"
+        android:fillColor="#33FFFFFF" />
+    <path
+        android:pathData="M 36,9 m -1.2,0 a 1.2,1.2 0 1 0 2.4,0 a 1.2,1.2 0 1 0 -2.4,0"
+        android:fillColor="#66FFFFFF" />
+
+    
+    <path android:pathData="M 4,14 H 68 V 120 H 4 Z" android:fillColor="#101826" />
+    <!-- Top Title -->
+    <path android:pathData="M 8,18 H 30 V 24 H 8 Z" android:fillColor="#501A2436" />
+    <!-- Center Play -->
+    <path android:pathData="M 26,64 m -8,0 a 8,8 0 1 0 16,0 a 8,8 0 1 0 -16,0" android:fillColor="#40FFFFFF" />
+    <path android:pathData="M 24,61 L 29,64 L 24,67 Z" android:fillColor="#FFFFFF" />
+    <!-- Sliding Frosted Drawer from Right Edge -->
+    <path android:pathData="M 40,24 H 68 V 106 H 40 Z" android:fillColor="#E0111927" />
+    <path android:pathData="M 40,24 H 68 V 106 H 40 Z" android:strokeColor="#3000E5FF" android:strokeWidth="0.8" />
+    <!-- Drawer Handle -->
+    <path android:pathData="M 38,60 H 40 V 70 H 38 Z" android:fillColor="#00E5FF" />
+    <!-- Card 1: Audio Waveform -->
+    <path android:pathData="M 43,30 H 65 V 48 H 43 Z" android:fillColor="#222F46" />
+    <path android:pathData="M 46,36 H 58 V 39 H 46 Z" android:fillColor="#FFFFFF" />
+    <path android:pathData="M 46,42 H 48 V 45 H 46 Z" android:fillColor="#00E5FF" />
+    <path android:pathData="M 49,40 H 51 V 46 H 49 Z" android:fillColor="#00E5FF" />
+    <path android:pathData="M 52,38 H 54 V 47 H 52 Z" android:fillColor="#00E5FF" />
+    <path android:pathData="M 55,41 H 57 V 45 H 55 Z" android:fillColor="#00E5FF" />
+    <!-- Card 2: CC Subtitles -->
+    <path android:pathData="M 43,54 H 65 V 72 H 43 Z" android:fillColor="#222F46" />
+    <path android:pathData="M 46,60 H 58 V 63 H 46 Z" android:fillColor="#FFFFFF" />
+    <path android:pathData="M 46,65 H 54 V 68 H 46 Z" android:fillColor="#8F9CAE" />
+    <!-- Card 3: Settings -->
+    <path android:pathData="M 43,78 H 65 V 96 H 43 Z" android:fillColor="#222F46" />
+    <path android:pathData="M 46,84 H 58 V 87 H 46 Z" android:fillColor="#FFFFFF" />
+    <path android:pathData="M 46,90 H 52 V 92 H 46 Z" android:fillColor="#00E5FF" />
+  
+
+    <!-- Bottom Gesture Bar -->
+    <path
+        android:pathData="M 27,123 H 45 V 124.5 H 27 Z"
+        android:fillColor="#66FFFFFF" />
+</vector>

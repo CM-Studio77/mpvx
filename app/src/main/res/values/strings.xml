@@ -1,0 +1,714 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">MPVX Player</string>
+    <string name="settings" translatable="false">Settings</string>
+    <string name="video_resize_16_9" translatable="false">16:9</string>
+    <string name="video_resize_4_3" translatable="false">4:3</string>
+    <string name="video_resize_16_10" translatable="false">16:10</string>
+    <string name="video_resize_2_1" translatable="false">2:1</string>
+    <string name="video_resize_235" translatable="false">2.35:1</string>
+    <string name="video_resize_239" translatable="false">2.39:1</string>
+    <string name="video_resize_5_4" translatable="false">5:4</string>
+    <string name="video_resize_default">Default</string>
+    <string name="video_resize_crop">Crop</string>
+    <string name="video_resize_stretch">Stretch</string>
+    <string name="video_orientation_landscape">Landscape</string>
+    <string name="video_orientation_portrait">Portrait</string>
+    <string name="video_orientation_sensor">Auto-rotate</string>
+    <string name="onboarding_open_title">Choose a video to play</string>
+    <string name="onboarding_open_description">Tap to open a video file. Long tap to load external subtitles.</string>
+    <string name="onboarding_key_title">Add a TMDB key</string>
+    <string name="onboarding_key_description">Settings are here. A free TMDB key is what finds titles, posters, subtitles and intro markers.</string>
+    <string name="open_subtitles">Load subtitles</string>
+    <string name="error_title">This would not play</string>
+    <string name="error_share">Share the details</string>
+    <string name="error_network">The player could not reach the file. Check the connection, and whether the link has expired.</string>
+    <string name="error_http">The server refused the request or authentication has expired.</string>
+    <string name="error_missing">The file is not there any more.</string>
+    <string name="error_permission">The player is not allowed to open that file.</string>
+    <string name="error_codec">This stream uses an unsupported video or audio codec.</string>
+    <string name="error_damaged">The file looks damaged or incomplete.</string>
+    <string name="error_drm">This is copy-protected, which this player does not handle.</string>
+    <string name="error_unknown">Something went wrong while playing this.</string>
+    <string name="error_details">Details</string>
+    <string name="error_files_missing">Files app is disabled or missing</string>
+    <string name="request_scope">To automatically load external subtitles or enable skipping to next file in a directory, grant %s access to the topmost folder containing your videos (e.g. Movies).</string>
+    <string name="delete_query">Delete this file\?</string>
+    <string name="delete_confirmation">Delete</string>
+    <string name="pref_title">Preferences</string>
+    <string name="pref_framerate_matching">Match the frame rate</string>
+    <string name="pref_framerate_matching_on">The display follows the video</string>
+    <string name="pref_tunneling">Tunneled playback</string>
+    <string name="pref_tunneling_summary">Tunneling provides better support for 4K/HDR content, but may not work on all devices. Changing it reopens whatever is playing.</string>
+    <string name="pref_auto_next">Play the next file in the folder</string>
+    <string name="pref_auto_pip">Picture-in-picture on Home</string>
+    <string name="pref_background_audio">Sound with the screen off</string>
+    <string name="pref_warn_capability">Warn about demanding files</string>
+    <string name="pref_warn_capability_on">Before a file stalls</string>
+    <string name="pref_scrub_thumbnails">Preview while seeking</string>
+    <string name="seek_preview_off">Off</string>
+    <string name="seek_preview_local">Local files</string>
+    <string name="seek_preview_all">Local files and online videos</string>
+    <string name="pref_volume_boost">Volume boost</string>
+    <string name="pref_volume_boost_on">About twice as loud</string>
+    <string name="pref_volume_keys">Volume keys change only this app</string>
+    <string name="pref_keep_screen_on">Keep the screen on</string>
+    <string name="pref_keep_screen_on_on">Even when paused</string>
+    <string name="pref_skip_silence">Skip silent parts</string>
+    <string name="pref_repeat_toggle">Loop button</string>
+    <string name="pref_repeat_toggle_summary">A repeat button in the controls</string>
+    <string name="pref_map_dv7">Dolby Vision profile 7 fallback</string>
+    <string name="pref_map_dv7_on">Play Dolby Vision profile 7 content on HDR displays. Changing it reopens whatever is playing.</string>
+    <string name="pref_map_dv7_off">Play UHD Blu-ray content containing Dolby Vision as is. Changing it reopens whatever is playing.</string>
+    <string name="shortcut_videos">Videos</string>
+    <string name="button_open">Open</string>
+    <string name="button_back">Back</string>
+    <string name="button_previous">Previous file</string>
+    <string name="button_next">Next file</string>
+    <string name="button_crop">Resize</string>
+    <string name="button_rotate">Rotate</string>
+    <string name="button_pip">Picture-in-picture</string>
+    <string name="pref_file_access">File access</string>
+    <string name="pref_file_access_auto">Auto</string>
+    <string name="pref_file_access_home">Home browser</string>
+    <string name="pref_file_access_legacy">Legacy</string>
+    <string name="mediastore_empty">No video files found</string>
+    <string name="pref_online_header">Online info</string>
+    <string name="pref_identify_auto">Automatically \u2022 experimental</string>
+    <string name="pref_identify_manual">Only when I ask</string>
+    <string name="pref_identify">Identify films</string>
+    <string name="pref_auto_search">Search automatically</string>
+    <string name="pref_setup_phone">Set up from your phone</string>
+    <string name="pref_setup_phone_summary">Type the keys on a phone on the same network instead of with a remote</string>
+    <string name="pref_setup_phone_title">Open this on your phone</string>
+    <string name="pref_setup_phone_body">Go to
+
+%1$s
+
+and enter this PIN when it asks:
+
+%2$s
+
+Nothing is shown on the phone until the PIN is entered. The page stops when you press the button below, or when you leave this screen.</string>
+    <string name="pref_setup_phone_stop">Stop the page</string>
+    <string name="pref_setup_phone_failed">Could not start the page. This device may not allow it, or it is not on a network \u2022 enter the keys here instead.</string>
+    <string name="pref_online_note">The info card, skip markers and subtitle search all need a TMDB key.</string>
+    <string name="pref_key_tmdb">TMDB key</string>
+    <string name="pref_key_tmdb_dialog">Free from themoviedb.org \u2192 Settings \u2192 API.</string>
+    <string name="pref_key_opensubtitles">OpenSubtitles key</string>
+    <string name="pref_key_opensubtitles_dialog">From opensubtitles.com \u2192 My Account \u2192 API Consumers. 5 downloads a day, 10 signed in.</string>
+    <string name="pref_key_opensubtitles_user">OpenSubtitles username</string>
+    <string name="pref_key_opensubtitles_password">OpenSubtitles password</string>
+    <string name="pref_key_subdl">SubDL key</string>
+    <string name="pref_key_subdl_dialog">Free from subdl.com/panel/api.</string>
+    <string name="pref_key_wyzie">Wyzie key</string>
+    <string name="pref_key_wyzie_dialog">Free from sub.wyzie.io/redeem.</string>
+    <string name="pref_reopens_file">Changing it reopens whatever is playing.</string>
+    <string name="pref_key_checking">Checking the key...</string>
+    <string name="pref_key_set">Set</string>
+    <string name="pref_key_not_set">Not set</string>
+    <string name="pref_subtitle_language">Search language</string>
+    <string name="pref_link_titles">One title for both</string>
+    <string name="pref_link_titles_on">The card and the subtitle search share one title</string>
+    <string name="pref_overlay">Info card when paused</string>
+    <string name="pref_overlay_background">Card background</string>
+    <string name="pref_overlay_background_summary">How solid the card is</string>
+    <string name="pref_skip">Skip intros and credits</string>
+    <!-- "experimental" is left to the settings screen -->
+    <string name="quick_skip">Skip intros and credits</string>
+
+    <string name="online_search_subtitles">Search online subtitles...</string>
+    <string name="subtitle_source_title">Subtitles</string>
+    <string name="subtitle_source_file">Load a subtitle file...</string>
+    <string name="online_needs_tmdb">Add a TMDB key in Settings first \u2022 it is what turns a file name into something the subtitle sources can be asked about.</string>
+    <string name="online_needs_source">No subtitle source is set up. Add a Stremio addon, or a key for OpenSubtitles, SubDL or Wyzie, in Settings.</string>
+    <string name="online_identify_title">Which is this?</string>
+    <string name="online_searching">Searching...</string>
+    <string name="online_identifying">Identifying...</string>
+    <string name="online_match_prompt">Which film is this?</string>
+    <string name="film_play_start">Play from the start</string>
+    <string name="film_play">Play</string>
+    <string name="film_resume">Resume from %s</string>
+    <string name="film_change">Not the right film? Change it</string>
+    <string name="film_find">Find the film</string>
+    <string name="film_file">File</string>
+    <string name="film_back">Back</string>
+    <string name="film_runtime">%1$d h %2$d m</string>
+    <string name="film_runtime_minutes">%d m</string>
+    <string name="recent_pin">Pin to the top</string>
+    <string name="recent_unpin">Unpin</string>
+    <string name="recent_info">Film info</string>
+    <string name="recent_remove">Remove from Recent</string>
+    <string name="recent_removed">Removed from Recent</string>
+    <string name="recent_undo">Undo</string>
+    <string name="recent_pins_full">Up to 3 films can be pinned. Unpin one first.</string>
+    <string name="recent_pinned">Pinned</string>
+    <string name="online_match_prompt_dismiss">Not now</string>
+    <string name="online_no_matches">Nothing found for that title</string>
+    <string name="online_no_subtitles">No subtitles found for this one</string>
+    <string name="online_search_hint">Title to search for</string>
+    <string name="online_clear">Clear</string>
+    <string name="online_back">Back</string>
+    <string name="online_search_again">Search again...</string>
+    <string name="online_search_again_detail">Wrong film? Look it up by name</string>
+    <string name="online_change_title">Change title...</string>
+    <string name="subtitle_menu_title">Subtitles</string>
+    <string name="audio_menu_title">Audio track</string>
+    <string name="audio_menu_track">Track %1$d</string>
+    <string name="audio_menu_none">This file has one soundtrack</string>
+    <string name="subtitle_menu_off">Off</string>
+    <string name="subtitle_menu_current">Playing now</string>
+    <string name="subtitle_menu_track">Track %1$d</string>
+    <string name="subtitle_menu_file_detail">Open one you already have on this device</string>
+    <string name="subtitle_menu_search_detail">Find one online for this episode</string>
+    <string name="subtitle_menu_settings_detail">Size, position, delay and style</string>
+    <string name="audio_menu_delay_detail">Move the sound against the picture</string>
+    <string name="capability_title">This device may struggle with this</string>
+    <string name="capability_hard">No hardware decoder here covers it. The picture may stutter, or stop while the sound carries on.</string>
+    <string name="capability_impossible">Nothing on this device claims to decode it, so it may not play at all.</string>
+    <string name="capability_continue">Play it anyway</string>
+    <string name="capability_quit">Close the file</string>
+    <string name="capability_try_other">Try %1$s</string>
+    <string name="capability_dont_warn">Do not warn me again</string>
+    <string name="online_search">Search</string>
+    <string name="online_season">Season</string>
+    <string name="online_episode">Episode</string>
+    <string name="online_downloading">Downloading...</string>
+    <string name="online_download_failed">That subtitle could not be downloaded</string>
+    <string name="online_download_limit">%1$s limit reached for today</string>
+    <string name="online_download_limit_until">%1$s limit reached. More in %2$s</string>
+    <string name="online_saved_to">Loaded, and saved to %1$s</string>
+    <string name="online_loaded">Subtitle loaded</string>
+    <string name="skip_undo">Undo skip</string>
+    <string name="online_skip_intro">Skip intro</string>
+    <string name="online_skip_recap">Skip recap</string>
+    <string name="online_skip_credits">Skip credits</string>
+    <string name="online_change_selection">Identify this file again</string>
+    <string name="pref_playback_header">Playback</string>
+    <string name="pref_gestures_header">Gestures and controls</string>
+    <string name="pref_subtitle_sources_header">Sources, all optional</string>
+    <string name="pref_double_tap_seconds">Double-tap seek</string>
+    <string name="pref_double_tap_seconds_summary">Seconds per double tap</string>
+    <string name="pref_locked_timeline">Timeline while locked</string>
+    <string name="pref_controls_order">Buttons and their order</string>
+    <string name="controls_order_hint">Top of this list is the button furthest left in the player. Use the arrows to move one, and the tick to show or hide it.</string>
+    <string name="controls_order_reset">Put back the usual order</string>
+    <string name="controls_order_up">Move left</string>
+    <string name="controls_order_down">Move right</string>
+    <string name="controls_order_shown">Show this button</string>
+    <string name="controls_unavailable_tv">Not on a television \u2022 the screen does not turn</string>
+    <string name="controls_unavailable_device">This device does not offer picture-in-picture</string>
+    <string name="controls_unavailable_off">Switched off in settings</string>
+    <string name="controls_name_open">Open</string>
+    <string name="controls_name_subtitle">Subtitles</string>
+    <string name="controls_name_audio">Audio track</string>
+    <string name="controls_name_aspect">Resize</string>
+    <string name="controls_name_settings">Settings</string>
+    <string name="controls_name_lock">Lock</string>
+    <string name="controls_name_rotate">Rotate</string>
+    <string name="controls_name_pip">Picture-in-picture</string>
+    <string name="controls_name_repeat">Loop</string>
+    <string name="pref_licenses">Licences</string>
+    <string name="pref_licenses_summary">The full text of every licence this app is built under</string>
+    <string name="licenses_unavailable">This licence text could not be read.</string>
+    <string name="intro_next">Next</string>
+    <string name="intro_back">Back</string>
+    <string name="intro_done">Done</string>
+    <string name="intro_skip">Skip</string>
+    <string name="intro_style_title">Make it yours</string>
+    <string name="intro_style_hint">Change these any time in Settings \u2022 Appearance.</string>
+    <string name="intro_settings_title">Everything else is in Settings</string>
+    <string name="intro_settings_body">The gear at the top of the home screen opens Settings: subtitles and languages, sound, gestures, the home screen, online info and more, in ten groups. A choice that changes what you see shows a small picture of it.\n\nLooking for something? Search finds any setting by name.</string>
+    <string name="intro_settings_body_tv">The gear at the top of the home screen opens Settings: subtitles and languages, sound, gestures, the home screen, online info and more, in ten groups. A choice that changes what you see shows a small picture of it.</string>
+    <string name="intro_open_settings">Open settings</string>
+    <string name="intro_folders_title">Your films and folders</string>
+    <string name="intro_folders_body">Recent at the top keeps what you played and where you stopped. Hold a film to pin it, start it over, see its info or remove it.\n\nBelow are your folders that hold video. Star one to keep it at the top. The bar above searches every file by name and sorts four ways.</string>
+    <string name="intro_key_title">A free key turns the rest on</string>
+    <string name="intro_key_body">Playback needs nothing. Posters, titles, subtitle search and intro skipping need a TMDB key, which is free and takes a minute.\n\nUntil you add one the player never touches the network. Typing a key with a remote is miserable, so settings can serve a page to your phone instead.</string>
+    <string name="intro_gestures_title">The picture is the control</string>
+    <string name="intro_gestures_body">Double-tap the left or right third to jump back or forward, and the middle to play or pause.\n\nHold anywhere for double speed, and let go to drop back. Drag up and down the left half for brightness, the right half for volume, and keep going past full for a boost. Drag across to scrub.</string>
+    <string name="intro_holds_title">Hold a button for more</string>
+    <string name="intro_holds_body">The gear opens the quick panel; hold it for every setting there is.\n\nHold the subtitle button for size, colour and position. Hold the frame button to zoom the picture. The padlock locks the screen against a pocket, and lets it go again.</string>
+    <string name="pref_intro_again">Show the introduction again</string>
+    <string name="pref_intro_again_summary">The cards from the first start</string>
+    <string name="pref_intro_again_done">It will be shown next time the folder list opens</string>
+    <string name="pref_controls_timeout">Controls hide after</string>
+    <string name="pref_controls_timeout_summary">Seconds</string>
+    <string name="unlocked">Unlocked</string>
+    <string name="locked_hint">Locked \u2022 press the padlock, or hold the picture, to unlock</string>
+    <string name="pref_lock_hint">Lock the screen against accidental touches with the padlock in the controls. To unlock, press the padlock again, or hold your finger anywhere on the picture, or hold OK on a remote. A stray tap on the picture does nothing, so the lock cannot be lifted by accident. The volume keys keep working while locked.</string>
+    <string name="pref_overlay_delay">Card appears after</string>
+    <string name="pref_overlay_delay_summary">Seconds paused before it shows</string>
+    <string name="pref_prefill">Fill search from the file name</string>
+    <string name="button_lock">Lock screen</string>
+    <string name="engine_fallback_mpv">Media3 could not play this \u2022 switched to mpv</string>
+    <string name="engine_switch_file_type">This file type isn\'t supported on Media3, switched to mpv</string>
+    <string name="engine_switch_video_format">This video format isn\'t supported on Media3, switched to mpv</string>
+    <string name="engine_switch_audio_format">This audio format isn\'t supported on Media3, switched to mpv</string>
+    <string name="engine_switch_no_video">Media3 found no video in this file, switched to mpv</string>
+    <string name="engine_switch_load">Media3 couldn\'t load this file, switched to mpv</string>
+    <string name="pref_playback_engine">Playback engine</string>
+    <string name="pref_engine_media3">Media3</string>
+    <string name="pref_engine_auto">Auto</string>
+    <string name="pref_engine_mpv">mpv</string>
+    <string name="pref_engine_mpv_unsupported">mpv needs Android 8.0 or newer</string>
+    <string name="engine_failed_title">This engine could not play the file</string>
+    <string name="engine_failed_message">%1$s could not play this. %2$s very likely can \u2022 that is why there are two.</string>
+    <string name="engine_failed_try">Try %1$s</string>
+    <string name="engine_failed_auto">Always use Auto</string>
+    <string name="engine_no_picture_title">No picture</string>
+    <string name="engine_no_picture_message">%1$s is playing the sound but not the picture \u2022 usually Dolby Vision on a device without a Dolby Vision decoder. %2$s may show it.</string>
+    <string name="engine_no_picture_switched">No picture on Media3 \u2022 switched to mpv</string>
+    <string name="engine_no_picture_either">No picture on either engine \u2022 this device cannot show this video</string>
+    <string name="pref_engine_note">Auto uses mpv as the default high-performance engine and falls back to Media3 when needed.</string>
+    <string name="pref_media3_only">Media3 only \u2022 not used by mpv</string>
+    <string name="pref_adaptive_buffering">Adaptive buffering</string>
+    <string name="pref_adaptive_buffering_on">Sized from memory and the source</string>
+    <string name="pref_subtitle_folder">Download folder</string>
+    <string name="pref_subtitle_folder_default">Downloads / MPVX</string>
+    <string name="pref_subtitle_folder_choose">Choose a folder</string>
+    <string name="pref_subtitle_folder_clear">Use the default folder</string>
+    <string name="pref_subtitle_folder_failed">That folder could not be used</string>
+    <string name="resume_title">Play last video?</string>
+    <string name="resume_accept">Play</string>
+    <string name="resume_decline">Not now</string>
+    <string name="pref_ask_resume">Ask before resuming</string>
+    <string name="pref_ask_resume_on">When the app opens</string>
+    <string name="open_source_title">Play from</string>
+    <string name="open_source_local">Local file</string>
+    <string name="open_source_url">Network URL</string>
+    <string name="open_source_recent">Recently played</string>
+    <string name="open_url_title">Network URL</string>
+    <string name="open_url_hint">https://example.com/video.mkv</string>
+    <string name="open_url_play">Play</string>
+    <string name="open_url_invalid">That does not look like a URL a player can open</string>
+    <string name="pref_folders">Folders the player may read</string>
+    <string name="pref_folders_note">Needed to find the next episode, and a subtitle saved beside the film. Add as many as you keep films in.</string>
+    <string name="pref_folders_empty">None yet. Without one, the player only sees the single file you opened.</string>
+    <string name="pref_folders_add">Add a folder...</string>
+    <string name="pref_folders_remove">Tap to stop reading this folder</string>
+    <string name="pref_folders_remove_confirm">The player will no longer look here for the next episode or for subtitles.</string>
+    <string name="pref_folders_remove_confirm_yes">Remove</string>
+    <string name="pref_folders_failed">Android would not keep that permission. Try choosing the folder again.</string>
+    <string name="pref_folders_no_picker">This device has no folder picker.</string>
+    <string name="pref_folders_summary_empty">No folders yet</string>
+    <string name="error_code">Show a code</string>
+    <string name="osd_info_card">Show info card</string>
+    <string name="video_menu_title">Video quality</string>
+    <string name="video_menu_auto">Auto</string>
+    <string name="video_menu_none">This file has only one video track</string>
+    <string name="track_forced">Forced</string>
+    <string name="track_hearing_impaired">For the hard of hearing</string>
+    <string name="track_visual_impaired">Audio description</string>
+    <string name="track_mono">Mono</string>
+    <string name="track_stereo">Stereo</string>
+    <string name="pref_language_audio_priority">Audio language order</string>
+    <string name="pref_language_audio_priority_summary">Tried before the default</string>
+    <string name="pref_language_subtitle_priority">Language order</string>
+    <string name="pref_language_subtitle_priority_summary">Tried before the search language</string>
+    <string name="pref_language_priority_hint">Languages separated by commas, best first \u2022 for example: jpn, eng, spa. The first one the file actually has is the one that plays.</string>
+    <string name="pref_check_all">Test keys and addons</string>
+    <string name="pref_check_all_summary">Asks every service whether it still answers</string>
+    <string name="pref_checking_all">Checking...</string>
+    <string name="pref_check_all_title">What answered</string>
+    <string name="pref_check_all_none">Nothing is set up yet</string>
+    <string name="pref_about_header">About</string>
+    <string name="pref_about_title">Creative Mind Studio</string>
+    <string name="pref_about_version">Version %1$s</string>
+    <string name="osd_info_card_search_again">Search again</string>
+    <string name="open_url_paste">Paste</string>
+    <string name="open_url_clipboard_empty">Nothing to paste</string>
+    <string name="subtitle_would_not_load">That subtitle would not load</string>
+    <string name="buffering">Buffering...</string>
+    <string name="copy_link">Copy link</string>
+    <string name="copy_done">Link copied</string>
+    <string name="copy_nothing">Nothing to copy</string>
+    <string name="pref_history">Played links</string>
+    <string name="pref_history_failed">Keep links that would not play</string>
+    <string name="pref_history_summary_empty">Nothing played from a network URL yet</string>
+    <plurals name="pref_folders_summary">
+        <item quantity="one">%d folder</item>
+        <item quantity="other">%d folders</item>
+    </plurals>
+    <plurals name="pref_addons_summary_count">
+        <item quantity="one">%d addon</item>
+        <item quantity="other">%d addons</item>
+    </plurals>
+    <plurals name="pref_history_summary">
+        <item quantity="one">%d URL</item>
+        <item quantity="other">%d URLs</item>
+    </plurals>
+    <string name="pref_history_empty">Nothing here yet.
+
+URLs you open over the network are remembered so you can return to them without typing them again. Local files are not listed \u2022 the file picker already remembers those.</string>
+    <string name="pref_history_clear">Clear history</string>
+    <string name="pref_history_clear_confirm">Forget all remembered URLs? Some may contain sign-in details.</string>
+    <string name="pref_history_cleared">History cleared</string>
+    <string name="pref_backup_export">Export to a file...</string>
+    <string name="pref_backup_export_summary">Keys, settings and everything else, in one file</string>
+    <string name="pref_backup_import">Import from a file...</string>
+    <string name="pref_backup_import_summary">Take back whatever a file holds</string>
+    <string name="pref_backup_choose">What should go in it?</string>
+    <string name="pref_backup_part_settings">Settings</string>
+    <string name="pref_backup_part_keys">Keys and addons</string>
+    <string name="pref_backup_part_history">History and remembered titles</string>
+    <string name="pref_backup_part_per_file">Delays and speeds, per file</string>
+    <string name="pref_backup_export_go">Export</string>
+    <string name="pref_backup_note">The folders the player may read cannot travel in a file \u2022 Android grants those to this installation. Grant them again after importing.</string>
+    <string name="pref_backup_exported">Exported %1$d things</string>
+    <string name="pref_backup_imported">Imported %1$d things. Some of it needs the player reopened.</string>
+    <string name="pref_backup_not_ours">That file is not an MPVX backup</string>
+    <string name="pref_backup_failed">That file could not be read</string>
+    <string name="pref_backup_nothing">Nothing was chosen</string>
+    <string name="pref_dangerous_header">Advanced</string>
+    <string name="pref_dangerous_warning">These can break playback of files that otherwise work.</string>
+    <string name="pref_captioning_preferences">System caption style</string>
+    <string name="pref_decoder_priority">Decoder priority</string>
+    <string name="pref_decoder_priority_prefer_device">Prefer device decoders (default)</string>
+    <string name="pref_decoder_priority_prefer_app">Prefer app decoders</string>
+    <string name="pref_decoder_priority_only_device">Device decoders only</string>
+    <string name="pref_language_audio">Default audio track</string>
+    <string name="pref_language_track_device">Device languages</string>
+    <string name="pref_language_track_default">Default</string>
+    <string name="pref_subtitle_header">Subtitles</string>
+    <string name="pref_subtitle_message">More subtitle settings during playback: long-press the subtitles icon.</string>
+    <string name="pref_custom_subtitle_font">Custom font</string>
+    <string name="pref_choose_custom_font">Choose the font</string>
+    <string name="pref_custom_subtitle_font_not_set">No custom font selected</string>
+    <string name="pref_custom_subtitle_font_failed">Unable to load font</string>
+    <string name="osd_item_integer_default">@string/pref_language_track_default</string>
+    <string name="osd_item_boolean_true">On</string>
+    <string name="osd_item_boolean_false">Off</string>
+    <string name="osd_sleep_title">Sleep timer</string>
+    <string name="osd_sleep_off">Off</string>
+    <string name="osd_sleep_end">End of file</string>
+    <string name="osd_sleep_minutes">%1$d min</string>
+    <string name="sleep_set">Sleeping in %1$d min</string>
+    <string name="sleep_end_set">Sleeping at the end of this file</string>
+    <string name="sleep_off">Sleep timer off</string>
+    <string name="sleep_done">Sleep timer \u2022 paused</string>
+    <string name="osd_player_title">Quick settings</string>
+    <string name="osd_player_speed_title">Speed</string>
+    <string name="osd_player_speed_normal">Normal</string>
+    <string name="osd_player_all_settings">All settings...</string>
+    <string name="osd_audio_delay_title">Audio delay</string>
+    <string name="osd_subtitle_delay_full">Subtitle delay</string>
+    <string name="osd_audio_title">@string/audio_title</string>
+    <string name="audio_title">Audio</string>
+    <!-- own text, so renaming it does not rename the settings category -->
+    <string name="osd_subtitle_title">Customise subtitles...</string>
+    <string name="osd_subtitle_position_title">Position</string>
+    <string name="osd_subtitle_delay_title">Delay</string>
+    <string name="osd_subtitle_size_title">Size</string>
+    <string name="osd_subtitle_edge_type_title">Edge type</string>
+    <string name="osd_subtitle_edge_type_default">@string/pref_language_track_default</string>
+    <string name="osd_subtitle_edge_type_none">None</string>
+    <string name="osd_subtitle_edge_type_outline">Outline</string>
+    <string name="osd_subtitle_edge_type_drop_shadow">Drop shadow</string>
+    <string name="osd_subtitle_edge_type_outline_shadow">Outline &amp; shadow</string>
+    <string name="osd_subtitle_edge_type_raised">Raised</string>
+    <string name="osd_subtitle_edge_type_depressed">Depressed</string>
+    <string name="osd_subtitle_typeface_title">Typeface</string>
+    <string name="osd_subtitle_typeface_regular">Regular</string>
+    <string name="osd_subtitle_typeface_medium">Medium</string>
+    <string name="osd_subtitle_typeface_bold">Bold</string>
+    <string name="osd_subtitle_embedded_styles_title">Embedded styles</string>
+    <string name="osd_subtitle_caption_preferences_title">@string/pref_captioning_preferences</string>
+
+    <string name="pref_addons">Stremio subtitle addons</string>
+    <string name="pref_addons_summary">Up to 5</string>
+    <string name="pref_addons_note">Paste a Stremio subtitle addon link \u2022 the URL its configure page gives you, with or without /manifest.json. No API key is needed, and each addon is checked against a known film before it is saved.
+
+Addon 1 comes set to the official OpenSubtitles addon, which works as-is. The others are yours to fill in \u2022 OpenSubtitles PRO, SubSource Subtitles and SubSense are the ones people usually add.</string>
+    <string name="pref_addon_slot">Addon %1$d</string>
+    <string name="pref_addon_dialog_message">Paste the addon URL, or leave empty to remove it.</string>
+    <string name="pref_addon_empty">Not set</string>
+    <string name="pref_addon_unnamed">Addon</string>
+    <string name="pref_addon_checking">Checking the addon...</string>
+    <string name="pref_addon_ok">%1$s added \u2022 %2$d subtitles in %3$d languages.</string>
+    <string name="pref_addon_ok_unverified">The test download was throttled, so it could not be confirmed.</string>
+    <string name="pref_addon_invalid">That is not a usable addon URL.</string>
+    <string name="pref_addon_unreachable">The addon did not answer.</string>
+    <string name="pref_addon_not_an_addon">That URL is not a Stremio addon.</string>
+    <string name="pref_addon_no_subtitles_resource">That addon does not provide subtitles.</string>
+    <string name="pref_addon_needs_configuration">That addon needs configuring first \u2022 use its configure page and paste the URL it gives you.</string>
+    <string name="pref_addon_fetch_failed">The addon refused a subtitle request.</string>
+    <string name="pref_addon_no_subtitles">The addon returned nothing for a film that has subtitles everywhere, so it would return nothing for your files too.</string>
+    <string name="pref_addon_no_usable_url">The addon returned subtitles with no usable links.</string>
+    <string name="pref_addon_not_downloadable">The addon\'s links did not deliver a subtitle file.</string>
+
+    <!-- what a service said of a key; %1$s is the service's name (TMDB, SubDL\u2022) -->
+    <string name="key_check_cleared">Cleared</string>
+    <string name="key_check_saved">Saved</string>
+    <string name="key_check_accepted">%1$s accepted the key</string>
+    <string name="key_check_rejected">%1$s rejected the key</string>
+    <string name="key_check_rate_limited">%1$s is rate limiting; try again shortly</string>
+    <string name="key_check_no_answer">No answer from %1$s \u2022 check the connection</string>
+    <string name="key_check_http">%1$s answered HTTP %2$d</string>
+
+    <!-- the setup page opened in a browser on another device -->
+    <string name="setup_enter_pin">Enter the PIN shown on the player.</string>
+    <string name="setup_pin">PIN</string>
+    <string name="setup_continue">Continue</string>
+    <string name="setup_wrong_pin">That PIN does not match the one on the player.</string>
+    <string name="setup_saved">Saved: %1$s. The player has it \u2022 you can close this page now.</string>
+    <string name="setup_not_saved">Not saved: %1$s</string>
+    <string name="setup_keys">Keys</string>
+    <string name="setup_keys_note">A key already set is not shown. Leave it empty to keep it.</string>
+    <string name="setup_already_set">%1$s \u2022 already set</string>
+    <string name="setup_test">Test</string>
+    <string name="setup_two_letter_code">Two-letter code</string>
+    <string name="setup_addons_note">These are shown because they are not secrets.</string>
+    <string name="setup_check_and_save">Check and save</string>
+    <string name="setup_gone">The player is no longer listening</string>
+    <string name="setup_nothing_to_test">Nothing to test</string>
+    <string name="setup_nothing_entered">Nothing entered</string>
+    <string name="setup_addon_works">%1$s works \u2022 %2$d subtitles in %3$d languages.</string>
+
+    <string name="pref_appearance_header">Appearance</string>
+    <string name="pref_app_language">Language</string>
+    <string name="pref_app_language_system">System default</string>
+    <string name="pref_accent">Theme colour</string>
+    <string name="pref_player_style">Player style</string>
+    <string name="player_style_minimalism" translatable="false">Minimalism</string>
+    <string name="player_style_maximalism" translatable="false">Maximalism</string>
+    <string name="player_style_glass" translatable="false">Glassmorphism</string>
+    <string name="player_style_neumorphism" translatable="false">Neumorphism</string>
+    <string name="player_style_claymorphism" translatable="false">Claymorphism</string>
+    <string name="player_style_brutalism" translatable="false">Brutalism</string>
+    <string name="player_style_neobrutalism" translatable="false">Neo-Brutalism</string>
+    <string name="player_style_skeuomorphism" translatable="false">Skeuomorphism</string>
+    <string name="player_style_flat" translatable="false">Flat Design</string>
+    <string name="player_style_material" translatable="false">Material Design 3</string>
+    <string name="player_style_bento" translatable="false">Bento UI</string>
+    <string name="player_style_y2k" translatable="false">Y2K Design</string>
+    <string name="player_style_retro" translatable="false">Retro Design</string>
+    <string name="player_style_cyberpunk" translatable="false">Cyberpunk</string>
+    <string name="player_style_classic" translatable="false">Classic</string>
+    <string name="accent_indigo">Electric Indigo</string>
+    <string name="accent_cyan">MPVX Cyan</string>
+    <string name="accent_red">Red</string>
+    <string name="accent_orange">Orange</string>
+    <string name="accent_yellow">Yellow</string>
+    <string name="accent_lime">Lime</string>
+    <string name="accent_green">Green</string>
+    <string name="accent_blue">Blue</string>
+    <string name="accent_violet">Violet</string>
+    <string name="accent_fuchsia">Fuchsia</string>
+    <string name="accent_pink">Pink</string>
+    <string name="accent_slate">Slate</string>
+    <string name="accent_catppuccin" translatable="false">Catppuccin (Mocha)</string>
+    <string name="accent_aurora" translatable="false">Aurora Blue</string>
+    <string name="accent_cloudflare" translatable="false">Cloudflare Orange</string>
+    <string name="accent_cotton_candy" translatable="false">Cotton Candy</string>
+    <string name="accent_doom_one" translatable="false">Doom One</string>
+    <string name="accent_green_apple" translatable="false">Green Apple</string>
+    <string name="accent_lavender" translatable="false">Lavender Mist</string>
+    <string name="accent_midnight_dusk" translatable="false">Midnight Dusk</string>
+    <string name="accent_monokai" translatable="false">Monokai Pro</string>
+    <string name="accent_nord" translatable="false">Nordic Frost</string>
+    <string name="accent_sakura" translatable="false">Sakura Blossom</string>
+    <string name="accent_strawberry" translatable="false">Strawberry Red</string>
+    <string name="accent_takao" translatable="false">Takao Gold</string>
+    <string name="accent_tea" translatable="false">Matcha Tea</string>
+    <string name="accent_tidal_wave" translatable="false">Tidal Wave Cyan</string>
+    <string name="accent_amber" translatable="false">Amber Glow</string>
+    <string name="accent_cyberpunk" translatable="false">Cyberpunk Neon</string>
+    <string name="accent_gruvbox" translatable="false">Gruvbox Retro</string>
+    <string name="accent_tokyo_night" translatable="false">Tokyo Night</string>
+    <string name="accent_dracula" translatable="false">Dracula Purple</string>
+    <string name="theme_applied_toast" translatable="false">Applied %s theme</string>
+
+    <string name="home_title" translatable="false">MPVX Player</string>
+    <string name="home_choose">Choose a video</string>
+    <string name="home_search">Search</string>
+    <string name="home_search_hint">Search videos</string>
+    <string name="home_sort">Sort</string>
+    <string name="home_sort_title">Sort by</string>
+    <string name="home_sort_name">Name</string>
+    <string name="home_sort_count">Number of videos</string>
+    <string name="home_sort_size">Size</string>
+    <string name="home_sort_date">Date</string>
+    <string name="home_sort_duration">Length</string>
+    <string name="home_sort_order">Order</string>
+    <string name="home_order_az">A to Z</string>
+    <string name="home_order_za">Z to A</string>
+    <string name="home_order_most">Most first</string>
+    <string name="home_order_fewest">Fewest first</string>
+    <string name="home_order_largest">Largest first</string>
+    <string name="home_order_smallest">Smallest first</string>
+    <string name="home_order_newest">Newest first</string>
+    <string name="home_order_oldest">Oldest first</string>
+    <string name="home_order_longest">Longest first</string>
+    <string name="home_order_shortest">Shortest first</string>
+    <string name="quick_settings_title">Quick Settings</string>
+    <string name="quick_section_view_mode">Media view mode</string>
+    <string name="quick_mode_all_videos">All Videos</string>
+    <string name="quick_section_layout">Layout</string>
+    <string name="quick_layout_list">List Cards</string>
+    <string name="quick_layout_grid">Grid Tiles</string>
+    <string name="quick_done">Done</string>
+    <string name="quick_close">Close</string>
+    <string name="pref_liquid_glass_title">Liquid Glass Effect</string>
+    <string name="pref_liquid_glass_summary">Frosted glass surfaces, specular refraction highlights, and translucent overlays</string>
+    <string name="home_pin">Add to favourites</string>
+    <string name="home_unpin">Remove from favourites</string>
+    <string name="home_pinned">Added to favourites</string>
+    <string name="home_unpinned">Removed from favourites</string>
+    <string name="home_section_recent">Recent</string>
+    <string name="home_section_pinned">Favourites</string>
+    <string name="home_section_folders">Folders</string>
+    <string name="home_section_results">Results</string>
+    <string name="home_grant">Allow access</string>
+    <string name="home_empty_permission">MPVX Player needs permission to list videos and music on this device.\n\nNothing is uploaded anywhere, and files can still be opened one at a time without it.</string>
+    <string name="home_empty_none">No videos on this device yet.\n\nThe link button above plays a network address, and anything sent here from another app opens as usual.\n\nExpecting a folder that is not here? This list comes from Android\'s own index of media, and a folder missing from that index will not appear. Settings \u2192 Media Library lets you trigger a device media rescan.</string>
+    <string name="home_empty_folder">This folder is empty.</string>
+    <string name="home_empty_results">No videos match that name.</string>
+    <string name="home_videos_one">1 video</string>
+    <string name="home_videos_many">%1$d videos</string>
+
+    <string name="pref_home_header">Home screen</string>
+    <string name="pref_start_on">Start on</string>
+    <string name="pref_recent_posters">Film posters in Recent</string>
+    <string name="pref_recent_posters_summary">Once you\'ve watched a little of a film</string>
+    <string name="pref_image_cache">Clear image cache</string>
+    <string name="pref_image_cache_size">Uses %1$s \u2022 posters and thumbnails, kept so they show offline</string>
+    <string name="pref_image_cache_empty">Empty \u2022 posters and thumbnails are kept here so they show offline</string>
+    <string name="image_cache_clear_title">Clear image cache?</string>
+    <string name="image_cache_clear_message">Frees %1$s. Posters download again, and thumbnails are made again, when next shown.</string>
+    <string name="image_cache_clear">Clear</string>
+    <string name="start_on_home">Home screen</string>
+    <string name="start_on_last">Last video</string>
+    <string name="pref_home_layout">Layout</string>
+    <string name="home_layout_list">List</string>
+    <string name="home_layout_wall">Frame wall</string>
+    <string name="home_wall_hint">Hold a folder to add it to your favourites</string>
+
+
+    <string name="set_audio">Audio</string>
+    <string name="set_storage">Storage and backup</string>
+    <string name="set_group_engine">Engine</string>
+    <string name="set_group_open">When a video opens</string>
+    <string name="set_group_playing">While it plays</string>
+    <string name="set_group_more">More</string>
+    <string name="set_recent_count">How many in Recent</string>
+    <string name="set_subs_above">Subtitles above the controls</string>
+    <string name="set_search">Search settings</string>
+    <string name="set_search_none">Nothing matches</string>
+    <string name="set_hub_appearance">%1$s \u2022 %2$s</string>
+    <string name="set_hub_home">%1$s \u2022 %2$d in Recent</string>
+    <string name="set_hub_playback">%1$s engine \u2022 previews %2$s</string>
+    <string name="set_hub_audio">%1$s \u2022 boost %2$s</string>
+    <string name="set_hub_gestures">Double tap %1$d s \u2022 controls hide after %2$d s</string>
+    <string name="set_hub_subtitles">Search in %1$s</string>
+    <string name="set_hub_online_set">TMDB key set \u2022 %1$s</string>
+    <string name="set_hub_online_unset">No TMDB key yet</string>
+    <string name="set_anilist">More coverage for anime</string>
+    <string name="set_anilist_summary">Asks AniList for anime names and seasons. Free, no account</string>
+    <string name="set_hub_storage">Folders, played links, backup</string>
+    <string name="set_hub_advanced">Decoders, file access, tunneling</string>
+    <string name="set_hub_about">v%1$s \u2022 System &amp; Info</string>
+    <string name="set_on">on</string>
+    <string name="set_off">off</string>
+    <string name="set_previews_all">for all videos</string>
+    <string name="set_previews_local">for local files</string>
+    <string name="set_previews_off">off</string>
+    <string name="player_style_minimalism_desc" translatable="false">Clean, spacious, and focused controls with minimal clutter.</string>
+    <string name="player_style_maximalism_desc" translatable="false">Bold accents, rich visual cards, and immediate access to quick controls.</string>
+    <string name="player_style_glass_desc" translatable="false">Translucent frosted panels with subtle edge highlights.</string>
+    <string name="player_style_neumorphism_desc" translatable="false">Soft extruded UI surfaces with subtle depth shading.</string>
+    <string name="player_style_claymorphism_desc" translatable="false">Rounded tactile controls with soft layered elevation.</string>
+    <string name="player_style_brutalism_desc" translatable="false">High-contrast layout with crisp geometry and minimal decoration.</string>
+    <string name="player_style_neobrutalism_desc" translatable="false">Vibrant accents framed by bold dark outlines.</string>
+    <string name="player_style_skeuomorphism_desc" translatable="false">Tactile surfaces with metallic accents and depth highlights.</string>
+    <string name="player_style_flat_desc" translatable="false">Clean 2D surfaces with crisp icons and solid colors.</string>
+    <string name="player_style_material_desc" translatable="false">Material Design 3 tonal surfaces, expressive shapes, and smooth motion.</string>
+    <string name="player_style_bento_desc" translatable="false">Modular grid layout organizing key actions into neat cards.</string>
+    <string name="player_style_y2k_desc" translatable="false">Bright glossy accents inspired by early-2000s digital players.</string>
+    <string name="player_style_retro_desc" translatable="false">Warm vintage contrast inspired by classic hardware decks.</string>
+    <string name="player_style_cyberpunk_desc" translatable="false">High-contrast cyan and neon highlights over deep dark surfaces.</string>
+    <string name="player_style_classic_desc" translatable="false">Traditional player gradient fade and clean seek bar.</string>
+
+    <!-- Player HUD Layout Architectures (Reference Boards 1, 2, 3) -->
+    <string name="pref_hud_layout_title" translatable="false">Player HUD Architecture</string>
+    <string name="pref_hud_layout_summary" translatable="false">Select video playback control layout &amp; interaction style</string>
+    <string name="hud_layout_liquid_glass" translatable="false">Liquid Glass Cinema HUD (VisionOS Frosted Glass)</string>
+    <string name="hud_layout_liquid_glass_desc" translatable="false">Ultra-clear frosted glassmorphism HUD with floating glass capsules, cyan borders, and blurred glass action dock</string>
+    <string name="hud_layout_neon_compact" translatable="false">Neon Compact HUD (Cyberpunk Glow &amp; Island Dock)</string>
+    <string name="hud_layout_neon_compact_desc" translatable="false">VisionOS floating glass capsules, right vertical island dock, center cyan glowing transport</string>
+    <string name="hud_layout_radial_cockpit" translatable="false">Radial Cockpit HUD (Circular Dial Wheel)</string>
+    <string name="hud_layout_radial_cockpit_desc" translatable="false">Large circular central cockpit dial wheel with orbital skip buttons and right dashboard arc</string>
+    <string name="hud_layout_sliding_edge" translatable="false">Sliding Edge Panel HUD (Expandable Drawer)</string>
+    <string name="hud_layout_sliding_edge_desc" translatable="false">Sliding edge frosted glass drawer with Audio waveform tile, CC Subtitles, and Settings</string>
+    <string name="hud_layout_corner_dial" translatable="false">Corner Dial Widget (Quarter-Circle Arc)</string>
+    <string name="hud_layout_corner_dial_desc" translatable="false">Curved quarter-circle radial dock in bottom-right corner with concentric action rings</string>
+    <string name="hud_layout_expanded_header" translatable="false">Expanded Header Integration (Top Segmented Pills)</string>
+    <string name="hud_layout_expanded_header_desc" translatable="false">Top bar segmented pill capsules: Audio, Subtitles, Lock, Settings, and Zoom</string>
+    <string name="hud_layout_bottom_dock" translatable="false">Unified Bottom Dock (Cinema Action Cards)</string>
+    <string name="hud_layout_bottom_dock_desc" translatable="false">High-contrast frosted glass bottom shelf with large action cards above the seekbar</string>
+    <string name="hud_layout_left_arc" translatable="false">Left-Hand Ergonomic Arc (One-Handed Thumb)</string>
+    <string name="hud_layout_left_arc_desc" translatable="false">Curved glowing cyan arc dock along the left edge for comfortable one-handed thumb interaction</string>
+    <string name="hud_layout_minimal_floating" translatable="false">Minimalist Floating HUD (Clean Studio)</string>
+    <string name="hud_layout_minimal_floating_desc" translatable="false">Clean distraction-free layout with specs pill, right-center floating transport, and sleek line</string>
+
+    <!-- Glass Navigation Styles (me20.studio) -->
+    <string name="pref_glass_nav_style_title" translatable="false">Glass Navigation Style</string>
+    <string name="pref_glass_nav_style_summary" translatable="false">Select bottom navigation dock animation and glass physics</string>
+    <string name="nav_style_gooey" translatable="false">Gooey Liquid Fusion</string>
+    <string name="nav_style_gooey_desc" translatable="false">Fluid liquid blob glide with snappy spring bounce</string>
+    <string name="nav_style_capsule" translatable="false">Morphing Capsule Pill</string>
+    <string name="nav_style_capsule_desc" translatable="false">Expandable origami pill with glowing cyan glass aura</string>
+    <string name="nav_style_prism" translatable="false">3D Prism Flip</string>
+    <string name="nav_style_prism_desc" translatable="false">3D frosted glass card that flips along the Y-axis</string>
+    <string name="nav_style_hologram" translatable="false">Hologram Laser Beam</string>
+    <string name="nav_style_hologram_desc" translatable="false">Holographic cyan laser projection with vertical beam</string>
+    <string name="nav_style_orbit" translatable="false">Gravity Orbit Halo</string>
+    <string name="nav_style_orbit_desc" translatable="false">Cosmic orbiting halo ring centered around active tab</string>
+    <string name="nav_style_ripple" translatable="false">Shockwave Pulse Dock</string>
+    <string name="nav_style_ripple_desc" translatable="false">Dynamic radial shockwave ripple that pulses outward</string>
+    <string name="set_clock">Clock</string>
+    <string name="set_clock_format">Time format</string>
+    <string name="set_clock_format_phone">Same as the phone</string>
+    <string name="set_clock_format_12">12-hour</string>
+    <string name="set_clock_format_24">24-hour</string>
+
+    <!-- short units after a number: 0.5 s, 1 m, 946 MB -->
+    <string name="unit_seconds_short">s</string>
+    <string name="unit_minutes_short">m</string>
+    <string name="unit_bytes">B</string>
+    <string name="unit_kilobytes">KB</string>
+    <string name="unit_megabytes">MB</string>
+    <string name="unit_gigabytes">GB</string>
+    <string name="unit_terabytes">TB</string>
+    <string name="unit_kilohertz">kHz</string>
+    <string name="unit_kilobits_per_second">kb/s</string>
+    <string name="set_battery">Battery</string>
+    <string name="set_corner_off">Off</string>
+    <string name="set_corner_controls">With the controls</string>
+    <string name="set_corner_always">Always</string>
+    <string name="set_clock_off_desc">No clock in the player</string>
+    <string name="set_battery_off_desc">No battery in the player</string>
+    <string name="set_corner_controls_desc">Beside the title while the controls show</string>
+    <string name="set_corner_always_desc">In the corner the whole time</string>
+    <string name="start_on_home_desc">Your folders and recent films</string>
+    <string name="start_on_last_desc">Straight back into the last video</string>
+    <string name="home_layout_list_desc">Names in rows</string>
+    <string name="home_layout_wall_desc">Posters and pictures</string>
+    <string name="seek_preview_off_desc">The film itself moves as you drag</string>
+    <string name="seek_preview_local_desc">A picture of where you are going, for files on this device</string>
+    <string name="seek_preview_all_desc">The same for links and streams too</string>
+
+    <!-- Diagnostic Dump Log -->
+    <string name="pref_dump_log_title" translatable="false">Dump log</string>
+    <string name="pref_dump_log_summary" translatable="false">Export system info, engine configuration, crash trace, and logcat</string>
+    <string name="dump_log_generating" translatable="false">Gathering system logs and diagnostics...</string>
+    <string name="dump_log_share" translatable="false">Share</string>
+    <string name="dump_log_copy" translatable="false">Copy</string>
+    <string name="dump_log_clear_crashes" translatable="false">Clear crash history</string>
+    <string name="dump_log_copied" translatable="false">Diagnostic log copied to clipboard</string>
+    <string name="dump_log_cleared" translatable="false">Crash history cleared</string>
+</resources>
+
+
+
+
