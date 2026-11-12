@@ -387,7 +387,7 @@ class MpvxCoreFeatureTest {
 
         AppSettings.resetPreferencesOnly()
 
-        assertEquals("EXPRESSIVE", AppSettings.seekbarStyle.value)
+        assertEquals("NORMAL", AppSettings.seekbarStyle.value)
         assertEquals("GLASS", AppSettings.playerControlsTheme.value)
         assertTrue(AppSettings.displayVolumeOnRight.value)
         assertEquals(90, AppSettings.customSkipDurationSec.value)
@@ -1048,6 +1048,33 @@ class MpvxCoreFeatureTest {
         assertTrue(DeepSettingsSearchIndex.search("saf folder").any { it.page == SettingsDestinationPage.MEDIA_LIBRARY })
         assertTrue(DeepSettingsSearchIndex.search("visualizer").any { it.page == SettingsDestinationPage.AUDIO })
         assertTrue(DeepSettingsSearchIndex.search("jellyfin").any { it.page == SettingsDestinationPage.NAVIGATION })
+    }
+
+    @Test
+    fun autoFormatOrientationAndCinemaHudDefaultsWorkCleanly() {
+        assertEquals(1080 to 1920, PlayerControlCatalog.resolveDisplayDimensions(1080, 1920, 0))
+        assertEquals(1080 to 1920, PlayerControlCatalog.resolveDisplayDimensions(1920, 1080, 90))
+        assertEquals(1080 to 1920, PlayerControlCatalog.resolveDisplayDimensions(1920, 1080, 270))
+        assertEquals(1080 to 1920, PlayerControlCatalog.resolveDisplayDimensions(1920, 1080, -90))
+        assertEquals(1920 to 1080, PlayerControlCatalog.resolveDisplayDimensions(1920, 1080, 180))
+        assertTrue(PlayerControlCatalog.isPortraitVideo(1080, 1920, 0))
+        assertTrue(PlayerControlCatalog.isPortraitVideo(1920, 1080, 90))
+        assertFalse(PlayerControlCatalog.isPortraitVideo(1920, 1080, 0))
+        assertFalse(PlayerControlCatalog.isPortraitVideo(1080, 1080, 0))
+
+        AppSettings.resetHudLayoutToDefault()
+        assertTrue(AppSettings.hidePlayerButtonsBg.value)
+        assertFalse(AppSettings.showSeekbarOuterContainer.value)
+        assertEquals("BELOW_SEEKBAR", AppSettings.portraitControlsPosition.value)
+        assertEquals("NORMAL", AppSettings.seekbarStyle.value)
+        val dupes = PlayerControlCatalog.findDuplicateTokens(
+            listOf(
+                AppSettings.topRightHudControls.value,
+                AppSettings.bottomLeftHudControls.value,
+                AppSettings.bottomRightHudControls.value
+            )
+        )
+        assertTrue(dupes.isEmpty())
     }
 }
 

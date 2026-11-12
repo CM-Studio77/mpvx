@@ -144,6 +144,21 @@ object PlayerControlCatalog {
         "Match Video"
     )
 
+    fun resolveDisplayDimensions(width: Int, height: Int, rotationDegrees: Int): Pair<Int, Int> {
+        if (width <= 0 || height <= 0) return 0 to 0
+        val normalizedRotation = ((rotationDegrees % 360) + 360) % 360
+        return if (normalizedRotation == 90 || normalizedRotation == 270) {
+            height to width
+        } else {
+            width to height
+        }
+    }
+
+    fun isPortraitVideo(width: Int, height: Int, rotationDegrees: Int = 0): Boolean {
+        val (dispW, dispH) = resolveDisplayDimensions(width, height, rotationDegrees)
+        return dispW > 0 && dispH > dispW
+    }
+
     val SEEKBAR_STYLES: List<Pair<String, String>> = listOf(
         "NORMAL" to "Normal",
         "STANDARD" to "Standard",

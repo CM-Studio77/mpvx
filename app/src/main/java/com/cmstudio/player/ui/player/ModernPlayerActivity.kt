@@ -190,8 +190,9 @@ class ModernPlayerActivity : ComponentActivity() {
     private var resolutionTextState by mutableStateOf("")
     private var channelLayoutTextState by mutableStateOf("Stereo")
     private var naturalVideoAspect by mutableFloatStateOf(16f / 9f)
-    private var videoWidthPx by mutableIntStateOf(1920)
-    private var videoHeightPx by mutableIntStateOf(1080)
+    private var videoWidthPx by mutableIntStateOf(0)
+    private var videoHeightPx by mutableIntStateOf(0)
+    private var hasResolvedVideoSize by mutableStateOf(false)
 
     private var currentSpeedState by mutableFloatStateOf(1.0f)
     private var zoomScaleState by mutableFloatStateOf(1.0f)
@@ -467,6 +468,9 @@ class ModernPlayerActivity : ComponentActivity() {
             LaunchedEffect(subSpeedMilli) { subtitleSpeedAtomic.set(subSpeedMilli) }
             LaunchedEffect(audioChannelMode) { audioChannelModeAtomic.set(audioChannelMode) }
             LaunchedEffect(showSysStatusBar, showSysNavBar) { hideSystemUI() }
+            LaunchedEffect(hasResolvedVideoSize, videoWidthPx, videoHeightPx, orientationMode) {
+                applyOrientationPreference(if (orientationMode == "Auto-Rotate") "Auto" else orientationMode)
+            }
 
             // Load Matroska chapters asynchronously whenever media URI or duration changes
             LaunchedEffect(currentUriState, durationMsState) {
@@ -567,10 +571,16 @@ class ModernPlayerActivity : ComponentActivity() {
                     durationMsState = mpvSnap.durationMs
                     bufferedPositionMsState = mpvSnap.bufferedMs
                     if (mpvSnap.videoWidth > 0 && mpvSnap.videoHeight > 0) {
-                        videoWidthPx = mpvSnap.videoWidth
-                        videoHeightPx = mpvSnap.videoHeight
-                        naturalVideoAspect = mpvSnap.videoWidth.toFloat() / mpvSnap.videoHeight.toFloat()
-                        resolutionTextState = "${mpvSnap.videoWidth}x${mpvSnap.videoHeight}"
+                        val (dispW, dispH) = PlayerControlCatalog.resolveDisplayDimensions(
+                            mpvSnap.videoWidth,
+                            mpvSnap.videoHeight,
+                            mpvSnap.videoRotate
+                        )
+                        videoWidthPx = dispW
+                        videoHeightPx = dispH
+                        hasResolvedVideoSize = true
+                        naturalVideoAspect = dispW.toFloat() / dispH.toFloat()
+                        resolutionTextState = "${dispW}x${dispH}"
                         updatePipAspectParams()
                     }
                     codecNameState = mpvSnap.codecName.ifBlank { "MPV" }
@@ -1247,6 +1257,9 @@ class ModernPlayerActivity : ComponentActivity() {
 
     private fun loadCurrentMediaIntoMpv(ctx: Context, resumePosMs: Long, autoPlay: Boolean) {
         val targetUri = currentUriState ?: return
+        hasResolvedVideoSize = false
+        videoWidthPx = 0
+        videoHeightPx = 0
         activePlaybackError = null
         activePlaybackErrorDetails = null
         val renderCfg = AppSettings.currentEngineRenderConfig()
@@ -1526,11 +1539,19 @@ class ModernPlayerActivity : ComponentActivity() {
 
             override fun onVideoSizeChanged(videoSize: VideoSize) {
                 if (videoSize.width > 0 && videoSize.height > 0) {
-                    videoWidthPx = videoSize.width
-                    videoHeightPx = videoSize.height
-                    naturalVideoAspect = (videoSize.width.toFloat() / videoSize.height.toFloat()) *
-                        videoSize.pixelWidthHeightRatio
-                    resolutionTextState = "${videoSize.width}x${videoSize.height}"
+                    @Suppress("DEPRECATION")
+                    val unappliedRot = videoSize.unappliedRotationDegrees
+                    val (dispW, dispH) = PlayerControlCatalog.resolveDisplayDimensions(
+                        videoSize.width,
+                        videoSize.height,
+                        unappliedRot
+                    )
+                    videoWidthPx = dispW
+                    videoHeightPx = dispH
+                    hasResolvedVideoSize = true
+                    naturalVideoAspect = (dispW.toFloat() / dispH.toFloat()) *
+                        (if (dispW != videoSize.width && videoSize.pixelWidthHeightRatio > 0f) 1f / videoSize.pixelWidthHeightRatio else videoSize.pixelWidthHeightRatio)
+                    resolutionTextState = "${dispW}x${dispH}"
                     updatePipAspectParams()
                 }
             }
@@ -1577,9 +1598,16 @@ class ModernPlayerActivity : ComponentActivity() {
                     ?.uppercase(Locale.US)
                     ?: "Video"
                 if (format.width > 0 && format.height > 0) {
-                    videoWidthPx = format.width
-                    videoHeightPx = format.height
-                    resolutionTextState = "${format.width}x${format.height}"
+                    val (dispW, dispH) = PlayerControlCatalog.resolveDisplayDimensions(
+                        format.width,
+                        format.height,
+                        format.rotationDegrees
+                    )
+                    videoWidthPx = dispW
+                    videoHeightPx = dispH
+                    hasResolvedVideoSize = true
+                    naturalVideoAspect = dispW.toFloat() / dispH.toFloat()
+                    resolutionTextState = "${dispW}x${dispH}"
                 }
                 if (format.frameRate > 1f && format.frameRate != Format.NO_VALUE.toFloat()) {
                     detectedFpsState = format.frameRate
@@ -1645,6 +1673,9 @@ class ModernPlayerActivity : ComponentActivity() {
 
     private fun prepareCurrentMediaOnPlayer(player: ExoPlayer, resumePosMs: Long) {
         val targetUri = currentUriState ?: return
+        hasResolvedVideoSize = false
+        videoWidthPx = 0
+        videoHeightPx = 0
         activePlaybackError = null
         val builder = MediaItem.Builder().setUri(targetUri)
         if (addedSubtitles.isNotEmpty()) {
@@ -2456,9 +2487,16 @@ class ModernPlayerActivity : ComponentActivity() {
             "Portrait" -> ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
             "Reverse Portrait" -> ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
             "Sensor Portrait" -> ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
-            "Match Video" -> {
-                if (videoWidthPx >= videoHeightPx) ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
-                else ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
+            "Auto", "Auto-Rotate", "Match Video" -> {
+                when {
+                    !hasResolvedVideoSize || videoWidthPx <= 0 || videoHeightPx <= 0 ->
+                        ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                    videoHeightPx > videoWidthPx ->
+                        ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
+                    videoWidthPx > videoHeightPx ->
+                        ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+                    else -> ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                }
             }
             else -> ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
         }

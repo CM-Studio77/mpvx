@@ -38,6 +38,7 @@ data class MpvRuntimeSnapshot(
     val bufferedMs: Long = 0L,
     val videoWidth: Int = 0,
     val videoHeight: Int = 0,
+    val videoRotate: Int = 0,
     val detectedFps: Float = 24f,
     val bitrateBps: Long = 0L,
     val codecName: String = "MPV",
@@ -206,7 +207,7 @@ object MpvEngineController : MPVLib.EventObserver {
 
     private fun observeCoreProperties() {
         val boolProps = listOf("pause", "paused-for-cache", "eof-reached")
-        val longProps = listOf("video-params/w", "video-params/h", "chapter", "aid", "sid", "secondary-sid")
+        val longProps = listOf("video-params/w", "video-params/h", "video-params/rotate", "chapter", "aid", "sid", "secondary-sid")
         val doubleProps = listOf("time-pos", "duration", "demuxer-cache-duration", "container-fps", "video-bitrate")
         val strProps = listOf("video-codec", "hwdec-current", "video-params/gamma", "video-params/primaries")
         val nodeProps = listOf("track-list", "chapter-list")
@@ -317,6 +318,9 @@ object MpvEngineController : MPVLib.EventObserver {
                 isFileLoaded = false,
                 isEnded = false,
                 positionMs = startPositionMs.coerceAtLeast(0L),
+                videoWidth = 0,
+                videoHeight = 0,
+                videoRotate = 0,
                 lastError = null
             )
             MPVLib.setPropertyBoolean("pause", !autoPlay)
@@ -750,6 +754,7 @@ object MpvEngineController : MPVLib.EventObserver {
         when (property) {
             "video-params/w" -> _snapshot.value = _snapshot.value.copy(videoWidth = value.toInt().coerceAtLeast(0))
             "video-params/h" -> _snapshot.value = _snapshot.value.copy(videoHeight = value.toInt().coerceAtLeast(0))
+            "video-params/rotate" -> _snapshot.value = _snapshot.value.copy(videoRotate = value.toInt())
             "chapter" -> _snapshot.value = _snapshot.value.copy(currentChapterIndex = value.toInt())
             "aid", "sid", "secondary-sid" -> mainHandler.post { refreshTrackLists() }
         }

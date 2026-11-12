@@ -146,6 +146,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -1340,9 +1341,9 @@ fun VideoPlayerScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(155.dp)
+                        .height(if (isCompactWidth) 130.dp else 135.dp)
                         .align(Alignment.TopCenter)
-                        .background(Brush.verticalGradient(colors = listOf(Color.Black.copy(alpha = 0.88f), Color.Transparent)))
+                        .background(Brush.verticalGradient(colors = listOf(Color.Black.copy(alpha = 0.72f), Color.Transparent)))
                 )
 
                 val isHudTokenEnabled: (String) -> Boolean = { raw ->
@@ -1428,7 +1429,7 @@ fun VideoPlayerScreen(
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        horizontalArrangement = Arrangement.spacedBy(if (isCompactWidth) 6.dp else 8.dp)
                     ) {
                         Surface(
                             onClick = onBackClick,
@@ -1443,26 +1444,59 @@ fun VideoPlayerScreen(
                         }
 
                         Surface(
+                            onClick = { showQueueSheet = true },
                             shape = CircleShape,
                             color = hudGlassFill,
                             border = BorderStroke(1.dp, hudGlassBorder),
-                            modifier = Modifier
-                                .weight(1f)
-                                .height(btnSizeDp)
-                                .clickable { showCodecInspectorSheet = true }
+                            modifier = Modifier.size(btnSizeDp)
                         ) {
-                            Box(
-                                contentAlignment = Alignment.CenterStart,
-                                modifier = Modifier.padding(horizontal = 14.dp)
+                            Box(contentAlignment = Alignment.Center) {
+                                Icon(Icons.AutoMirrored.Rounded.QueueMusic, contentDescription = "Playlist", tint = Color.White, modifier = Modifier.size(btnIconSizeDp))
+                            }
+                        }
+
+                        if (hideBtnBg) {
+                            Text(
+                                text = videoTitle,
+                                style = MaterialTheme.typography.titleSmall.copy(
+                                    shadow = Shadow(
+                                        color = Color.Black.copy(alpha = 0.80f),
+                                        offset = Offset(0f, 1.5f),
+                                        blurRadius = 6f
+                                    )
+                                ),
+                                fontWeight = FontWeight.SemiBold,
+                                color = Color.White,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .clickable { showCodecInspectorSheet = true }
+                                    .padding(horizontal = 4.dp)
+                            )
+                        } else {
+                            Surface(
+                                shape = CircleShape,
+                                color = hudGlassFill,
+                                border = BorderStroke(1.dp, hudGlassBorder),
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .height(btnSizeDp)
+                                    .clickable { showCodecInspectorSheet = true }
                             ) {
-                                Text(
-                                    text = videoTitle,
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = Color.White,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
-                                )
+                                Box(
+                                    contentAlignment = Alignment.CenterStart,
+                                    modifier = Modifier.padding(horizontal = 14.dp)
+                                ) {
+                                    Text(
+                                        text = videoTitle,
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = Color.White,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                }
                             }
                         }
 
@@ -1545,11 +1579,12 @@ fun VideoPlayerScreen(
                     }
                 }
 
-                // 2. Center Playback Transport Cluster (Prev + Rewind + Hero Play/Pause + Forward + Next)
-                if (!isLocked && (!isCompactWidth || portraitCtrlPos == "CENTER")) {
+                // 2. Center Playback Transport Cluster (Portrait "CENTER" option only; Cinema default uses the Bottom Capsule)
+                val showCenterTransport = !isLocked && isCompactWidth && portraitCtrlPos == "CENTER"
+                if (showCenterTransport) {
                     Row(
                         modifier = Modifier.align(Alignment.Center),
-                        horizontalArrangement = Arrangement.spacedBy(if (isCompactWidth) 16.dp else 24.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         if (hasPreviousTrack) {
@@ -1659,12 +1694,12 @@ fun VideoPlayerScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(185.dp)
+                        .height(if (isCompactWidth) 215.dp else 220.dp)
                         .align(Alignment.BottomCenter)
-                        .background(Brush.verticalGradient(colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.88f))))
+                        .background(Brush.verticalGradient(colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.84f))))
                 )
 
-                // 3. Bottom Action Row + Expressive / Wavy Seekbar Capsule
+                // 3. Bottom Quick-Action Strip + Full-Width Seekbar + Floating Frosted Capsule
                 if (!isLocked) {
                     val bgPlayEnabled by AppSettings.backgroundPlayback.collectAsState()
                     val sheetAccentColor = playerSheetAccent()
@@ -1675,17 +1710,21 @@ fun VideoPlayerScreen(
                             .windowInsetsPadding(WindowInsets.displayCutout.only(WindowInsetsSides.Horizontal))
                             .navigationBarsPadding()
                             .padding(
-                                horizontal = if (safeAreaWindow) 22.dp else 14.dp,
-                                vertical = 12.dp
+                                horizontal = if (safeAreaWindow) 22.dp else 16.dp,
+                                vertical = if (isCompactWidth) 10.dp else 12.dp
                             )
                     ) {
                         if (isCompactWidth && portraitBottomActions.isNotEmpty()) {
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(bottom = 10.dp)
+                                    .padding(bottom = 6.dp)
                                     .then(if (portraitBottomActions.size > 6) Modifier.horizontalScroll(rememberScrollState()) else Modifier),
-                                horizontalArrangement = if (portraitBottomActions.size <= 6) Arrangement.SpaceEvenly else Arrangement.spacedBy(8.dp),
+                                horizontalArrangement = if (portraitBottomActions.size <= 5) {
+                                    Arrangement.spacedBy(8.dp, Alignment.End)
+                                } else {
+                                    Arrangement.SpaceEvenly
+                                },
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 portraitBottomActions.forEach { action ->
@@ -1723,7 +1762,7 @@ fun VideoPlayerScreen(
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(bottom = 10.dp),
+                                    .padding(bottom = 6.dp),
                                 horizontalArrangement = Arrangement.SpaceBetween,
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
@@ -1849,178 +1888,287 @@ fun VideoPlayerScreen(
                             }
                         }
 
-                        Surface(
-                            shape = RoundedCornerShape(26.dp),
-                            color = if (showSeekbarOuter) hudGlassFill else Color.Transparent,
-                            border = if (showSeekbarOuter) BorderStroke(1.dp, hudGlassBorder) else null,
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 16.dp, vertical = 12.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                if (showSeekTimeInHud) {
-                                    Text(
-                                        text = formatDuration(activeDisplayMs),
-                                        style = MaterialTheme.typography.labelMedium,
-                                        fontWeight = FontWeight.SemiBold,
-                                        color = Color.White,
-                                        maxLines = 1,
-                                        softWrap = false
-                                    )
-                                }
-
-                                Box(
-                                    modifier = Modifier
-                                        .weight(1f)
-                                        .height(26.dp)
-                                        .padding(horizontal = 12.dp)
-                                        .onGloballyPositioned { seekBarWidthPx = it.size.width.toFloat().coerceAtLeast(1f) }
-                                        .pointerInput(Unit) {
-                                            detectTapGestures { offset ->
+                        val timeShadow = Shadow(
+                            color = Color.Black.copy(alpha = 0.85f),
+                            offset = Offset(0f, 1.5f),
+                            blurRadius = 5f
+                        )
+                        val remainingMs = (durationMs - activeDisplayMs).coerceAtLeast(0L)
+                        val leftTimeLabel: @Composable () -> Unit = {
+                            if (showSeekTimeInHud) {
+                                Text(
+                                    text = formatDuration(activeDisplayMs),
+                                    style = MaterialTheme.typography.labelMedium.copy(shadow = timeShadow),
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = Color.White,
+                                    maxLines = 1,
+                                    softWrap = false
+                                )
+                            }
+                        }
+                        val rightTimeLabel: @Composable () -> Unit = {
+                            if (showSeekTimeInHud) {
+                                Text(
+                                    text = if (showRemainingTime && durationMs > 0L) "-${formatDuration(remainingMs)}" else formatDuration(durationMs),
+                                    style = MaterialTheme.typography.labelMedium.copy(shadow = timeShadow),
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = Color.White,
+                                    maxLines = 1,
+                                    softWrap = false,
+                                    modifier = Modifier.clickable { showRemainingTime = !showRemainingTime }
+                                )
+                            }
+                        }
+                        val seekbarInteractiveBox: @Composable (Modifier) -> Unit = { boxModifier ->
+                            Box(
+                                modifier = boxModifier
+                                    .height(26.dp)
+                                    .onGloballyPositioned { seekBarWidthPx = it.size.width.toFloat().coerceAtLeast(1f) }
+                                    .pointerInput(Unit) {
+                                        detectTapGestures { offset ->
+                                            val dur = latestDurForSeekbar
+                                            if (dur > 0L) {
+                                                val frac = (offset.x / seekBarWidthPx).coerceIn(0f, 1f)
+                                                onSeek((frac * dur).toLong())
+                                            }
+                                        }
+                                    }
+                                    .pointerInput(Unit) {
+                                        detectHorizontalDragGestures(
+                                            onDragStart = { startOffset ->
+                                                isScrubbingSeekbar = true
+                                                scrubFraction = (startOffset.x / seekBarWidthPx).coerceIn(0f, 1f)
+                                            },
+                                            onDragEnd = {
+                                                val finalFrac = scrubFraction
+                                                isScrubbingSeekbar = false
+                                                scrubFraction = null
                                                 val dur = latestDurForSeekbar
-                                                if (dur > 0L) {
-                                                    val frac = (offset.x / seekBarWidthPx).coerceIn(0f, 1f)
+                                                if (finalFrac != null && dur > 0L) {
+                                                    onSeek((finalFrac * dur).toLong())
+                                                }
+                                            },
+                                            onDragCancel = {
+                                                isScrubbingSeekbar = false
+                                                scrubFraction = null
+                                            }
+                                        ) { change, _ ->
+                                            change.consume()
+                                            val dur = latestDurForSeekbar
+                                            if (dur > 0L) {
+                                                val frac = (change.position.x / seekBarWidthPx).coerceIn(0f, 1f)
+                                                scrubFraction = frac
+                                                val now = SystemClock.uptimeMillis()
+                                                if (now - lastScrubDispatchMs >= 180L) {
+                                                    lastScrubDispatchMs = now
                                                     onSeek((frac * dur).toLong())
                                                 }
                                             }
                                         }
-                                        .pointerInput(Unit) {
-                                            detectHorizontalDragGestures(
-                                                onDragStart = { startOffset ->
-                                                    isScrubbingSeekbar = true
-                                                    scrubFraction = (startOffset.x / seekBarWidthPx).coerceIn(0f, 1f)
-                                                },
-                                                onDragEnd = {
-                                                    val finalFrac = scrubFraction
-                                                    isScrubbingSeekbar = false
-                                                    scrubFraction = null
-                                                    val dur = latestDurForSeekbar
-                                                    if (finalFrac != null && dur > 0L) {
-                                                        onSeek((finalFrac * dur).toLong())
-                                                    }
-                                                },
-                                                onDragCancel = {
-                                                    isScrubbingSeekbar = false
-                                                    scrubFraction = null
-                                                }
-                                            ) { change, _ ->
-                                                change.consume()
-                                                val dur = latestDurForSeekbar
-                                                if (dur > 0L) {
-                                                    val frac = (change.position.x / seekBarWidthPx).coerceIn(0f, 1f)
-                                                    scrubFraction = frac
-                                                    val now = SystemClock.uptimeMillis()
-                                                    if (now - lastScrubDispatchMs >= 180L) {
-                                                        lastScrubDispatchMs = now
-                                                        onSeek((frac * dur).toLong())
-                                                    }
-                                                }
-                                            }
-                                        },
-                                    contentAlignment = Alignment.CenterStart
-                                ) {
-                                    MpvxSeekbarCanvas(
-                                        isScrubbing = isScrubbingSeekbar,
-                                        seekbarStyle = seekbarStyle,
-                                        progressFraction = activeFraction,
-                                        bufferedFraction = if (showBufferedRangeOnSeekbar) bufferedFraction else 0f,
-                                        durationMs = durationMs,
-                                        accentColor = sheetAccentColor,
-                                        wavePhase = wavePhase,
-                                        chapters = if (showChaptersOnSeekbar) chapters else emptyList(),
-                                        introOutroSegments = if (introOutroEnabled) introLookupResult.segments else emptyList(),
-                                        abLoopStartMs = abLoopStartMs,
-                                        abLoopEndMs = abLoopEndMs,
-                                        abLoopActive = abLoopActive,
-                                        modifier = Modifier.fillMaxSize()
-                                    )
-                                }
+                                    },
+                                contentAlignment = Alignment.CenterStart
+                            ) {
+                                MpvxSeekbarCanvas(
+                                    isScrubbing = isScrubbingSeekbar,
+                                    seekbarStyle = seekbarStyle,
+                                    progressFraction = activeFraction,
+                                    bufferedFraction = if (showBufferedRangeOnSeekbar) bufferedFraction else 0f,
+                                    durationMs = durationMs,
+                                    accentColor = sheetAccentColor,
+                                    wavePhase = wavePhase,
+                                    chapters = if (showChaptersOnSeekbar) chapters else emptyList(),
+                                    introOutroSegments = if (introOutroEnabled) introLookupResult.segments else emptyList(),
+                                    abLoopStartMs = abLoopStartMs,
+                                    abLoopEndMs = abLoopEndMs,
+                                    abLoopActive = abLoopActive,
+                                    modifier = Modifier.fillMaxSize()
+                                )
+                            }
+                        }
 
-                                val remainingMs = (durationMs - activeDisplayMs).coerceAtLeast(0L)
+                        if (showSeekbarOuter) {
+                            Surface(
+                                shape = RoundedCornerShape(26.dp),
+                                color = if (hudGlassFill == Color.Transparent) Color(0x8A0B0E14) else hudGlassFill,
+                                border = BorderStroke(1.dp, Color.White.copy(alpha = 0.18f)),
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 16.dp, vertical = 10.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    leftTimeLabel()
+                                    seekbarInteractiveBox(Modifier.weight(1f).padding(horizontal = 12.dp))
+                                    rightTimeLabel()
+                                }
+                            }
+                        } else {
+                            Column(modifier = Modifier.fillMaxWidth()) {
+                                seekbarInteractiveBox(Modifier.fillMaxWidth())
                                 if (showSeekTimeInHud) {
-                                    Text(
-                                        text = if (showRemainingTime && durationMs > 0L) "-${formatDuration(remainingMs)}" else formatDuration(durationMs),
-                                        style = MaterialTheme.typography.labelMedium,
-                                        fontWeight = FontWeight.SemiBold,
-                                        color = Color.White,
-                                        maxLines = 1,
-                                        softWrap = false,
-                                        modifier = Modifier.clickable { showRemainingTime = !showRemainingTime }
-                                    )
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(horizontal = 2.dp),
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        leftTimeLabel()
+                                        rightTimeLabel()
+                                    }
                                 }
                             }
                         }
 
-                        if (isCompactWidth && portraitCtrlPos == "BELOW_SEEKBAR") {
-                            Spacer(modifier = Modifier.height(10.dp))
+                        // Centered Floating Frosted Transport Capsule (Matches Vertical & Horizontal Cinema HUD)
+                        Spacer(modifier = Modifier.height(if (isCompactWidth) 6.dp else 4.dp))
+                        val capsuleFill = when {
+                            forceDarkBtnBg -> Color(0xDB080B10)
+                            hudTheme == "GLOSSY" -> sheetAccentColor.copy(alpha = 0.24f)
+                            hudTheme == "CLASSIC" -> Color(0x940D1219)
+                            else -> Color(0x7810161F)
+                        }
+                        val capsuleBorderColor = when {
+                            hudTheme == "GLOSSY" -> Color.White.copy(alpha = 0.30f)
+                            else -> Color.White.copy(alpha = 0.20f)
+                        }
+                        val capBtnSize = if (isCompactWidth) 36.dp else 44.dp
+                        val capIconSize = if (isCompactWidth) 20.dp else 22.dp
+
+                        Surface(
+                            shape = RoundedCornerShape(26.dp),
+                            color = capsuleFill,
+                            border = BorderStroke(1.dp, capsuleBorderColor),
+                            shadowElevation = 6.dp,
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        ) {
                             Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.Center,
+                                modifier = Modifier.padding(
+                                    horizontal = if (isCompactWidth) 10.dp else 16.dp,
+                                    vertical = 4.dp
+                                ),
+                                horizontalArrangement = Arrangement.spacedBy(if (isCompactWidth) 4.dp else 8.dp),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                if (hasPreviousTrack) {
-                                    HudCircleButton(
-                                        icon = Icons.Rounded.SkipPrevious,
-                                        contentDescription = "Previous",
-                                        size = 40.dp,
-                                        iconSize = 20.dp,
-                                        glassFill = hudGlassFill,
-                                        glassBorder = hudGlassBorder,
-                                        onClick = onPreviousTrack
-                                    )
-                                    Spacer(modifier = Modifier.width(12.dp))
-                                }
-                                HudCircleButton(
-                                    icon = Icons.Rounded.Replay10,
-                                    contentDescription = "Rewind",
-                                    size = 44.dp,
-                                    iconSize = 22.dp,
-                                    glassFill = hudGlassFill,
-                                    glassBorder = hudGlassBorder,
-                                    onClick = { onSeek((currentPositionMs - seekIntervalSec * 1000L).coerceAtLeast(0L)) }
-                                )
-                                Spacer(modifier = Modifier.width(16.dp))
-                                Surface(
-                                    onClick = onPlayPauseClick,
-                                    shape = CircleShape,
-                                    color = sheetAccentColor,
-                                    modifier = Modifier.size(52.dp)
+                                IconButton(
+                                    onClick = onToggleLock,
+                                    modifier = Modifier.size(capBtnSize)
                                 ) {
-                                    Box(contentAlignment = Alignment.Center) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.Lock,
+                                        contentDescription = "Lock Controls",
+                                        tint = Color.White,
+                                        modifier = Modifier.size(capIconSize)
+                                    )
+                                }
+
+                                IconButton(
+                                    onClick = onToggleOrientation,
+                                    modifier = Modifier.size(capBtnSize)
+                                ) {
+                                    Icon(
+                                        painter = painterResource(
+                                            when {
+                                                orientationMode.contains("Landscape") -> R.drawable.ic_screen_lock_landscape_24dp
+                                                orientationMode.contains("Portrait") -> R.drawable.ic_screen_lock_portrait_24dp
+                                                else -> R.drawable.ic_auto_rotate_24dp
+                                            }
+                                        ),
+                                        contentDescription = "Orientation: $orientationMode",
+                                        tint = if (orientationMode != "Auto-Rotate" && orientationMode != "Auto") sheetAccentColor else Color.White,
+                                        modifier = Modifier.size(capIconSize)
+                                    )
+                                }
+
+                                if (!showCenterTransport) {
+                                    IconButton(
+                                        onClick = {
+                                            if (hasPreviousTrack) {
+                                                onPreviousTrack()
+                                            } else {
+                                                rewindScaleTarget = 0.85f
+                                                doubleTapRippleSide = "LEFT"
+                                                onSeek((currentPositionMs - seekIntervalSec * 1000L).coerceAtLeast(0L))
+                                            }
+                                        },
+                                        modifier = Modifier
+                                            .size(capBtnSize)
+                                            .scale(rewindScale)
+                                    ) {
+                                        Icon(
+                                            imageVector = if (hasPreviousTrack) Icons.Rounded.SkipPrevious else Icons.Rounded.Replay10,
+                                            contentDescription = if (hasPreviousTrack) "Previous Video" else "Rewind ${seekIntervalSec}s",
+                                            tint = Color.White,
+                                            modifier = Modifier.size(capIconSize + 2.dp)
+                                        )
+                                    }
+
+                                    IconButton(
+                                        onClick = {
+                                            playButtonScaleTarget = 0.9f
+                                            onPlayPauseClick()
+                                        },
+                                        modifier = Modifier
+                                            .size(if (isCompactWidth) 44.dp else 50.dp)
+                                            .scale(playButtonScale)
+                                    ) {
                                         Icon(
                                             imageVector = if (isPlaying) Icons.Rounded.Pause else Icons.Rounded.PlayArrow,
                                             contentDescription = if (isPlaying) "Pause" else "Play",
-                                            tint = playerOnAccentColor(sheetAccentColor),
-                                            modifier = Modifier.size(28.dp)
+                                            tint = Color.White,
+                                            modifier = Modifier.size(if (isCompactWidth) 28.dp else 32.dp)
+                                        )
+                                    }
+
+                                    IconButton(
+                                        onClick = {
+                                            if (hasNextTrack) {
+                                                onNextTrack()
+                                            } else {
+                                                forwardScaleTarget = 0.85f
+                                                doubleTapRippleSide = "RIGHT"
+                                                val target = if (durationMs > 0L) (currentPositionMs + seekIntervalSec * 1000L).coerceAtMost(durationMs) else currentPositionMs + seekIntervalSec * 1000L
+                                                onSeek(target)
+                                            }
+                                        },
+                                        modifier = Modifier
+                                            .size(capBtnSize)
+                                            .scale(forwardScale)
+                                    ) {
+                                        Icon(
+                                            imageVector = if (hasNextTrack) Icons.Rounded.SkipNext else Icons.Rounded.Forward10,
+                                            contentDescription = if (hasNextTrack) "Next Video" else "Forward ${seekIntervalSec}s",
+                                            tint = Color.White,
+                                            modifier = Modifier.size(capIconSize + 2.dp)
                                         )
                                     }
                                 }
-                                Spacer(modifier = Modifier.width(16.dp))
-                                HudCircleButton(
-                                    icon = Icons.Rounded.Forward10,
-                                    contentDescription = "Forward",
-                                    size = 44.dp,
-                                    iconSize = 22.dp,
-                                    glassFill = hudGlassFill,
-                                    glassBorder = hudGlassBorder,
+
+                                IconButton(
                                     onClick = {
-                                        val target = if (durationMs > 0L) (currentPositionMs + seekIntervalSec * 1000L).coerceAtMost(durationMs) else currentPositionMs + seekIntervalSec * 1000L
-                                        onSeek(target)
-                                    }
-                                )
-                                if (hasNextTrack) {
-                                    Spacer(modifier = Modifier.width(12.dp))
-                                    HudCircleButton(
-                                        icon = Icons.Rounded.SkipNext,
-                                        contentDescription = "Next",
-                                        size = 40.dp,
-                                        iconSize = 20.dp,
-                                        glassFill = hudGlassFill,
-                                        glassBorder = hudGlassBorder,
-                                        onClick = onNextTrack
+                                        if (queueTitles.size > 1) onToggleShuffle() else showAbLoopSheet = true
+                                    },
+                                    modifier = Modifier.size(capBtnSize)
+                                ) {
+                                    Icon(
+                                        imageVector = if (queueTitles.size > 1) Icons.Rounded.Shuffle else Icons.Rounded.Loop,
+                                        contentDescription = if (queueTitles.size > 1) "Shuffle Queue" else "A-B Loop",
+                                        tint = if ((queueTitles.size > 1 && isShuffleEnabled) || (queueTitles.size <= 1 && abLoopActive)) sheetAccentColor else Color.White,
+                                        modifier = Modifier.size(capIconSize)
+                                    )
+                                }
+
+                                IconButton(
+                                    onClick = { showAspectRatioSheet = true },
+                                    modifier = Modifier.size(capBtnSize)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.AspectRatio,
+                                        contentDescription = "Aspect Ratio ($aspectRatioMode)",
+                                        tint = if (aspectRatioMode != "Fit") sheetAccentColor else Color.White,
+                                        modifier = Modifier.size(capIconSize)
                                     )
                                 }
                             }

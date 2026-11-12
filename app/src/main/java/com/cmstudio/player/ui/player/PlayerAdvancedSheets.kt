@@ -964,7 +964,7 @@ fun MpvxSeekbarCanvas(
         label = "seekbarScrubBreath"
     )
     val trackColor = when (seekbarStyle.uppercase()) {
-        "STANDARD", "WAVY", "NORMAL" -> accentColor
+        "STANDARD", "WAVY" -> accentColor
         else -> Color.White
     }
     Canvas(modifier = modifier) {
@@ -1362,11 +1362,12 @@ private fun HudPillButton(
     glassBorder: Color,
     onClick: () -> Unit
 ) {
+    val isFrameless = glassFill == Color.Transparent
     Surface(
         onClick = onClick,
         shape = CircleShape,
-        color = glassFill,
-        border = BorderStroke(1.dp, glassBorder),
+        color = if (isFrameless) Color.Black.copy(alpha = 0.28f) else glassFill,
+        border = BorderStroke(1.dp, if (isFrameless) Color.White.copy(alpha = 0.30f) else glassBorder),
         modifier = Modifier.height(height)
     ) {
         Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(horizontal = 10.dp)) {

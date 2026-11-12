@@ -23,9 +23,9 @@ object AppSettings {
     private const val PREFS_NAME = "mpvx_player_prefs"
 
     val ALL_NAV_TABS = listOf("HOME", "MUSIC", "RECENTS", "PLAYLISTS", "STREAMS", "NETWORK", "VAULT")
-    const val DEFAULT_TOP_RIGHT_HUD = "AUTO,SUBTITLES,MORE"
-    const val DEFAULT_BOTTOM_LEFT_HUD = "LOCK,ROTATE,SPEED,AUDIO_TRACK,REPEAT,AB_LOOP"
-    const val DEFAULT_BOTTOM_RIGHT_HUD = "SCREENSHOT,ASPECT,ZOOM,PIP"
+    const val DEFAULT_TOP_RIGHT_HUD = "PIP,SCREENSHOT,DECODER,MORE"
+    const val DEFAULT_BOTTOM_LEFT_HUD = ""
+    const val DEFAULT_BOTTOM_RIGHT_HUD = "AUDIO_TRACK,SUBTITLES,QUALITY,SPEED,REPEAT"
 
     // 1. Theme & Appearance
     private const val KEY_DARK_THEME = "pref_dark_theme"
@@ -282,7 +282,7 @@ object AppSettings {
     private val _playerControlSize = MutableStateFlow("NORMAL") // COMPACT, NORMAL, LARGE
     val playerControlSize: StateFlow<String> = _playerControlSize.asStateFlow()
 
-    private val _seekbarStyle = MutableStateFlow("EXPRESSIVE") // EXPRESSIVE, WAVY, STANDARD
+    private val _seekbarStyle = MutableStateFlow("NORMAL") // NORMAL, EXPRESSIVE, WAVY, STANDARD
     val seekbarStyle: StateFlow<String> = _seekbarStyle.asStateFlow()
 
     private val _showHudTelemetry = MutableStateFlow(false)
@@ -544,7 +544,7 @@ object AppSettings {
     val bufferForPlaybackMs: StateFlow<Int> = _bufferForPlaybackMs.asStateFlow()
 
     // Phase 3 & 4 Player HUD, Gestures, Equalizer, Channels, Subtitles & Orientation Preferences
-    const val DEFAULT_PORTRAIT_BOTTOM_HUD = "LOCK,ROTATE,AUDIO_TRACK,SPEED,ASPECT,PIP"
+    const val DEFAULT_PORTRAIT_BOTTOM_HUD = "AUDIO_TRACK,SUBTITLES,QUALITY,SPEED,REPEAT"
     private const val KEY_PLAYER_CONTROLS_THEME = "pref_player_controls_theme"
     private const val KEY_HIDE_PLAYER_BTN_BG = "pref_hide_player_btn_bg"
     private const val KEY_FORCE_DARK_PLAYER_BTN_BG = "pref_force_dark_player_btn_bg"
@@ -861,16 +861,16 @@ object AppSettings {
     private val _playerControlsTheme = MutableStateFlow("GLASS")
     val playerControlsTheme: StateFlow<String> = _playerControlsTheme.asStateFlow()
 
-    private val _hidePlayerButtonsBg = MutableStateFlow(false)
+    private val _hidePlayerButtonsBg = MutableStateFlow(true)
     val hidePlayerButtonsBg: StateFlow<Boolean> = _hidePlayerButtonsBg.asStateFlow()
 
     private val _forceDarkPlayerButtonsBg = MutableStateFlow(false)
     val forceDarkPlayerButtonsBg: StateFlow<Boolean> = _forceDarkPlayerButtonsBg.asStateFlow()
 
-    private val _showSeekbarOuterContainer = MutableStateFlow(true)
+    private val _showSeekbarOuterContainer = MutableStateFlow(false)
     val showSeekbarOuterContainer: StateFlow<Boolean> = _showSeekbarOuterContainer.asStateFlow()
 
-    private val _portraitControlsPosition = MutableStateFlow("CENTER")
+    private val _portraitControlsPosition = MutableStateFlow("BELOW_SEEKBAR")
     val portraitControlsPosition: StateFlow<String> = _portraitControlsPosition.asStateFlow()
 
     private val _playerClockFormat = MutableStateFlow("SYSTEM")
@@ -1328,7 +1328,7 @@ object AppSettings {
 
         _seekIntervalSeconds.value = prefs.getInt(KEY_SEEK_INTERVAL, 10)
         _playerControlSize.value = prefs.getString(KEY_PLAYER_CONTROL_SIZE, "NORMAL") ?: "NORMAL"
-        _seekbarStyle.value = prefs.getString(KEY_SEEKBAR_STYLE, "EXPRESSIVE") ?: "EXPRESSIVE"
+        _seekbarStyle.value = prefs.getString(KEY_SEEKBAR_STYLE, "NORMAL") ?: "NORMAL"
         _showHudTelemetry.value = prefs.getBoolean(KEY_SHOW_HUD_TELEMETRY, false)
         val rawTopRight = prefs.getString(KEY_TOP_RIGHT_HUD_CONTROLS, DEFAULT_TOP_RIGHT_HUD) ?: DEFAULT_TOP_RIGHT_HUD
         _topRightHudControls.value = rawTopRight
@@ -1364,10 +1364,10 @@ object AppSettings {
         _networkTimeoutSec.value = prefs.getInt(KEY_NETWORK_TIMEOUT_SEC, 15).coerceIn(5, 60)
 
         _playerControlsTheme.value = prefs.getString(KEY_PLAYER_CONTROLS_THEME, "GLASS") ?: "GLASS"
-        _hidePlayerButtonsBg.value = prefs.getBoolean(KEY_HIDE_PLAYER_BTN_BG, false)
+        _hidePlayerButtonsBg.value = prefs.getBoolean(KEY_HIDE_PLAYER_BTN_BG, true)
         _forceDarkPlayerButtonsBg.value = prefs.getBoolean(KEY_FORCE_DARK_PLAYER_BTN_BG, false)
-        _showSeekbarOuterContainer.value = prefs.getBoolean(KEY_SHOW_SEEKBAR_CONTAINER, true)
-        _portraitControlsPosition.value = prefs.getString(KEY_PORTRAIT_CONTROLS_POS, "CENTER") ?: "CENTER"
+        _showSeekbarOuterContainer.value = prefs.getBoolean(KEY_SHOW_SEEKBAR_CONTAINER, false)
+        _portraitControlsPosition.value = prefs.getString(KEY_PORTRAIT_CONTROLS_POS, "BELOW_SEEKBAR") ?: "BELOW_SEEKBAR"
         _playerClockFormat.value = prefs.getString(KEY_PLAYER_CLOCK_FORMAT, "SYSTEM") ?: "SYSTEM"
         _hudAutoHideMs.value = prefs.getInt(KEY_HUD_AUTO_HIDE_MS, 4000).coerceIn(1500, 15000)
         _showSystemStatusBar.value = prefs.getBoolean(KEY_SHOW_SYS_STATUS_BAR, false)
@@ -1733,13 +1733,13 @@ object AppSettings {
         setBottomLeftHudControls(DEFAULT_BOTTOM_LEFT_HUD)
         setBottomRightHudControls(DEFAULT_BOTTOM_RIGHT_HUD)
         setPortraitBottomHudControls(DEFAULT_PORTRAIT_BOTTOM_HUD)
-        setSeekbarStyle("EXPRESSIVE")
+        setSeekbarStyle("NORMAL")
         setShowHudTelemetry(false)
         setPlayerControlsTheme("GLASS")
-        setHidePlayerButtonsBg(false)
+        setHidePlayerButtonsBg(true)
         setForceDarkPlayerButtonsBg(false)
-        setShowSeekbarOuterContainer(true)
-        setPortraitControlsPosition("CENTER")
+        setShowSeekbarOuterContainer(false)
+        setPortraitControlsPosition("BELOW_SEEKBAR")
         setPlayerClockFormat("SYSTEM")
         setHudAutoHideMs(4000)
         setShowSystemStatusBar(false)

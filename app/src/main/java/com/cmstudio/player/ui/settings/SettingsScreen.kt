@@ -1668,7 +1668,7 @@ private fun ScreenOrientationDetailScreen(onBack: () -> Unit) {
     val keepOn by AppSettings.keepScreenOn.collectAsState()
     val keepOnPaused by AppSettings.keepScreenOnWhenPaused.collectAsState()
 
-    SettingsSubScreen(title = "Screen & Orientation", subtitle = "Player orientation lock (8 modes) & wake lock", onBack = onBack) {
+    SettingsSubScreen(title = "Screen & Orientation", subtitle = "Auto-matches vertical/horizontal videos & 8 locks", onBack = onBack) {
         item {
             SettingsCard {
                 Text("Default Player Orientation", fontWeight = FontWeight.SemiBold)
