@@ -13,9 +13,13 @@ Developed by **Creative Mind Studio** (`com.cmstudio.player`)
 [![Engines](https://img.shields.io/badge/Engines-libmpv%20%2B%20Media3%20ExoPlayer-00B4D8?style=flat-square)](#dual-playback-engines)
 [![Licence](https://img.shields.io/badge/License-GPL--3.0-8A8A8A?style=flat-square)](LICENSE)
 
-[![Get it on Google Play](https://img.shields.io/badge/Google%20Play-MPVX%20Player-01875F?style=for-the-badge&logo=google-play&logoColor=white)](https://play.google.com/store/apps/details?id=com.cmstudio.player)
+<br /><br />
 
-<br />
+<a href="https://play.google.com/store/apps/details?id=com.cmstudio.player">
+  <img src="docs/assets/google_play_badge.png" alt="Get MPVX Player on Google Play" width="320" />
+</a>
+
+<br /><br />
 
 <img src="docs/assets/banner.png" alt="MPVX Player Feature Banner" width="880" />
 
